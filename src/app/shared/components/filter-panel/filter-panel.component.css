@@ -1,0 +1,40 @@
+.maroon {
+    color: rgb(134, 12, 12);
+}
+
+.green {
+    color: green;
+}
+
+.blue {
+    color: blue;
+}
+
+.yellow {
+    color: yellow;
+}
+
+.darkGreen {
+    color: rgb(7, 81, 42);
+}
+
+.gold {
+    color: gold;
+}
+
+.pink {
+    color: rgb(173, 46, 135);
+}
+
+.grey {
+    color: lightslategray;
+}
+
+.violet {
+    color: rgb(62, 7, 62);
+}
+
+.scrollable-effect {
+    max-height: 200px;
+    overflow-y: auto;
+}

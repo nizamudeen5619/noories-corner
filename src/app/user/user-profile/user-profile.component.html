@@ -1,0 +1,42 @@
+<div class="card" style="width: 70%;margin-left: 15%;">
+  <h2 class="text-light text-center"
+    style="background-color: rgb(0, 0, 0);font-family: 'Scheherazade New', serif;padding-top: 5px;padding-bottom: 5px;">
+    <i class="fi-cnsuxl-user-circle-solid"></i> User Profile
+  </h2>
+  <div class="row">
+    <div class="col">
+      <div class="card1">
+        <img [src]="imageUrl" alt="Avatar" style="width:80%;">
+        <div style="padding:1%;">
+          <button class="btn btn-dark" (click)="changeAvatar()">Change Avatar</button>
+          <div *ngIf="showFileInput">
+            <label for="filebutton"><strong>{{imageText}}</strong></label>
+            <div class="form-control">
+              <input name="filebutton" type="file" (change)="fileChangeEvent($event)">
+              <span class="input-group-btn">
+                <button type="button" class="btn btn-dark" (click)="upload()">
+                  <i class="fi-xnsuxl-upload-solid"></i>Upload
+                </button>
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col">
+      <div class="card1" style="margin-top: 2%;">
+        <h1>{{user.name}}</h1>
+        <p class="title"><strong>Age: </strong>{{user.age}}</p>
+        <p class="title">{{user.email}}</p>
+        <ul class="list-group list-group-flush">
+          <li class="list-group-item"><button class="btn btn-dark text-light" (click)="logoutAll()">Logout All
+              Devices</button></li>
+          <li class="list-group-item"><a class="btn btn-warning text-light" routerLink="/edit-profile">Edit Account</a>
+          </li>
+          <li class="list-group-item"><button class="btn btn-danger" (click)="deleteAccount()">Delete Account</button>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>

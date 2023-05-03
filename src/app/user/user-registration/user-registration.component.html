@@ -1,0 +1,51 @@
+<form [formGroup]="userForm" (ngSubmit)="onSubmit()" class="p-5" style="width: 50%;">
+
+    <p class="h4 mb-4 text-center">{{formName}}</p>
+
+    <div class="mb-2">
+        <input type="text" formControlName="name" [ngClass]="{'has-error': ((userForm.get('name')?.touched ||
+        userForm.get('name')?.dirty) &&
+        userForm.get('name')?.errors)}" class="form-control" placeholder="User Name (required)">
+        <div class="text-danger" *ngIf="userForm.get('name')?.touched && userForm.get('name')?.hasError('required')">
+            *User Name is required
+        </div>
+        <div class="text-danger" *ngIf="userForm.get('name')?.touched && userForm.get('name')?.invalid">
+            *User Name must contain alphabets only
+        </div>
+    </div>
+    <div class="mb-2">
+        <input type="number" [ngClass]="{'has-error': ((userForm.get('age')?.touched ||
+        userForm.get('age')?.dirty) &&
+        userForm.get('age')?.errors)}" formControlName="age" class="form-control" placeholder="Age">
+        <div class="text-danger" *ngIf="userForm.get('age')?.touched && userForm.get('age')?.invalid">
+            *Age is invalid,must contain number
+        </div>
+    </div>
+    <div class="mb-2">
+        <input type="email" [ngClass]="{'has-error': ((userForm.get('email')?.touched ||
+        userForm.get('email')?.dirty) &&
+        userForm.get('email')?.errors)}" formControlName="email" class="form-control" placeholder="E-mail (required)">
+        <div class="text-danger" *ngIf="userForm.get('email')?.touched && userForm.get('email')?.hasError('required')">
+            *Email is required
+        </div>
+        <div class="text-danger" *ngIf="userForm.get('email')?.touched && userForm.get('email')?.invalid">
+            *Email is invalid
+        </div>
+    </div>
+    <div class="mb-2">
+        <input type="password" [ngClass]="{'has-error': ((userForm.get('password')?.touched ||
+        userForm.get('password')?.dirty) &&
+        userForm.get('password')?.errors)}" formControlName="password" class="form-control"
+            placeholder="Password (required)">
+        <div class="text-danger"
+            *ngIf="userForm.get('password')?.touched && userForm.get('password')?.hasError('required')">
+            *Password is required
+        </div>
+        <div class="text-danger" *ngIf="userForm.get('password')?.touched && userForm.get('password')?.invalid">
+            *Password must contain aphanumeric characters,special character
+        </div>
+    </div>
+
+    <button [disabled]="!userForm.valid" class="btn btn-dark" type="submit">{{formName}}</button>&nbsp;
+    <button *ngIf="isLoggedIn" class="btn btn-info" (click)="cancelUpdate()">Cancel</button>
+</form>

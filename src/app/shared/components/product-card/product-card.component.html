@@ -1,0 +1,21 @@
+<div class="card h-100 p-1 border-0 bg-light">
+    <img [src]="product.Image1" class="card-img-top p-1" height="250" alt="">
+    <div class="card-body">
+        <ul class="list-group list-group-flush">
+            <li class="list-group-item">
+                <p class="card-title" id="product-name">{{product.ProductName|reduceProductName}}</p>
+            </li>
+            <li class="list-group-item">
+                <p class="card-text"><span class="fs-3"><span>&#8377;</span>{{product.Price}}</span>
+                    M.R.P:
+                    <span class="text-secondary text-decoration-line-through">{{MRP}}</span>
+                    ({{(product.Price/MRP)*100| number: '1.0-0'}}% off)
+                </p>
+            </li>
+            <li class="list-group-item">
+                <a [routerLink]="['../product/'+product._id]" class="btn btn-outline-dark">View
+                    Details</a>
+            </li>
+        </ul>
+    </div>
+</div>

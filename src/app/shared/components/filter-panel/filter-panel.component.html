@@ -1,0 +1,41 @@
+<div class="col-lg-6 pt-3">
+    <button class="btn btn-dark" type="button" [class.collapsed]="!filterButtonFlag" [class.expanded]="filterButtonFlag"
+        (click)="toggleButtonText(); filterButtonFlag = !filterButtonFlag" data-bs-toggle="collapse"
+        data-bs-target="#filterPanel" aria-expanded="false" aria-controls="filterPanel">
+        <i [class]="filterButtonFlag?'bi bi-funnel':'bi bi-x-lg'"></i>
+        {{filterButtonText}}
+    </button>
+    <button class="btn btn-info float-end" type="button" *ngIf="closeFilterButtonFlag" (click)="applyFilters()">
+        <i class="bi bi-funnel"></i>
+        Apply Filters
+    </button>
+</div>
+<div class="collapse row row-cols-sm-2 row-cols-md-2 row-cols-lg-2" id="filterPanel" aria-label="Filter Panel"
+    [class.show]="closeFilterButtonFlag">
+    <div class="card col-lg-3 border-0">
+        <article class="card-group-item filter-panel" *ngIf="designFilterOptions.length > 0">
+            <p class="title text-bg-light text-secondary p-2">Designs Available</p>
+            <ul class="list-group  scrollable-effect">
+                <li class="list-group-item" *ngFor="let design of designFilterOptions">
+                    <input class="form-check-input me-1" type="checkbox" [name]="[design.name]+'check'"
+                        [(ngModel)]="design.checked" [value]="design.value" [id]="[design.name]+'check'">
+                    <label class="form-check-label" [for]="[design.name]+'check'">Type {{design.value}}</label>
+                </li>
+            </ul>
+        </article>
+    </div>
+    <div class="card col-lg-3 border-0">
+        <article class="card-group-item filter-panel" *ngIf="colorFilterOptions.length > 0">
+            <p class="title text-bg-light text-secondary p-2">Colors Available</p>
+            <ul class="list-group  scrollable-effect">
+                <li class="list-group-item" *ngFor="let color of colorFilterOptions">
+                    <input class="form-check-input me-1" type="checkbox" [name]="[color.name]+'check'"
+                        [(ngModel)]="color.checked" [value]="[color.value]" [id]="[color.name]+'check'">
+                    <label class="form-check-label" [for]="[color.name]+'check'">{{color.value}}
+                        <span [class]="color.name">&#9632;</span>
+                    </label>
+                </li>
+            </ul>
+        </article>
+    </div>
+</div>
