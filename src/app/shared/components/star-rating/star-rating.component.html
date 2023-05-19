@@ -1,0 +1,4 @@
+<div class="rating">
+    <span class="rating-star" *ngFor="let star of stars"><i *ngIf="star <= rating" class="bi bi-star-fill bi-lg"></i></span>
+    <span class="rating-star" *ngIf="halfStarFlag"><i class="bi bi-star-half"></i></span>
+</div>

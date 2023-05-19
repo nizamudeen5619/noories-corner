@@ -1,8 +1,8 @@
-<div class="card">
+<div class="card border-0 shadow-box">
     <div class="row g-0">
         <div class="col-md-6 border-end pe-2">
             <div class="d-flex flex-column justify-content-center">
-                <div id="carouselExampleIndicators" class="carousel slide">
+                <div id="carouselExampleIndicators" class="carousel carousel-dark slide mt-2" data-bs-ride="carousel">
                     <div class="carousel-inner">
                         <div class="carousel-item active">
                             <img [src]="product.Image1" class="d-block w-100" alt="Back Image">
@@ -51,6 +51,81 @@
                 <div class="mt-2 pr-3 content">
                     <p [innerHTML]="productDescription"></p>
                 </div>
+            </div>
+        </div>
+    </div>
+    <div class="card">
+        <div class="card-header">
+            <ul class="nav nav-tabs card-header-tabs row">
+                <li class="nav-item col text-center">
+                    <a class="nav-link text-dark fw-bold" type="button" [ngClass]="currentTab==='tab1'?'active':''"
+                        (click)="tabClick('tab1')">Product Specifications</a>
+                </li>
+                <li class="nav-item col text-center">
+                    <a class="nav-link text-dark fw-bold" type="button" [ngClass]="currentTab==='tab2'?'active':''"
+                        (click)="tabClick('tab2')">Rating & Buying Options</a>
+                </li>
+            </ul>
+        </div>
+        <div class="card-body">
+            <div class="row" [ngClass]="currentTab==='tab1'?'':'d-none'">
+                <div class="col-lg-6">
+                    <table class="table table-bordered">
+                        <tbody>
+                            <tr>
+                                <td class="fw-bold">Design:</td>
+                                <td>{{product.Design}}</td>
+                            </tr>
+                            <tr>
+                                <td class="fw-bold">SKU:</td>
+                                <td>{{product.SKU}}</td>
+                            </tr>
+                            <tr>
+                                <td class="fw-bold">Color:</td>
+                                <td>{{product.Color}}</td>
+                            </tr>
+                            <tr>
+                                <td class="fw-bold">Size Available:</td>
+                                <td>{{product.Size}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="col-lg-6">
+                    <table class="table table-bordered">
+                        <tbody>
+                            <tr>
+                                <td class="fw-bold">Fabric:</td>
+                                <td>{{product.Fabric}}</td>
+                            </tr>
+                            <tr>
+                                <td class="fw-bold">Occasion:</td>
+                                <td>{{product.Occassion}}</td>
+                            </tr>
+                            <tr>
+                                <td class="fw-bold">Stitch Type:</td>
+                                <td>{{product.StitchType}}</td>
+                            </tr>
+                            <tr>
+                                <td class="fw-bold">Brand:</td>
+                                <td>{{product.BrandName}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="row" [ngClass]="currentTab==='tab2'?'':'d-none'">
+                <div class="col-lg-6 text-center">
+                    <h3 class="shadow-text">Average Customer Review</h3>
+                    <app-star-rating [rating]="4.5"></app-star-rating>
+                </div>
+                <div class="col-lg-6 text-center">
+                    <h3 class="shadow-text">Buying Options</h3>
+                    <a target="_blank" [href]="[amazonSearchURL+product.ProductId]" class="btn btn-secondary">Buy Now @ 
+                        <img src="assets/images/logo-amazon.svg" height="15">
+                    </a>
+                </div>
+
             </div>
         </div>
     </div>

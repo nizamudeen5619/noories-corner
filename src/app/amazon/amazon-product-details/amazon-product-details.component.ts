@@ -1,7 +1,7 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
-import { Observable, Subject, Subscription, catchError, concatMap, finalize, of, takeUntil, tap, throwError } from 'rxjs';
+import { Observable, Subscription, catchError, concatMap, finalize, of, tap, throwError } from 'rxjs';
 
 import { AmazonService } from '../amazon.service';
 import { Product } from 'src/app/shared/models/product';
@@ -26,11 +26,15 @@ export class AmazonProductDetailsComponent implements OnInit, OnDestroy {
   errorStatusCode = 0;
   routeSubscription!: Subscription;
   sharedServiceSubscription!: Subscription;
+  amazonSearchURL!: string;
+  @ViewChild('loginMessageModalButton') loginMessageModalButton !: ElementRef;
+
   constructor(private route$: ActivatedRoute, private amazonService: AmazonService, private sharedService: SharedDataService, private sanitizer: DomSanitizer) { }
 
   ngOnInit(): void {
     this.isLoading = true;
     this.isError = false;
+    this.amazonSearchURL = this.amazonService.AMAZON_SEARCH_URL;
     this.routeSubscription = this.route$.params.pipe(
       concatMap(({ id }) => {
         this.productID = id;
@@ -65,10 +69,6 @@ export class AmazonProductDetailsComponent implements OnInit, OnDestroy {
       tap(({ checkFavourite }) => {
         this.isFavourite = checkFavourite;
         this.buttonText = checkFavourite ? "Remove from Favourites" : "Add to Favourites";
-      }),
-      catchError((error) => {
-        console.error('An error occurred:', error);
-        return of(null); // replace with an appropriate fallback value if necessary
       })
     ).subscribe(() => {
       this.isLoading = false
@@ -77,33 +77,37 @@ export class AmazonProductDetailsComponent implements OnInit, OnDestroy {
   }
 
   addRemoveFavourites() {
-    if (!this.isFavourite) {
-      this.isLoading = true;
-      this.sharedServiceSubscription = this.sharedService.favouritesAdd(this.productID).pipe(
-        catchError(error => this.handleError(error)),
-        finalize(() => this.isLoading = false),
-        tap(({ addedToFavourites }) => {
-          if (addedToFavourites) {
-            this.isFavourite = true;
-            this.buttonText = "Remove from Favourites";
-          }
-        })
-      ).subscribe();
-    } else {
-      this.isLoading = true;
-      this.sharedServiceSubscription = this.sharedService.favouritesDelete(this.productID).pipe(
-        catchError(error => this.handleError(error)),
-        finalize(() => this.isLoading = false),
-        tap(({ removedFromFavourites }) => {
-          if (removedFromFavourites) {
-            this.isFavourite = false;
-            this.buttonText = "Add to Favourites";
-          }
-        })
-      ).subscribe();
+    if (this.isLoggedIn) {
+      if (!this.isFavourite) {
+        this.isLoading = true;
+        this.sharedServiceSubscription = this.sharedService.favouritesAdd(this.productID).pipe(
+          catchError(error => this.handleError(error)),
+          finalize(() => this.isLoading = false),
+          tap(({ addedToFavourites }) => {
+            if (addedToFavourites) {
+              this.isFavourite = true;
+              this.buttonText = "Remove from Favourites";
+            }
+          })
+        ).subscribe();
+      } else {
+        this.isLoading = true;
+        this.sharedServiceSubscription = this.sharedService.favouritesDelete(this.productID).pipe(
+          catchError(error => this.handleError(error)),
+          finalize(() => this.isLoading = false),
+          tap(({ removedFromFavourites }) => {
+            if (removedFromFavourites) {
+              this.isFavourite = false;
+              this.buttonText = "Add to Favourites";
+            }
+          })
+        ).subscribe();
+      }
+    }
+    else {
+      this.loginMessageModalButton.nativeElement.click()
     }
   }
-
   handleError(error: any): Observable<never> {
     this.isError = true;
     this.errorStatusCode = error.status;
@@ -113,6 +117,5 @@ export class AmazonProductDetailsComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.routeSubscription.unsubscribe()
-    this.sharedServiceSubscription.unsubscribe()
   }
 }

@@ -9,6 +9,7 @@ import { ProductCardComponent } from './components/product-card/product-card.com
 import { FilterPanelComponent } from './components/filter-panel/filter-panel.component';
 import { ReduceProductNamePipe } from './pipes/reduce-product-name.pipe';
 import { ProductDetailCardComponent } from './components/product-detail-card/product-detail-card.component';
+import { StarRatingComponent } from './components/star-rating/star-rating.component';
 
 
 @NgModule({
@@ -31,7 +32,8 @@ import { ProductDetailCardComponent } from './components/product-detail-card/pro
     PaginationComponent,
     ProductCardComponent,
     FilterPanelComponent,
-    ProductDetailCardComponent
+    ProductDetailCardComponent,
+    StarRatingComponent
   ]
 })
 export class SharedModule { }

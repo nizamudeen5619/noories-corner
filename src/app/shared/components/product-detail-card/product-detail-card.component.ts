@@ -9,19 +9,23 @@ import { SharedDataService } from '../../shared-data.service';
   styleUrls: ['./product-detail-card.component.css']
 })
 export class ProductDetailCardComponent {
-  @Input() product!: Product
-  @Input() isFavourite!: boolean
-  @Input() buttonText!: string
-  @Input() offerPercent!: number
-  @Input() productDescription!: SafeHtml
+  @Input() product!: Product;
+  @Input() isFavourite!: boolean;
+  @Input() buttonText!: string;
+  @Input() offerPercent!: number;
+  @Input() productDescription!: SafeHtml;
+  @Input() amazonSearchURL!: string;
   @Output() addRemoveFavEvent = new EventEmitter<null>();
+  currentTab: string = 'tab1';
+  MRP!: number;
 
-  MRP!: number
   constructor(private sharedData: SharedDataService) {
-    this.MRP = this.sharedData.DEFAULT_MRP
+    this.MRP = this.sharedData.DEFAULT_MRP;
   }
   addRemoveFavourites() {
-    this.addRemoveFavEvent.emit()
+    this.addRemoveFavEvent.emit();
   }
-
+  tabClick(currentTab: string) {
+    this.currentTab = currentTab;
+  }
 }

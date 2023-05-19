@@ -8,7 +8,8 @@ import { Observable } from 'rxjs';
 })
 export class AmazonService {
 
-  public readonly BASE_URL = "http://localhost:3000/api/v1/amazon"
+  public readonly API_BASE_URL = "http://localhost:3000/api/v1/amazon"
+  public readonly AMAZON_SEARCH_URL="https://www.amazon.in/s?k="
   public readonly DEFAULT_ERROR_STATUS_CODE = 500
 
   constructor(private http: HttpClient) { }
@@ -20,9 +21,9 @@ export class AmazonService {
     const colorFilter = JSON.stringify(colorFilterArray)
     queryParams = queryParams.append('design', designFilter)
     queryParams = queryParams.append('color', colorFilter)
-    return this.http.get<Product[]>(`${this.BASE_URL}`, { params: queryParams })
+    return this.http.get<Product[]>(`${this.API_BASE_URL}`, { params: queryParams })
   }
   getProductDetails(id: string) {
-    return this.http.get<Product>(`${this.BASE_URL}/${id}`)
+    return this.http.get<Product>(`${this.API_BASE_URL}/${id}`)
   }
 }
