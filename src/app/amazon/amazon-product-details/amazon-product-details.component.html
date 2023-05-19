@@ -4,7 +4,8 @@
 
 <app-product-detail-card *ngIf="!isLoading && !isError" [product]="product" [buttonText]="buttonText"
     [offerPercent]="offerPercent" [productDescription]="productDescription" [isFavourite]="isFavourite"
-    [amazonSearchURL]="amazonSearchURL" (addRemoveFavEvent)="addRemoveFavourites()" class="container mt-5 mb-5"></app-product-detail-card>
+    [amazonSearchURL]="amazonSearchURL" (addRemoveFavEvent)="addRemoveFavourites()"
+    class="container mt-5 mb-5"></app-product-detail-card>
 <!-- Button trigger modal -->
 <div>
     <button #loginMessageModalButton type="button" class="btn btn-primary d-none" data-bs-toggle="modal"

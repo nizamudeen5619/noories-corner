@@ -10,6 +10,7 @@ import { FilterPanelComponent } from './components/filter-panel/filter-panel.com
 import { ReduceProductNamePipe } from './pipes/reduce-product-name.pipe';
 import { ProductDetailCardComponent } from './components/product-detail-card/product-detail-card.component';
 import { StarRatingComponent } from './components/star-rating/star-rating.component';
+import { ServerErrorComponent } from './components/server-error/server-error.component';
 
 
 @NgModule({
@@ -24,7 +25,8 @@ import { StarRatingComponent } from './components/star-rating/star-rating.compon
     FilterPanelComponent,
     SpinnerComponent,
     PaginationComponent,
-    ProductDetailCardComponent
+    ProductDetailCardComponent,
+    ServerErrorComponent
   ],
   declarations: [
     ReduceProductNamePipe,
@@ -33,7 +35,8 @@ import { StarRatingComponent } from './components/star-rating/star-rating.compon
     ProductCardComponent,
     FilterPanelComponent,
     ProductDetailCardComponent,
-    StarRatingComponent
+    StarRatingComponent,
+    ServerErrorComponent
   ]
 })
 export class SharedModule { }
