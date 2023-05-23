@@ -117,15 +117,14 @@
             <div class="row" [ngClass]="currentTab==='tab2'?'':'d-none'">
                 <div class="col-lg-6 text-center">
                     <h3 class="shadow-text">Average Customer Review</h3>
-                    <app-star-rating [rating]="4.5"></app-star-rating>
+                    <app-star-rating [rating]="product.Rating"></app-star-rating>
                 </div>
                 <div class="col-lg-6 text-center">
                     <h3 class="shadow-text">Buying Options</h3>
-                    <a target="_blank" [href]="[amazonSearchURL+product.ProductId]" class="btn btn-secondary">Buy Now @
+                    <a target="_blank" [href]="[searchURL+product.ProductId]" class="btn btn-secondary">Buy Now @
                         <img src="assets/images/logo-amazon.svg" height="15">
                     </a>
                 </div>
-
             </div>
         </div>
     </div>

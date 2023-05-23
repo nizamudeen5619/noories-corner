@@ -32,10 +32,10 @@ export class AmazonProductListComponent implements OnInit, OnDestroy {
   colorFilter: ColorFilter[] = []
   queryParamsSubscription!: Subscription;
 
-  constructor(private amazon: AmazonService, private route: ActivatedRoute) { }
+  constructor(private amazonService: AmazonService, private route: ActivatedRoute) { }
 
   ngOnInit(): void {
-    this.errorStatusCode = this.amazon.DEFAULT_ERROR_STATUS_CODE;
+    this.errorStatusCode = this.amazonService.DEFAULT_ERROR_STATUS_CODE;
     this.loadProducts()
   }
   applyFilters(filters: { design: DesignFilter[]; color: ColorFilter[]; }) {
@@ -52,7 +52,7 @@ export class AmazonProductListComponent implements OnInit, OnDestroy {
       distinctUntilChanged(),
       switchMap((page) => {
         this.currentPage = page
-        return this.amazon.getProducts(page - 1, this.designFilter, this.colorFilter).pipe(
+        return this.amazonService.getProducts(page - 1, this.designFilter, this.colorFilter).pipe(
           timeInterval(),
           catchError((error) => {
             this.errorStatusCode = error.status;

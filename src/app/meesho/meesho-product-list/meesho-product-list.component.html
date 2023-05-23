@@ -1,13 +1,11 @@
-<div class="row row-cols-1 row-cols-md-4 g-4">
-    <div class="col" *ngFor="let product of products">
-        <div class="card h-100">
-            <img [src]="product.Image1" class="card-img-top" alt="...">
-            <div class="card-body">
-                <h6 class="card-title">{{product.ProductName}}</h6>
-                <p class="card-text"><span>&#8377;</span>{{product.Price}}</p>
-                <p class="card-text"><strong>Design:</strong> {{product.Design}}</p>
-                <a [routerLink]="['../product/'+product._id]" class="btn btn-outline-dark">View Details</a>
-            </div>
-        </div>
-    </div>
+<app-spinner *ngIf="isLoading"></app-spinner>
+
+<app-server-error *ngIf="isError" [statusCode]="errorStatusCode"></app-server-error>
+
+<app-filter-panel (filterDataEvent)="applyFilters($event)" *ngIf="!isError && !isLoading"></app-filter-panel>
+
+<div class="row row-cols-1 row-cols-md-3 row-cols-lg-3 row-cols-sm-2 g-4 mt-1">
+    <app-product-card class="col" *ngFor="let product of products" [product]="product"></app-product-card>
 </div>
+
+<app-pagination [currentPage]="currentPage" [pages]="pages"></app-pagination>

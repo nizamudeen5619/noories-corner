@@ -14,7 +14,7 @@ export class ProductDetailCardComponent {
   @Input() buttonText!: string;
   @Input() offerPercent!: number;
   @Input() productDescription!: SafeHtml;
-  @Input() amazonSearchURL!: string;
+  @Input() searchURL!: string;
   @Output() addRemoveFavEvent = new EventEmitter<null>();
   currentTab: string = 'tab1';
   MRP!: number;
