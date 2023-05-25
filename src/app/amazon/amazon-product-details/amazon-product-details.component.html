@@ -2,9 +2,9 @@
 
 <app-server-error *ngIf="isError" [statusCode]="errorStatusCode"></app-server-error>
 
-<app-product-detail-card *ngIf="!isLoading && !isError" [product]="product" [buttonText]="buttonText"
-    [offerPercent]="offerPercent" [productDescription]="productDescription" [isFavourite]="isFavourite"
-    [searchURL]="amazonSearchURL" (addRemoveFavEvent)="addRemoveFavourites()"
+<app-product-detail-card *ngIf="!isLoading && !isError" [product]="product" [platform]="'amazon'"
+    [buttonText]="buttonText" [offerPercent]="offerPercent" [productDescription]="productDescription"
+    [isFavourite]="isFavourite" (addRemoveFavEvent)="addRemoveFavourites()"
     class="container mt-5 mb-5"></app-product-detail-card>
 <!-- Button trigger modal -->
 <div>

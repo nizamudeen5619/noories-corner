@@ -26,7 +26,6 @@ export class MeeshoProductDetailsComponent {
   errorStatusCode = 0;
   routeSubscription!: Subscription;
   sharedServiceSubscription!: Subscription;
-  meeshoSearchURL!: string;
   @ViewChild('loginMessageModalButton') loginMessageModalButton !: ElementRef;
 
   constructor(private route$: ActivatedRoute, private meeshoService: MeeshoService, private sharedService: SharedDataService, private sanitizer: DomSanitizer) { }
@@ -34,7 +33,6 @@ export class MeeshoProductDetailsComponent {
   ngOnInit(): void {
     this.isLoading = true;
     this.isError = false;
-    this.meeshoSearchURL = this.meeshoService.MEESHO_SEARCH_URL;
     this.routeSubscription = this.route$.params.pipe(
       concatMap(({ id }) => {
         this.productID = id;

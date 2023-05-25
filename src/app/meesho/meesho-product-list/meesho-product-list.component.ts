@@ -49,6 +49,7 @@ export class MeeshoProductListComponent implements OnInit {
           catchError((error) => {
             this.errorStatusCode = error.status;
             this.isError = true;
+            this.isLoading=false
             return EMPTY;
           })
         )

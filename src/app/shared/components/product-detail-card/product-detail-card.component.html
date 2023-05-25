@@ -121,8 +121,8 @@
                 </div>
                 <div class="col-lg-6 text-center">
                     <h3 class="shadow-text">Buying Options</h3>
-                    <a target="_blank" [href]="[searchURL+product.ProductId]" class="btn btn-secondary">Buy Now @
-                        <img src="assets/images/logo-amazon.svg" height="15">
+                    <a target="_blank" [href]="[searchURL]" [attr.aria-disabled]="disableBuyButton" class="btn btn-secondary">Buy Now @
+                        <img [src]="['/assets/images/'+logo]" style="height: 25px;width: auto;">
                     </a>
                 </div>
             </div>

@@ -2,10 +2,12 @@
 
 <app-server-error *ngIf="isError" [statusCode]="errorStatusCode"></app-server-error>
 
-<app-filter-panel (filterDataEvent)="applyFilters($event)" *ngIf="!isError && !isLoading"></app-filter-panel>
+<div *ngIf="!isLoading && !isError">
+    <app-filter-panel (filterDataEvent)="applyFilters($event)"></app-filter-panel>
 
-<div class="row row-cols-1 row-cols-md-3 row-cols-lg-3 row-cols-sm-2 g-4 mt-1">
-    <app-product-card class="col" *ngFor="let product of products" [product]="product"></app-product-card>
+    <div class="row row-cols-1 row-cols-md-3 row-cols-lg-3 row-cols-sm-2 g-4 mt-1">
+        <app-product-card class="col" *ngFor="let product of products" [product]="product"></app-product-card>
+    </div>
+
+    <app-pagination [currentPage]="currentPage" [pages]="pages"></app-pagination>
 </div>
-
-<app-pagination [currentPage]="currentPage" [pages]="pages"></app-pagination>

@@ -18,4 +18,5 @@ export interface Product {
     Image2: string;
     SizeChart: string;
     Platform?: string;
+    Link?: string;
 }

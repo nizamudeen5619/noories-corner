@@ -26,7 +26,6 @@ export class AmazonProductDetailsComponent implements OnInit, OnDestroy {
   errorStatusCode = 0;
   routeSubscription!: Subscription;
   sharedServiceSubscription!: Subscription;
-  amazonSearchURL!: string;
   @ViewChild('loginMessageModalButton') loginMessageModalButton !: ElementRef;
 
   constructor(private route$: ActivatedRoute, private amazonService: AmazonService, private sharedService: SharedDataService, private sanitizer: DomSanitizer) { }
@@ -34,7 +33,6 @@ export class AmazonProductDetailsComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.isLoading = true;
     this.isError = false;
-    this.amazonSearchURL = this.amazonService.AMAZON_SEARCH_URL;
     this.routeSubscription = this.route$.params.pipe(
       concatMap(({ id }) => {
         this.productID = id;

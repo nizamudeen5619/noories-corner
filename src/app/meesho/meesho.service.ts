@@ -9,7 +9,6 @@ import { Product } from '../shared/models/product';
 })
 export class MeeshoService {
   public readonly API_BASE_URL = "http://localhost:3000/api/v1/meesho"
-  public readonly MEESHO_SEARCH_URL="https://www.amazon.in/s?k="
   public readonly DEFAULT_ERROR_STATUS_CODE = 500
 
   constructor(private http: HttpClient) { }
