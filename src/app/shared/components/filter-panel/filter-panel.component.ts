@@ -11,21 +11,20 @@ import { DesignFilter, ColorFilter, Filters } from '../../models/filters';
 export class FilterPanelComponent implements OnInit , OnDestroy{
   @Output() filterDataEvent = new EventEmitter<{ design: DesignFilter[], color: ColorFilter[] }>();
   filterButtonText: string = "Filter";
-  filterButtonFlag: boolean = true
-  closeFilterButtonFlag: boolean = false
-  designFilterOptions: Filters[] = []
-  colorFilterOptions: Filters[] = []
-
-  designFilter: DesignFilter[] = []
-  colorFilter: ColorFilter[] = []
+  filterButtonFlag: boolean = true;
+  closeFilterButtonFlag: boolean = false;
+  designFilterOptions: Filters[] = [];
+  colorFilterOptions: Filters[] = [];
+  designFilter: DesignFilter[] = [];
+  colorFilter: ColorFilter[] = [];
 
   ngOnInit(): void {
-    const designs = sessionStorage.getItem("designFilters") || ''
-    const colors = sessionStorage.getItem("colorFilters") || ''
+    const designs = sessionStorage.getItem("designFilters") || '';
+    const colors = sessionStorage.getItem("colorFilters") || '';
 
     if (designs === '' && colors === '') {
-      this.designFilterOptions = [...designFilterOptions]
-      this.colorFilterOptions = [...colorFilterOptions]
+      this.designFilterOptions = [...designFilterOptions];
+      this.colorFilterOptions = [...colorFilterOptions];
       sessionStorage.setItem("designFilters", JSON.stringify(this.designFilterOptions));
       sessionStorage.setItem("colorFilters", JSON.stringify(this.colorFilterOptions));
     } else {
@@ -67,7 +66,7 @@ export class FilterPanelComponent implements OnInit , OnDestroy{
   }
 
   ngOnDestroy(): void {
-    sessionStorage.removeItem("designFilters")
-    sessionStorage.removeItem("colorFilters")
+    sessionStorage.removeItem("designFilters");
+    sessionStorage.removeItem("colorFilters");
   }
 }

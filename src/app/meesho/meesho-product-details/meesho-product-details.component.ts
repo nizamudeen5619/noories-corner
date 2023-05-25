@@ -69,7 +69,7 @@ export class MeeshoProductDetailsComponent {
         this.buttonText = checkFavourite ? "Remove from Favourites" : "Add to Favourites";
       })
     ).subscribe(() => {
-      this.isLoading = false
+      this.isLoading = false;
     }
     )
   }
@@ -103,7 +103,7 @@ export class MeeshoProductDetailsComponent {
       }
     }
     else {
-      this.loginMessageModalButton.nativeElement.click()
+      this.loginMessageModalButton.nativeElement.click();
     }
   }
   handleError(error: any): Observable<never> {

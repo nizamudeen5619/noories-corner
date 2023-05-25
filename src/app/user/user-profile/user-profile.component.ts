@@ -18,14 +18,14 @@ export class UserProfileComponent implements OnInit {
   imageUrl!: SafeUrl;
   imageText!: string;
   showFileInput = false
-  userSubscription$!: Subscription
+  userSubscription$!: Subscription;
 
   ngOnInit(): void {
     if (this.userService.isLoggedIn()) {
       this.userService.userProfile().subscribe((user) => {
-        this.user = user
+        this.user = user;
       })
-      this.getAvatar()
+      this.getAvatar();
     }
   }
 
@@ -34,8 +34,8 @@ export class UserProfileComponent implements OnInit {
       const unsafeImageUrl = URL.createObjectURL(res.body);
       this.imageUrl = this.sanitizer.bypassSecurityTrustUrl(unsafeImageUrl);
       this.imageText = "Change Avatar:";
-      this.showFileInput = this.imageUrl ? false : true
-    })
+      this.showFileInput = this.imageUrl ? false : true;
+    });
   }
 
   upload() {
@@ -45,8 +45,8 @@ export class UserProfileComponent implements OnInit {
     formData.append('avatar', file);
 
     this.userService.avatarUpload(formData).subscribe((files) => {
-      alert('File Uploaded Successfully')
-      this.getAvatar()
+      alert('File Uploaded Successfully');
+      this.getAvatar();
     });
   }
 
@@ -54,22 +54,22 @@ export class UserProfileComponent implements OnInit {
     this.filesToUpload = fileInput.target.files.item(0);
   }
   changeAvatar() {
-    this.showFileInput = true
+    this.showFileInput = true;
   }
   logoutAll() {
     if (confirm('You will be logged out from all devices')) {
       this.userService.userLogoutAll().subscribe(() => {
-        alert('Logged out from All Devices')
-        this.sharedData.removeData()
-        this.route.navigate([''])
-      })
+        alert('Logged out from All Devices');
+        this.sharedData.removeData();
+        this.route.navigate(['']);
+      });
     }
   }
   deleteAccount() {
     this.userService.userDelete().subscribe(() => {
-      alert('Account Deleted')
-      this.sharedData.removeData()
-      this.route.navigate([''])
+      alert('Account Deleted');
+      this.sharedData.removeData();
+      this.route.navigate(['']);
     })
   }
 }

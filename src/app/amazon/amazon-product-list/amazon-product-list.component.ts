@@ -36,13 +36,13 @@ export class AmazonProductListComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.errorStatusCode = this.amazonService.DEFAULT_ERROR_STATUS_CODE;
-    this.loadProducts()
+    this.loadProducts();
   }
   applyFilters(filters: { design: DesignFilter[]; color: ColorFilter[]; }) {
-    sessionStorage.setItem('filters', JSON.stringify(filters))
-    this.designFilter = [...filters.design]
-    this.colorFilter = [...filters.color]
-    this.loadProducts()
+    sessionStorage.setItem('filters', JSON.stringify(filters));
+    this.designFilter = [...filters.design];
+    this.colorFilter = [...filters.color];
+    this.loadProducts();
   }
   loadProducts() {
     this.isLoading = true;

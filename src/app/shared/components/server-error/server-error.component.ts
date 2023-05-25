@@ -9,9 +9,9 @@ import { SharedDataService } from 'src/app/shared/shared-data.service';
 })
 export class ServerErrorComponent implements OnInit {
 
-  @Input() statusCode !: number
-  errorHeading!: string
-  errorInfo!: string
+  @Input() statusCode !: number;
+  errorHeading!: string;
+  errorInfo!: string;
 
   constructor(private location: Location, private sharedData: SharedDataService) { }
   ngOnInit(): void {
@@ -20,7 +20,7 @@ export class ServerErrorComponent implements OnInit {
     this.errorInfo = errorInfo;
   }
   goBack() {
-    this.location.back()
+    this.location.back();
   }
 
 }

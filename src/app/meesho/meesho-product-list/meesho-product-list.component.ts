@@ -13,28 +13,28 @@ import { DesignFilter, ColorFilter } from 'src/app/shared/models/filters';
 export class MeeshoProductListComponent implements OnInit {
   products: Product[] = [];
   currentPage!: number;
-  pages: { page: number }[] = []
+  pages: { page: number }[] = [];
   timetaken!: number;
   isLoading !: boolean;
   offerPercent!: number;
   isError !: boolean;
   MRP!: number;
   errorStatusCode!: number;
-  designFilter: DesignFilter[] = []
-  colorFilter: ColorFilter[] = []
+  designFilter: DesignFilter[] = [];
+  colorFilter: ColorFilter[] = [];
   queryParamsSubscription!: Subscription;
 
   constructor(private meeshoService: MeeshoService, private route: ActivatedRoute) { }
 
   ngOnInit(): void {
     this.errorStatusCode = this.meeshoService.DEFAULT_ERROR_STATUS_CODE;
-    this.loadProducts()
+    this.loadProducts();
   }
   applyFilters(filters: { design: DesignFilter[]; color: ColorFilter[]; }) {
-    sessionStorage.setItem('filters', JSON.stringify(filters))
-    this.designFilter = [...filters.design]
-    this.colorFilter = [...filters.color]
-    this.loadProducts()
+    sessionStorage.setItem('filters', JSON.stringify(filters));
+    this.designFilter = [...filters.design];
+    this.colorFilter = [...filters.color];
+    this.loadProducts();
   }
   loadProducts() {
     this.isLoading = true;

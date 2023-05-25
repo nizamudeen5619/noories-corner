@@ -25,12 +25,12 @@ export class ErrorInterceptor implements HttpInterceptor {
           errorMsg = {
             status: error.status,
             message: error.error.message
-          }
+          };
         } else {
           errorMsg = {
             status: error.status ? error.status : 404,
             message: error.message
-          }
+          };
         }
         switch (error.status) {
           case 400:

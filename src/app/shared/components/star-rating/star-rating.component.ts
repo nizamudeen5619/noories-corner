@@ -8,10 +8,8 @@ import { Component, Input, OnChanges, OnInit } from '@angular/core';
 export class StarRatingComponent implements OnChanges {
   @Input() rating!: number;
   stars: number[] = [1, 2, 3, 4, 5];
-  halfStarFlag !: boolean
+  halfStarFlag !: boolean;
   ngOnChanges(): void {
-    console.log(this.rating);
-
     this.halfStarFlag = this.rating % 1 >= 0.3;
   }
 }

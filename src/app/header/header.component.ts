@@ -11,22 +11,22 @@ import { Router } from '@angular/router';
 export class HeaderComponent implements OnInit {
 
   isLoggedIn = false;
-  userName?: string
+  userName?: string;
   constructor(private sharedData: SharedDataService, private userService: UserService, private route$: Router) {
   }
   ngOnInit(): void {
     this.sharedData.getUserObs().subscribe((username) => {
       if (username) {
-        this.isLoggedIn = true
-        this.userName = username
+        this.isLoggedIn = true;
+        this.userName = username;
       }
-    })
+    });
   }
   logout() {
     this.userService.userLogout().subscribe(() => {
-      this.sharedData.removeData()
-      this.route$.navigateByUrl('')
-    })
-    this.isLoggedIn = false
+      this.sharedData.removeData();
+      this.route$.navigateByUrl('');
+    });
+    this.isLoggedIn = false;
   }
 }

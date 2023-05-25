@@ -28,9 +28,9 @@ export class UserLoginComponent implements OnInit {
     const userLogin = this.loginForm.value;
     this.userService.userLogin(userLogin).subscribe((res) => {
       const { token, username } = res;
-      this.sharedData.setAuthTokenObs(token)
-      this.sharedData.setUserObs(username)
-      this.route.navigate(['user/profile'])
+      this.sharedData.setAuthTokenObs(token);
+      this.sharedData.setUserObs(username);
+      this.route.navigate(['user/profile']);
     })
   }
 }

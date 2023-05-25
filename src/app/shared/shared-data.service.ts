@@ -10,22 +10,22 @@ export class SharedDataService {
 
   private userName$ = new BehaviorSubject<string | null>('');
   private authToken$ = new BehaviorSubject<string | null>('');
-  public readonly DEFAULT_MRP = 1499
+  public readonly DEFAULT_MRP = 1499;
 
-  baseUrl = "http://localhost:3000/api/v1/users"
+  baseUrl = "http://localhost:3000/api/v1/users";
 
   constructor(private http: HttpClient) {
-    const user = sessionStorage.getItem('user')
-    const token = sessionStorage.getItem('token')
+    const user = sessionStorage.getItem('user');
+    const token = sessionStorage.getItem('token');
     if (user && token) {
-      this.userName$.next(user)
-      this.authToken$.next(token)
+      this.userName$.next(user);
+      this.authToken$.next(token);
     }
   }
 
   getErrorMsg(statusCode: number) {
-    let errorHeading = ''
-    let errorInfo = ''
+    let errorHeading = '';
+    let errorInfo = '';
     switch (statusCode) {
       case 400:
         errorHeading = "Error: Bad Request";
@@ -56,7 +56,7 @@ export class SharedDataService {
         errorInfo = "We're sorry, but we're having some technical difficulties right now. Please try again later.";
         break;
     }
-    return { errorHeading, errorInfo }
+    return { errorHeading, errorInfo };
   }
 
   getUserObs(): Observable<string | null> {
@@ -78,23 +78,23 @@ export class SharedDataService {
   }
 
   removeData() {
-    sessionStorage.removeItem('user')
-    sessionStorage.removeItem('token')
+    sessionStorage.removeItem('user');
+    sessionStorage.removeItem('token');
     this.userName$.next(null);
     this.authToken$.next(null);
   }
 
   favouriteCheck(productID: string): Observable<any> {
-    return this.http.get<any>(`${this.baseUrl}/favourites/${productID}`)
+    return this.http.get<any>(`${this.baseUrl}/favourites/${productID}`);
   }
   favouritesAdd(productID: string): Observable<any> {
-    return this.http.post<any>(`${this.baseUrl}/favourites/${productID}`, {})
+    return this.http.post<any>(`${this.baseUrl}/favourites/${productID}`, {});
   }
   favouritesDelete(productID: string): Observable<any> {
-    return this.http.delete<any>(`${this.baseUrl}/favourites/${productID}`)
+    return this.http.delete<any>(`${this.baseUrl}/favourites/${productID}`);
   }
   favouritesView(): Observable<any> {
-    return this.http.get<any>(`${this.baseUrl}/favourites`)
+    return this.http.get<any>(`${this.baseUrl}/favourites`);
   }
 
 }

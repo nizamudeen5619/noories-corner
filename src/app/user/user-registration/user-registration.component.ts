@@ -14,17 +14,17 @@ export class UserRegistrationComponent implements OnInit {
   userForm!: FormGroup;
   user: any
   formName!: string;
-  isLoggedIn = false
-  userSubscription$!: Subscription
+  isLoggedIn = false;
+  userSubscription$!: Subscription;
 
   constructor(private formBuilder: FormBuilder, private userService: UserService, private route: Router, private sharedData: SharedDataService) { }
   ngOnInit() {
     this.userSubscription$ = this.sharedData.getUserObs().subscribe((user) => {
       this.isLoggedIn = user ? true : false;
-      this.user = user
-    })
+      this.user = user;
+    });
     if (this.isLoggedIn) {
-      this.formName = "Update"
+      this.formName = "Update";
       this.userForm = this.formBuilder.group({
         name: [this.user.name, Validators.required],
         age: [this.user.age, Validators.required],
@@ -33,7 +33,7 @@ export class UserRegistrationComponent implements OnInit {
       });
     }
     else {
-      this.formName = "Sign Up"
+      this.formName = "Sign Up";
       this.userForm = this.formBuilder.group({
         name: ["", Validators.required],
         age: ["", Validators.required],
@@ -48,27 +48,27 @@ export class UserRegistrationComponent implements OnInit {
       age: this.userForm.get('age')?.value,
       email: this.userForm.get('email')?.value,
       password: this.userForm.get('password')?.value
-    }
+    };
     if (this.userForm.valid) {
       if (this.isLoggedIn) {
         this.userService.userUpdate(user).subscribe((res) => {
-          alert('Updataed Successfully')
-          this.sharedData.setUserObs(res.user)
-          this.route.navigate(['profile'])
-        })
+          alert('Updataed Successfully');
+          this.sharedData.setUserObs(res.user);
+          this.route.navigate(['profile']);
+        });
       }
       else {
         this.userService.userRegister(user).subscribe((res) => {
-          alert('Registered Successfully')
-          this.sharedData.setUserObs(res.user)
-          this.sharedData.setAuthTokenObs(res.token)
-          this.route.navigate(['profile'])
-        })
+          alert('Registered Successfully');
+          this.sharedData.setUserObs(res.user);
+          this.sharedData.setAuthTokenObs(res.token);
+          this.route.navigate(['profile']);
+        });
       }
     }
   }
 
   cancelUpdate() {
-    this.route.navigate(['profile'])
+    this.route.navigate(['profile']);
   }
 }

@@ -69,9 +69,9 @@ export class AmazonProductDetailsComponent implements OnInit, OnDestroy {
         this.buttonText = checkFavourite ? "Remove from Favourites" : "Add to Favourites";
       })
     ).subscribe(() => {
-      this.isLoading = false
+      this.isLoading = false;
     }
-    )
+    );
   }
 
   addRemoveFavourites() {
@@ -103,7 +103,7 @@ export class AmazonProductDetailsComponent implements OnInit, OnDestroy {
       }
     }
     else {
-      this.loginMessageModalButton.nativeElement.click()
+      this.loginMessageModalButton.nativeElement.click();
     }
   }
   handleError(error: any): Observable<never> {
@@ -114,6 +114,6 @@ export class AmazonProductDetailsComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.routeSubscription.unsubscribe()
+    this.routeSubscription.unsubscribe();
   }
 }

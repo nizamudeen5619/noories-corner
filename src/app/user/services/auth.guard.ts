@@ -9,7 +9,7 @@ export class AuthGuard {
   constructor(private userService: UserService, private route$: Router) { }
   canActivate: CanActivateFn = () => {
     if (this.userService.isLoggedIn()) {
-      return true
+      return true;
     }
     this.route$.navigate(['login'])
     return false;
