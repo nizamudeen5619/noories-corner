@@ -1,25 +1,27 @@
-  <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-    <div class="container-fluid">
-        <a routerLink="/" class="navbar-brand">
-            <img src="../../assets/images/logo11.png" height="40" alt="Noorie's Corner">
-        </a>
-        <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarCollapse">
-            <div class="navbar-nav">
-                <a routerLink="/" class="nav-item nav-link active">Home</a>
-                <a routerLink="" class="nav-item nav-link">Profile</a>
-                <a routerLink="" class="nav-item nav-link">Messages</a>
-            </div>
-            <div class="navbar-nav ms-auto" *ngIf="isLoggedIn">
-              <a class="nav-item nav-link active" routerLink="/profile"><i class="fi-cnsuxl-user-circle-solid"></i>{{userName}}</a>
-              <button class="btn btn-danger" (click)="logout()">Logout</button>
-            </div>
-            <div class="navbar-nav ms-auto" *ngIf="!isLoggedIn">
-              <a class="nav-item nav-link active" routerLink="user/register"><i class="fi-snsuxl-user-plus-solid"></i> Sign Up</a>
-              <a class="nav-item nav-link active" routerLink="user/login"><i class="fi-swsuxl-sign-in-solid"></i> Login</a>
-            </div>
-        </div>
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+  <div class="container-fluid">
+    <a routerLink="/" class="navbar-brand">
+      <img src="../../assets/images/logo11.png" height="40" alt="Noorie's Corner">
+    </a>
+    <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarCollapse">
+      <div class="navbar-nav">
+        <a routerLink="/" class="nav-item nav-link active">Home</a>
+        <a routerLink="/amazon" class="nav-item nav-link active">Amazon</a>
+        <a routerLink="/meesho" class="nav-item nav-link active">Meesho</a>
+      </div>
+      <div class="navbar-nav ms-auto" *ngIf="isLoggedIn">
+        <a class="nav-item nav-link active" routerLink="/profile"><i
+            class="fi-cnsuxl-user-circle-solid"></i>{{userName}}</a>
+        <button class="btn btn-danger" (click)="logout()">Logout</button>
+      </div>
+      <div class="navbar-nav ms-auto" *ngIf="!isLoggedIn">
+        <a class="nav-item nav-link active" routerLink="user/register"><i class="fi-snsuxl-user-plus-solid"></i> Sign
+          Up</a>
+        <a class="nav-item nav-link active" routerLink="user/login"><i class="fi-swsuxl-sign-in-solid"></i> Login</a>
+      </div>
     </div>
-  </nav>
+  </div>
+</nav>

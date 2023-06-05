@@ -6,7 +6,7 @@ export interface Product {
     SKU: string;
     Color: string;
     Price: number;
-    Rating:number;
+    Rating: number;
     Fabric: string;
     ProductDescription: string;
     NeckType: string;
@@ -19,4 +19,6 @@ export interface Product {
     SizeChart: string;
     Platform?: string;
     Link?: string;
+    topSelling: Boolean;
+    topRated: Boolean;
 }

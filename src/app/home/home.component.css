@@ -1,0 +1,69 @@
+@import url('https://fonts.googleapis.com/css2?family=Alkatra&display=swap');
+
+.text-design{
+  font-family: 'Alkatra', cursive;
+  color: rgb(38, 88, 180);
+  text-shadow: 1px 1px 2px rgb(255, 255, 255), 0 0 25px rgb(255, 255, 255), 0 0 5px rgb(255, 255, 255);
+}
+.text-design-sub{
+  font-family: 'Alkatra', cursive;
+  color: rgb(0, 0, 0);
+  text-shadow: 1px 1px 2px rgb(255, 255, 255), 0 0 25px rgb(255, 255, 255), 0 0 5px rgb(255, 255, 255);
+}
+
+.card-img-overlay {
+  backdrop-filter: blur(3px);
+  -webkit-backdrop-filter: blur(3px); /* For Safari */
+}
+
+h2 {
+  font-size: 24px;
+  text-transform: uppercase;
+  color: #303030;
+  font-weight: 600;
+  margin-bottom: 30px;
+}
+
+h4 {
+  font-size: 19px;
+  line-height: 1.375em;
+  color: #303030;
+  font-weight: 400;
+  margin-bottom: 30px;
+}
+
+.jumbotron {
+  background-color: #f6f6f6;
+  color: black;
+  padding: 100px 25px;
+  font-family: Montserrat, sans-serif;
+}
+
+.container-fluid {
+  padding: 60px 50px;
+}
+
+.bg-grey {
+  background-color: #f6f6f6;
+}
+
+@media screen and (max-width: 768px) {
+  .col-sm-4 {
+    text-align: center;
+    margin: 25px 0;
+  }
+
+  .btn-lg {
+    width: 100%;
+    margin-bottom: 35px;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .logo {
+    font-size: 150px;
+  }
+}
+.contact-link{
+  text-decoration: none;
+}

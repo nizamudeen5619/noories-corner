@@ -1,1 +1,109 @@
-<p>home works!</p>
+<app-spinner *ngIf="isLoading"></app-spinner>
+
+<app-server-error *ngIf="isError" [statusCode]="errorStatusCode"></app-server-error>
+
+<div class="container mt-1" *ngIf="!isLoading && !isError">
+    <div class="card text-bg-dark">
+        <img src="assets/images/collage.jpg" class="card-img" alt="product-collage">
+        <div class="card-img-overlay d-flex flex-column align-items-center justify-content-center">
+            <h1 class="card-title text-design">Noorie's Corner</h1>
+            <h4 class="card-text text-design-sub">Fashion with Tradition!</h4>
+        </div>
+    </div>
+
+    <div class="container-fluid bg-grey">
+        <div>
+            <h2>About Us</h2><br>
+            <h4>At Noorie's Corner,</h4>
+            <p>
+                <i class="bi bi-caret-right-fill"></i> We are passionate about celebrating and promoting the beauty of ethnic fashion.
+            </p>
+            <p>
+                <i class="bi bi-caret-right-fill"></i> Our collection of exquisite ethnic blouses blends traditional craftsmanship with modern design, reflecting the rich tapestry of cultures worldwide.
+            <p>
+                <i class="bi bi-caret-right-fill"></i> We work closely with skilled artisans to create unique pieces that honor their expertise and preserve traditional techniques.
+            </p>
+            <p>
+                <i class="bi bi-caret-right-fill"></i> With a commitment to quality, inclusivity, and exceptional customer service, we offer luxurious and durable blouses that cater to diverse tastes and occasions.
+            </p>
+            <p>
+                <i class="bi bi-caret-right-fill"></i> Join us on a journey of cultural exploration and fashion-forward expression as we embrace the beauty of ethnic fashion.
+            </p>
+        </div>
+        <div>
+            <h2>Our Values</h2>
+            <h4><strong>MISSION:</strong> Our mission is to curate and create exceptional ethnic blouses that blend
+                traditional craftsmanship with contemporary design. We are committed to preserving cultural
+                heritage, empowering artisans, promoting inclusivity, delivering uncompromising quality, inspiring
+                fashion-forward expression, and promoting sustainability.</h4>
+            <h4><strong>VISION:</strong> Our vision is to be a national leader in ethnic fashion, celebrating the
+                beauty of diverse cultures through our collection of exquisite ethnic blouses.</h4>
+        </div>
+    </div>
+
+    <div id="services" class="container-fluid text-center">
+        <h2>OUR SERVICES</h2>
+        <div class="row">
+            <div class="col-sm-6">
+                <div><img style="height: 50px;" src="/assets/images/amazon.png" alt="Amazon"></div>
+                <p><a class="btn btn-secondary" href="https://www.amazon.in/s?k=SAMSHAY%3A+Be+unique">SAMSHAY</a></p>
+            </div>
+            <div class="col-sm-6">
+                <div><img style="height: 50px;" src="/assets/images/meesho.png" alt="Meesho"></div>
+                <p><a class="btn btn-secondary" href="https://www.meesho.com/VRETAIL87791?_ms=2">V Retail</a></p>
+            </div>
+        </div>
+    </div>
+
+    <div id="portfolio" class="container-fluid text-center bg-grey">
+        <h2>What our customers say</h2>
+        <div class="row row-cols-1 row-cols-md-2 g-4">
+            <div class="col">
+                <div class="card">
+                    <img src="assets/images/review1.png" height="100" class="card-img-top" alt="review1">
+                </div>
+            </div>
+            <div class="col">
+                <div class="card">
+                    <img src="assets/images/review2.png" height="100" class="card-img-top" alt="review2">
+                </div>
+            </div>
+            <div class="col">
+                <div class="card">
+                    <img src="assets/images/review3.png" height="80" class="card-img-top" alt="review3">
+                </div>
+            </div>
+            <div class="col">
+                <div class="card">
+                    <img src="assets/images/review4.png" height="80" class="card-img-top" alt="review4">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="contact" class="container-fluid bg-grey">
+        <h2 class="text-center">CONTACT</h2>
+        <h4 class="text-center">Contact us and we'll get back to you within 24 hrs</h4>
+        <div class="row">
+            <div class="col">
+                <p>
+                    <i class="bi bi-geo-alt-fill"></i> New Dresses - Ambattur,Chennai
+                </p>
+                <p>
+                    <i class="bi bi-telephone-fill"></i> <a class="contact-link text-secondary"
+                        href="tel:+914479684380"> +91 44 79684380</a>
+                </p>
+                <p>
+                    <i class="bi bi-envelope-at-fill"></i> <a class="contact-link text-secondary"
+                        href="mailto:nooriescorner@gmail.com"> nooriescorner@gmail.com</a>
+                </p>
+            </div>
+            <div class="col">
+                <iframe
+                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3885.7052292188696!2d80.15407707395322!3d13.117850887211084!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3a5263a67f0ea601%3A0xd5ffc26a5cca6a0a!2sNew%20Dresses!5e0!3m2!1sen!2sin!4v1685950612511!5m2!1sen!2sin"
+                    style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade">
+                </iframe>
+            </div>
+        </div>
+    </div>
+</div>

@@ -13,6 +13,8 @@ export class SharedDataService {
   public readonly DEFAULT_MRP = 1499;
 
   baseUrl = "http://localhost:3000/api/v1/users";
+  topProducAmazontUrl = "http://localhost:3000/api/v1/amazontop";
+  topProductMeeshoUrl = "http://localhost:3000/api/v1/meeshotop";
 
   constructor(private http: HttpClient) {
     const user = sessionStorage.getItem('user');
@@ -82,6 +84,14 @@ export class SharedDataService {
     sessionStorage.removeItem('token');
     this.userName$.next(null);
     this.authToken$.next(null);
+  }
+
+  getTopProductsAmazon(): Observable<any> {
+    return this.http.get<any>(`${this.topProducAmazontUrl}`);
+  }
+
+  getTopProductsMeesho(): Observable<any> {
+    return this.http.get<any>(`${this.topProductMeeshoUrl}`);
   }
 
   favouriteCheck(productID: string): Observable<any> {
