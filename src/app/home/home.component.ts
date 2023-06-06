@@ -1,6 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Product } from '../shared/models/product';
-import { EMPTY, catchError, finalize, map, switchMap } from 'rxjs';
+import { EMPTY, Subscription, catchError, finalize, map, switchMap } from 'rxjs';
 import { SharedDataService } from '../shared/shared-data.service';
 
 @Component({
@@ -8,18 +8,18 @@ import { SharedDataService } from '../shared/shared-data.service';
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.css']
 })
-export class HomeComponent implements OnInit {
+export class HomeComponent implements OnInit, OnDestroy {
   isLoading!: boolean;
   isError!: boolean;
   topSelling: Product[] = [];
   topRated: Product[] = [];
   errorStatusCode: any;
-
+  topProductssubscription!: Subscription;
   constructor(private sharedData: SharedDataService) { }
   ngOnInit(): void {
     this.isLoading = true;
     this.isError = false;
-    this.sharedData.getTopProductsAmazon().pipe(
+    this.topProductssubscription = this.sharedData.getTopProductsAmazon().pipe(
       switchMap((data1) => {
         return this.sharedData.getTopProductsMeesho().pipe(
           map((data2) => {
@@ -36,8 +36,11 @@ export class HomeComponent implements OnInit {
       finalize(() => {
         this.isLoading = false;
       })
-    ).subscribe();
+    ).subscribe()
   }
-
+  ngOnDestroy(): void {
+    if (this.topProductssubscription) {
+      this.topProductssubscription.unsubscribe()
+    }
+  }
 }
-

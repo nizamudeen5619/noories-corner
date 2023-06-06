@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { EMPTY, Observable } from 'rxjs';
 import { SharedDataService } from 'src/app/shared/shared-data.service';
 @Injectable({
   providedIn: 'root'
@@ -18,7 +18,12 @@ export class UserService {
     return this.http.post<any>(`${this.baseUrl}/login`, userLogin);
   }
   userLogout(): Observable<any> {
-    return this.http.post<any>(`${this.baseUrl}/logout`, undefined);
+    if (this.isLoggedIn()) {
+      return this.http.post<any>(`${this.baseUrl}/logout`, undefined);
+    }
+    else {
+      return EMPTY;
+    }
   }
   userLogoutAll(): Observable<any> {
     return this.http.post<any>(`${this.baseUrl}/logoutAll`, undefined);

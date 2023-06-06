@@ -13,6 +13,7 @@ import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { ErrorInterceptor } from './shared/error.interceptor';
 import { NotFoundComponent } from './not-found/not-found.component';
 import { SharedModule } from './shared/shared.module';
+import { ErrorComponent } from './error/error.component';
 
 
 @NgModule({
@@ -20,7 +21,8 @@ import { SharedModule } from './shared/shared.module';
     AppComponent,
     HeaderComponent,
     HomeComponent,
-    NotFoundComponent
+    NotFoundComponent,
+    ErrorComponent
   ],
   imports: [
     BrowserModule,
