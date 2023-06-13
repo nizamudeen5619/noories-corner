@@ -17,12 +17,15 @@ export class SharedDataService {
   topProductMeeshoUrl = "http://localhost:3000/api/v1/meeshotop";
 
   constructor(private http: HttpClient) {
+    this.setUserAndToken()
+  }
+
+  setUserAndToken() {
     const user = sessionStorage.getItem('user');
     const token = sessionStorage.getItem('token');
-    if (user && token) {
-      this.userName$.next(user);
-      this.authToken$.next(token);
-    }
+
+    this.userName$.next(user);
+    this.authToken$.next(token);
   }
 
   getErrorMsg(statusCode: number) {
@@ -62,6 +65,7 @@ export class SharedDataService {
   }
 
   getUserObs(): Observable<string | null> {
+    this.setUserAndToken()
     return this.userName$.asObservable();
   }
 
@@ -71,6 +75,7 @@ export class SharedDataService {
   }
 
   getAuthTokenObs(): Observable<string | null> {
+    this.setUserAndToken()
     return this.authToken$.asObservable();
   }
 

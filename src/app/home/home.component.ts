@@ -29,6 +29,8 @@ export class HomeComponent implements OnInit, OnDestroy {
         );
       }),
       catchError((error) => {
+        console.log(error);
+        
         this.errorStatusCode = error.status;
         this.isError = true;
         return EMPTY;

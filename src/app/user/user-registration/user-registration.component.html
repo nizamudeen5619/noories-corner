@@ -1,4 +1,8 @@
-<form [formGroup]="userForm" (ngSubmit)="onSubmit()" class="p-5" style="width: 50%;">
+<app-spinner *ngIf="isLoading"></app-spinner>
+
+<app-server-error *ngIf="isError" [statusCode]="errorStatusCode"></app-server-error>
+
+<form [formGroup]="userForm"  (ngSubmit)="onSubmit()" class="p-5" style="width: 50%;">
 
     <p class="h4 mb-4 text-center">{{formName}}</p>
 
@@ -49,3 +53,21 @@
     <button [disabled]="!userForm.valid" class="btn btn-dark" type="submit">{{formName}}</button>&nbsp;
     <button *ngIf="isLoggedIn" class="btn btn-info" (click)="cancelUpdate()">Cancel</button>
 </form>
+
+<!-- Success Modal -->
+<div class="modal" tabindex="-1" role="dialog" *ngIf="showSuccessModal">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Success</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"
+                    (click)="closeSuccessModal()">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p>Registered successfully.</p>
+            </div>
+        </div>
+    </div>
+</div>

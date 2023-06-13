@@ -11,6 +11,7 @@ import { ReduceProductNamePipe } from './pipes/reduce-product-name.pipe';
 import { ProductDetailCardComponent } from './components/product-detail-card/product-detail-card.component';
 import { StarRatingComponent } from './components/star-rating/star-rating.component';
 import { ServerErrorComponent } from './components/server-error/server-error.component';
+import { ModalComponent } from './components/modal/modal.component';
 
 
 @NgModule({
@@ -36,7 +37,8 @@ import { ServerErrorComponent } from './components/server-error/server-error.com
     FilterPanelComponent,
     ProductDetailCardComponent,
     StarRatingComponent,
-    ServerErrorComponent
+    ServerErrorComponent,
+    ModalComponent
   ]
 })
 export class SharedModule { }
