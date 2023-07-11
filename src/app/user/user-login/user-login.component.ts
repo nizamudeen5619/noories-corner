@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { UserService } from '../services/user.service';
 import { Router } from '@angular/router';
 import { SharedDataService } from 'src/app/shared/shared-data.service';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { FormGroup, FormControl, Validators, FormBuilder } from '@angular/forms';
 import { EMPTY, catchError, finalize, tap } from 'rxjs';
 @Component({
   selector: 'app-user-login',
@@ -16,27 +16,31 @@ export class UserLoginComponent implements OnInit {
   errorStatusCode: any;
   loginSuccess: boolean = false;
   loginFailure: boolean = false;
+  errorMessage = '';
+  formSubmitted = false;
 
   constructor(
     private userService: UserService,
     private route: Router,
-    private sharedData: SharedDataService
+    private sharedData: SharedDataService,
+    private formBuilder: FormBuilder,
   ) { }
 
   ngOnInit(): void {
-    this.loginForm = new FormGroup({
-      email: new FormControl('', [Validators.required, Validators.email]),
-      password: new FormControl('', Validators.required),
+    this.loginForm = this.formBuilder.group({
+      email: ['', [Validators.required, Validators.email]],
+      password: ['', [Validators.required]],
     });
+
   }
 
   onSubmit(): void {
+    this.formSubmitted = true;
     this.isLoading = true;
-    this.loginFailure = false; 
+    this.loginFailure = false;
 
     if (this.loginForm.invalid) {
-      this.loginFailure = true;
-      this.isLoading = false; 
+      this.isLoading = false;
       return;
     }
 
@@ -44,7 +48,7 @@ export class UserLoginComponent implements OnInit {
     this.userService.userLogin(userLogin)
       .pipe(
         tap((res) => {
-          this.loginSuccess = true;
+          this.loginFailure = false;
           this.loginForm.reset();
 
           const { token, username } = res;
@@ -55,8 +59,9 @@ export class UserLoginComponent implements OnInit {
           this.route.navigate(['user/profile']);
         }),
         catchError((error) => {
-          this.loginSuccess = false;
+          this.loginFailure = true;
           this.errorStatusCode = error.status;
+          this.errorMessage = error.message;
           return EMPTY;
         }),
         finalize(() => {

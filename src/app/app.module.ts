@@ -14,6 +14,7 @@ import { ErrorInterceptor } from './shared/error.interceptor';
 import { NotFoundComponent } from './not-found/not-found.component';
 import { SharedModule } from './shared/shared.module';
 import { ErrorComponent } from './error/error.component';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 
 @NgModule({
@@ -32,7 +33,8 @@ import { ErrorComponent } from './error/error.component';
     UserModule,
     FormsModule,
     SharedModule,
-    AppRoutingModule
+    AppRoutingModule,
+    NgbModule,
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },

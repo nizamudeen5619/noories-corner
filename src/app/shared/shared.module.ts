@@ -12,6 +12,8 @@ import { ProductDetailCardComponent } from './components/product-detail-card/pro
 import { StarRatingComponent } from './components/star-rating/star-rating.component';
 import { ServerErrorComponent } from './components/server-error/server-error.component';
 import { ModalComponent } from './components/modal/modal.component';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { AlertComponent } from './components/alert/alert.component';
 
 
 @NgModule({
@@ -19,7 +21,8 @@ import { ModalComponent } from './components/modal/modal.component';
     CommonModule,
     FormsModule,
     ReactiveFormsModule,
-    RouterModule
+    RouterModule,
+    NgbModule
   ],
   exports: [
     ProductCardComponent, 
@@ -27,7 +30,9 @@ import { ModalComponent } from './components/modal/modal.component';
     SpinnerComponent,
     PaginationComponent,
     ProductDetailCardComponent,
-    ServerErrorComponent
+    ServerErrorComponent,
+    AlertComponent,
+    ModalComponent
   ],
   declarations: [
     ReduceProductNamePipe,
@@ -38,7 +43,8 @@ import { ModalComponent } from './components/modal/modal.component';
     ProductDetailCardComponent,
     StarRatingComponent,
     ServerErrorComponent,
-    ModalComponent
+    ModalComponent,
+    AlertComponent
   ]
 })
 export class SharedModule { }

@@ -37,7 +37,7 @@ export class ErrorInterceptor implements HttpInterceptor {
             errorMsg.message = "Bad request. Please check your input and try again."
             break;
           case 401:
-            errorMsg.message = "Unauthorized. Please login and try again."
+            errorMsg.message = "Invalid credentials! Please check your email and password."
             break;
           case 403:
             errorMsg.message = "Forbidden. You don't have permission to access this resource."

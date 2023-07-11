@@ -1,3 +1,61 @@
-.has-error{
-    border-color: rgb(179, 0, 0);
+.register-update-page {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    max-height: 100vh;
+    box-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px, rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px, rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px;
+}
+
+.register-update-form {
+    border-radius: 8px;
+    padding: 10px;
+}
+
+.register-update-form .input-group {
+    border-radius: 8px;
+    padding: 3px;
+    margin-bottom: 3px;
+}
+
+.register-update-form .input-group-text:hover {
+    background-color: #ffd700;
+}
+
+.bg-gold {
+    background-color: #C6AA64;
+}
+
+.btn-gold {
+    background-color: #C6AA64;
+    color: #333333;
+}
+
+.btn-gold:hover {
+    background-color: #ffd700;
+    color: #333333;
+}
+
+.is-invalid {
+    border-color: #dc3545;
+}
+
+.invalid-feedback {
+    color: #dc3545;
+    font-size: 14px;
+    background-color: #f8d7da;
+    border: 1px solid #dc3545;
+    padding: 8px;
+    margin-top: 5px;
+    border-radius: 4px;
+}
+
+.heading-text {
+    font-family: 'Alkatra', cursive;
+}
+
+.error-list {
+    color: red;
+    list-style-type: disc;
+    margin-top: 5px;
+    padding-left: 20px;
 }

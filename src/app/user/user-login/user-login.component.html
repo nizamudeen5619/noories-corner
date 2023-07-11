@@ -1,20 +1,69 @@
 <app-spinner *ngIf="isLoading"></app-spinner>
 
-<form *ngIf="!isLoading" [formGroup]="loginForm" (ngSubmit)="onSubmit()">
-  <label>
-    Email
-    <input type="email" formControlName="email" required>
-  </label>
+<div class="login-page bg-light">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-10 offset-lg-1">
+        <h3 class="mb-3">Login Now</h3>
+        <div class="bg-white shadow rounded">
+          <div class="row">
+            <div class="col-md-7 pe-0">
+              <div class="form-left h-100 py-5 px-5">
+                <form [formGroup]="loginForm" class="row g-4" (ngSubmit)="onSubmit()">
+                  <div class="col-12">
+                    <label>Email<span class="text-danger">*</span></label>
+                    <div class="input-group">
+                      <div class="input-group-text"><i class="bi bi-person-fill"></i></div>
+                      <input type="email"
+                        [ngClass]="{'is-invalid': loginForm.controls['email'].invalid && formSubmitted}"
+                        class="form-control" id="email" formControlName="email" required>
+                      <div class="invalid-feedback" *ngIf="loginForm.controls['email'].invalid && formSubmitted">
+                        <div *ngIf="loginForm.controls['email'].errors?.['required']">Email is required.</div>
+                        <div *ngIf="loginForm.controls['email'].errors?.['email']">Invalid email address.</div>
+                      </div>
+                    </div>
+                  </div>
 
-  <label>
-    Password
-    <input type="password" formControlName="password" required>
-  </label>
+                  <div class="col-12">
+                    <label>Password<span class="text-danger">*</span></label>
+                    <div class="input-group">
+                      <div class="input-group-text"><i class="bi bi-lock-fill"></i></div>
+                      <input type="password"
+                        [ngClass]="{'is-invalid': loginForm.controls['password'].invalid && formSubmitted}"
+                        class="form-control" id="password" formControlName="password" required>
+                      <div class="invalid-feedback" *ngIf="loginForm.controls['password'].invalid && formSubmitted">
+                        <div *ngIf="loginForm.controls['password'].errors?.['required']">Password is required.</div>
+                      </div>
+                    </div>
+                  </div>
 
-  <button type="submit" [disabled]="loginForm.invalid">Login</button>
-</form>
+                  <div class="col-sm-6">
+                    <div class="form-check">
+                      <input class="form-check-input" type="checkbox" id="inlineFormCheck">
+                      <label class="form-check-label" for="inlineFormCheck">Remember me</label>
+                    </div>
+                  </div>
 
+                  <div class="col-sm-6">
+                    <a href="#" class="float-end text-primary">Forgot Password?</a>
+                  </div>
 
-<div *ngIf="loginFailure" class="alert alert-danger">
-  Login failed. Please check your credentials and try again.
+                  <div class="col-12">
+                    <button type="submit" class="btn btn-primary px-4 float-end mt-4">login</button>
+                  </div>
+                </form>
+              </div>
+            </div>
+            <div class="col-md-5 ps-0 d-none d-md-block">
+              <div class="form-right h-100 bg-dark text-white text-center pt-5">
+                <img class="col-lg-12 mt-3" src="https://i.imgur.com/fRvs5iE.png">
+                <h2 class="fs-2">Fashion with Tradition!</h2>
+              </div>
+            </div>
+          </div>
+          <app-alert [errorMessage]="errorMessage" *ngIf="!isLoading && loginFailure"></app-alert>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>

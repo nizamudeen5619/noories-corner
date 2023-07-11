@@ -4,6 +4,7 @@ import { DomSanitizer, SafeUrl } from '@angular/platform-browser'
 import { Router } from '@angular/router';
 import { SharedDataService } from 'src/app/shared/shared-data.service';
 import { EMPTY, Subscription, catchError, finalize, tap } from 'rxjs';
+import { FormBuilder } from '@angular/forms';
 
 @Component({
   selector: 'app-user-profile',
@@ -13,7 +14,7 @@ import { EMPTY, Subscription, catchError, finalize, tap } from 'rxjs';
 
 export class UserProfileComponent implements OnInit, OnDestroy {
 
-  constructor(private userService: UserService, private sanitizer: DomSanitizer, private route: Router, private sharedData: SharedDataService) { }
+  constructor(private formBuilder: FormBuilder,private userService: UserService, private sanitizer: DomSanitizer, private route: Router, private sharedData: SharedDataService) { }
   user: any;
   filesToUpload!: File;
   imageUrl!: SafeUrl;

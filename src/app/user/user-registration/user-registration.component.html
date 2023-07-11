@@ -1,73 +1,112 @@
 <app-spinner *ngIf="isLoading"></app-spinner>
 
-<app-server-error *ngIf="isError" [statusCode]="errorStatusCode"></app-server-error>
+<div *ngIf="!isLoading && !isError" class="container register-update-page  mt-3">
+    <div class="row">
+        <div class="col-lg-10 offset-lg-1 mt-1">
+            <h2 class="heading-text text-center">{{formName}}</h2>
+            <div>
+                <div class="row">
+                    <div class="col-md-7 pe-0">
+                        <div class="form-left py-2 px-5">
+                            <form [formGroup]="userForm" class="register-update-form row g-4" (ngSubmit)="onSubmit()">
 
-<form [formGroup]="userForm"  (ngSubmit)="onSubmit()" class="p-5" style="width: 50%;">
+                                <div class="col-12">
+                                    <label class="text-dark" for="name">Name<span class="text-danger">*</span></label>
+                                    <div class="input-group">
+                                        <div class="input-group-text bg-gold"><i class="bi bi-person-fill"></i></div>
+                                        <input type="text"
+                                            [ngClass]="{'is-invalid': userForm.controls['name'].invalid && userForm.controls['name'].touched}"
+                                            class="form-control" id="name" formControlName="name"
+                                            (blur)="validateField('name')" required>
+                                        <div class="invalid-feedback"
+                                            *ngIf="userForm.controls['name'].invalid && userForm.controls['name'].touched">
+                                            <div *ngIf="userForm.controls['name'].errors?.['required']">Name is
+                                                required.</div>
+                                        </div>
+                                    </div>
+                                </div>
 
-    <p class="h4 mb-4 text-center">{{formName}}</p>
+                                <div class="col-12">
+                                    <label class="text-dark" for="age">Age<span class="text-danger">*</span></label>
+                                    <div class="input-group">
+                                        <div class="input-group-text bg-gold"><i class="bi bi-person-fill"></i></div>
+                                        <input type="number"
+                                            [ngClass]="{'is-invalid': userForm.controls['age'].touched && userForm.controls['age'].invalid}"
+                                            class="form-control" id="age" formControlName="age"
+                                            (blur)="validateField('age')" required>
+                                        <div class="invalid-feedback"
+                                            *ngIf="userForm.controls['age'].invalid && userForm.controls['age'].touched">
+                                            <div *ngIf="userForm.controls['age'].errors?.['required']">Age is required
+                                            </div>
+                                            <div *ngIf="userForm.controls['age'].errors?.['min']">Age must be at least
+                                                13 years old.</div>
+                                        </div>
+                                    </div>
+                                </div>
 
-    <div class="mb-2">
-        <input type="text" formControlName="name" [ngClass]="{'has-error': ((userForm.get('name')?.touched ||
-        userForm.get('name')?.dirty) &&
-        userForm.get('name')?.errors)}" class="form-control" placeholder="User Name (required)">
-        <div class="text-danger" *ngIf="userForm.get('name')?.touched && userForm.get('name')?.hasError('required')">
-            *User Name is required
-        </div>
-        <div class="text-danger" *ngIf="userForm.get('name')?.touched && userForm.get('name')?.invalid">
-            *User Name must contain alphabets only
-        </div>
-    </div>
-    <div class="mb-2">
-        <input type="number" [ngClass]="{'has-error': ((userForm.get('age')?.touched ||
-        userForm.get('age')?.dirty) &&
-        userForm.get('age')?.errors)}" formControlName="age" class="form-control" placeholder="Age">
-        <div class="text-danger" *ngIf="userForm.get('age')?.touched && userForm.get('age')?.invalid">
-            *Age is invalid,must contain number
-        </div>
-    </div>
-    <div class="mb-2">
-        <input type="email" [ngClass]="{'has-error': ((userForm.get('email')?.touched ||
-        userForm.get('email')?.dirty) &&
-        userForm.get('email')?.errors)}" formControlName="email" class="form-control" placeholder="E-mail (required)">
-        <div class="text-danger" *ngIf="userForm.get('email')?.touched && userForm.get('email')?.hasError('required')">
-            *Email is required
-        </div>
-        <div class="text-danger" *ngIf="userForm.get('email')?.touched && userForm.get('email')?.invalid">
-            *Email is invalid
-        </div>
-    </div>
-    <div class="mb-2">
-        <input type="password" [ngClass]="{'has-error': ((userForm.get('password')?.touched ||
-        userForm.get('password')?.dirty) &&
-        userForm.get('password')?.errors)}" formControlName="password" class="form-control"
-            placeholder="Password (required)">
-        <div class="text-danger"
-            *ngIf="userForm.get('password')?.touched && userForm.get('password')?.hasError('required')">
-            *Password is required
-        </div>
-        <div class="text-danger" *ngIf="userForm.get('password')?.touched && userForm.get('password')?.invalid">
-            *Password must contain aphanumeric characters,special character
-        </div>
-    </div>
+                                <div class="col-12">
+                                    <label class="text-dark" for="email">Email<span class="text-danger">*</span></label>
+                                    <div class="input-group">
+                                        <div class="input-group-text bg-gold"><i class="bi bi-envelope-at"></i></div>
+                                        <input type="email"
+                                            [ngClass]="{'is-invalid': userForm.controls['email'].invalid && userForm.controls['email'].touched}"
+                                            class="form-control" id="email" formControlName="email"
+                                            (blur)="validateField('email')" required>
+                                        <div class="invalid-feedback"
+                                            *ngIf="userForm.controls['email'].invalid && userForm.controls['email'].touched">
+                                            <div *ngIf="userForm.controls['email'].errors?.['required']">Email is
+                                                required.</div>
+                                            <div *ngIf="userForm.controls['email'].errors?.['email']">Invalid email
+                                                address.</div>
+                                        </div>
+                                    </div>
+                                </div>
 
-    <button [disabled]="!userForm.valid" class="btn btn-dark" type="submit">{{formName}}</button>&nbsp;
-    <button *ngIf="isLoggedIn" class="btn btn-info" (click)="cancelUpdate()">Cancel</button>
-</form>
+                                <div class="col-12">
+                                    <label class="text-dark" for="password">Password<span
+                                            class="text-danger">*</span></label>
+                                    <div class="input-group">
+                                        <div class="input-group-text bg-gold"><i class="bi bi-lock-fill"></i></div>
+                                        <input type="password"
+                                            [ngClass]="{'is-invalid': userForm.controls['password'].invalid && userForm.controls['password'].touched}"
+                                            class="form-control" id="password" formControlName="password"
+                                            (blur)="validateField('password')" required>
+                                        <div class="invalid-feedback"
+                                            *ngIf="userForm.controls['password'].invalid && userForm.controls['password'].touched  && userForm.controls['password'].dirty">
+                                            <div *ngIf="userForm.controls['password'].errors?.['required']">Password is
+                                                required.</div>
+                                            <ul class="error-list"
+                                                *ngIf="userForm.controls['password'].errors?.['pattern']">
+                                                <li>Must contain at least one digit.</li>
+                                                <li>Must contain at least one lowercase letter.</li>
+                                                <li>Must contain at least one uppercase letter.</li>
+                                                <li>Must contain at least one special character.</li>
+                                                <li>Must be 8-20 characters long.</li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
 
-<!-- Success Modal -->
-<div class="modal" tabindex="-1" role="dialog" *ngIf="showSuccessModal">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title">Success</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"
-                    (click)="closeSuccessModal()">
-                    <span aria-hidden="true">&times;</span>
-                </button>
+                                <div class="col-12">
+                                    <button type="submit"
+                                        class="btn btn-gold px-4 float-end mt-2">{{buttonName}}</button>
+                                </div>
+
+                            </form>
+                        </div>
+                    </div>
+
+                    <div class="col-md-5 ps-0 d-none d-md-block">
+                        <div class="form-right text-white text-center pt-5">
+                            <img class="col-lg-12 mt-2" height="300px" src="https://i.imgur.com/3crxEV5.png">
+                        </div>
+                    </div>
+                </div>
             </div>
-            <div class="modal-body">
-                <p>Registered successfully.</p>
-            </div>
+
+            <app-alert [errorMessage]="errorMessage" *ngIf="!isLoading && registerUpdateFailure"></app-alert>
         </div>
     </div>
 </div>
+
+<app-server-error *ngIf="isError" [statusCode]="errorStatusCode"></app-server-error>
