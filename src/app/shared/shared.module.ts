@@ -11,8 +11,6 @@ import { ReduceProductNamePipe } from './pipes/reduce-product-name.pipe';
 import { ProductDetailCardComponent } from './components/product-detail-card/product-detail-card.component';
 import { StarRatingComponent } from './components/star-rating/star-rating.component';
 import { ServerErrorComponent } from './components/server-error/server-error.component';
-import { ModalComponent } from './components/modal/modal.component';
-import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { AlertComponent } from './components/alert/alert.component';
 
 
@@ -21,8 +19,7 @@ import { AlertComponent } from './components/alert/alert.component';
     CommonModule,
     FormsModule,
     ReactiveFormsModule,
-    RouterModule,
-    NgbModule
+    RouterModule
   ],
   exports: [
     ProductCardComponent, 
@@ -31,8 +28,7 @@ import { AlertComponent } from './components/alert/alert.component';
     PaginationComponent,
     ProductDetailCardComponent,
     ServerErrorComponent,
-    AlertComponent,
-    ModalComponent
+    AlertComponent
   ],
   declarations: [
     ReduceProductNamePipe,
@@ -43,7 +39,6 @@ import { AlertComponent } from './components/alert/alert.component';
     ProductDetailCardComponent,
     StarRatingComponent,
     ServerErrorComponent,
-    ModalComponent,
     AlertComponent
   ]
 })

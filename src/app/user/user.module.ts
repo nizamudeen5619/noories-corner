@@ -1,11 +1,15 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { UserRegistrationComponent } from './user-registration/user-registration.component';
-import { UserProfileComponent } from './user-profile/user-profile.component';
-import { UserLoginComponent } from './user-login/user-login.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+
 import { UserRoutingModule } from './user-routing.module';
 import { SharedModule } from '../shared/shared.module';
+
+import { UserRegistrationComponent } from './components/user-registration/user-registration.component';
+import { UserProfileComponent } from './components/user-profile/user-profile.component';
+import { UserLoginComponent } from './components/user-login/user-login.component';
+import { ForgotPasswordComponent } from './components/forgot-password/forgot-password.component';
+import { ResetPasswordComponent } from './components/reset-password/reset-password.component';
 
 
 @NgModule({
@@ -13,6 +17,8 @@ import { SharedModule } from '../shared/shared.module';
     UserRegistrationComponent,
     UserProfileComponent,
     UserLoginComponent,
+    ForgotPasswordComponent,
+    ResetPasswordComponent
   ],
   imports: [
     CommonModule,

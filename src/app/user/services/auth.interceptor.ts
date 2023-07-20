@@ -6,7 +6,7 @@ import {
   HttpInterceptor
 } from '@angular/common/http';
 import { Observable, switchMap, take } from 'rxjs';
-import { SharedDataService } from 'src/app/shared/shared-data.service';
+import { SharedDataService } from '../../shared/services/shared-data.service';
 
 @Injectable()
 export class AuthInterceptor implements HttpInterceptor {

@@ -1,7 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Product } from '../shared/models/product';
 import { EMPTY, Subscription, catchError, finalize, map, switchMap } from 'rxjs';
-import { SharedDataService } from '../shared/shared-data.service';
+import { SharedDataService } from '../shared/services/shared-data.service';
 
 @Component({
   selector: 'app-home',

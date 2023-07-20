@@ -2,10 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { EMPTY, Subscription, catchError } from 'rxjs';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { SharedDataService } from 'src/app/shared/shared-data.service';
-import { UserService } from '../services/user.service';
-import { ModalComponent } from '../../shared/components/modal/modal.component';
+import { SharedDataService } from '../../../shared/services/shared-data.service';
+import { UserService } from '../../services/user.service';
 
 @Component({
   selector: 'app-user-registration',
@@ -13,6 +11,7 @@ import { ModalComponent } from '../../shared/components/modal/modal.component';
   styleUrls: ['./user-registration.component.css']
 })
 export class UserRegistrationComponent implements OnInit {
+
   userForm!: FormGroup;
   user: any
   formName!: string;
@@ -26,7 +25,20 @@ export class UserRegistrationComponent implements OnInit {
   errorMessage = '';
   registerUpdateFailure = false;
   formData: any;
-  constructor(private formBuilder: FormBuilder, private userService: UserService, private route: Router, private sharedData: SharedDataService, private modalService: NgbModal) { }
+  isFocussed = {
+    name: false,
+    age: false,
+    email: false,
+    password: false
+  }
+  showPassword = false;
+
+  constructor(
+    private formBuilder: FormBuilder,
+    private userService: UserService,
+    private route: Router,
+    private sharedData: SharedDataService
+  ) { }
   ngOnInit() {
     this.isLoading = true;
     this.userSubscription$ = this.sharedData.getUserObs().subscribe((user) => {
@@ -43,7 +55,7 @@ export class UserRegistrationComponent implements OnInit {
     const email = this.isLoggedIn ? this.user.email : "";
     const password = this.isLoggedIn ? this.user.password : "";
 
-    this.formName = this.isLoggedIn ? "Stay Connected and Up-to-Date: Update Your Account Now!" : "Unlock a World of Possibilities: Create Your Account Today!";
+    this.formName = this.isLoggedIn ? "Update Your Account Now!" : "Create Your Account Today!";
     this.buttonName = this.isLoggedIn ? "Update" : "Register";
     this.userForm = this.formBuilder.group({
       name: [name, Validators.required],
@@ -66,7 +78,7 @@ export class UserRegistrationComponent implements OnInit {
     this.formData = this.userForm.value;
     if (this.userForm.valid) {
       let userServiceMethod;
-      let successMessage = '';
+      let successMessage: string;
 
       if (this.isLoggedIn) {
         userServiceMethod = this.userService.userUpdate(user);
@@ -82,10 +94,14 @@ export class UserRegistrationComponent implements OnInit {
             if (error.status === 500) {
               this.isError = true;
             }
-            else {
-              this.userForm.patchValue(this.formData);
-              this.registerUpdateFailure = true;
+            else if (error.status === 401) {
+              this.errorMessage = "Invalid Credentials."
             }
+            else {
+              this.errorMessage = error.message;
+            }
+            this.userForm.patchValue(this.formData);
+            this.registerUpdateFailure = true;
             return EMPTY;
           })
         )
@@ -93,6 +109,7 @@ export class UserRegistrationComponent implements OnInit {
           if (res) {
             this.sharedData.setUserObs(res.user);
             this.sharedData.setAuthTokenObs(res.token);
+            this.route.navigate(['/profile']);
           }
           this.isLoading = false;
         });
@@ -104,25 +121,30 @@ export class UserRegistrationComponent implements OnInit {
     }
   }
 
-  openModal(message: string) {
-    const modalRef = this.modalService.open(ModalComponent, { windowClass: 'dark-modal', centered: true });
-    modalRef.componentInstance.process = this.isLoggedIn ? 'profile' : 'home';
-    modalRef.componentInstance.message = message; // Pass message to modal component
-  }
-
-  validateField(fieldName: string): void {
+  validateFieldAndRemoveClass(fieldName: string): void {
     const control = this.userForm.get(fieldName);
     if (control && control.invalid) {
       control.markAsTouched();
       control.updateValueAndValidity();
     }
+    switch (fieldName) {
+      case 'name':
+        this.isFocussed.name = false;
+        break;
+      case 'age':
+        this.isFocussed.age = false;
+        break;
+      case 'email':
+        this.isFocussed.email = false;
+        break;
+      case 'password':
+        this.isFocussed.password = false;
+        break;
+    }
   }
 
-  navigateToProfile() {
-    this.route.navigate(['profile']);
-  }
-  navigateToHome() {
-    this.route.navigateByUrl('');
+  onCheckboxChange(event: any) {
+    this.showPassword = event.target.checked;
   }
 
   cancelUpdate() {

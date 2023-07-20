@@ -1,7 +1,7 @@
 import { Component, Input } from '@angular/core';
 import { Product } from '../../models/product';
 import { ProductSubset } from '../../models/product-subset';
-import { SharedDataService } from '../../shared-data.service';
+import { SharedDataService } from '../../services/shared-data.service';
 
 @Component({
   selector: 'app-product-card',

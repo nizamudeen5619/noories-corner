@@ -10,11 +10,10 @@ import { FormsModule } from '@angular/forms';
 import { UserModule } from './user/user.module';
 import { AuthInterceptor } from './user/services/auth.interceptor';
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
-import { ErrorInterceptor } from './shared/error.interceptor';
+import { ErrorInterceptor } from './shared/services/error.interceptor';
 import { NotFoundComponent } from './not-found/not-found.component';
 import { SharedModule } from './shared/shared.module';
 import { ErrorComponent } from './error/error.component';
-import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 
 @NgModule({
@@ -34,7 +33,6 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
     FormsModule,
     SharedModule,
     AppRoutingModule,
-    NgbModule,
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },

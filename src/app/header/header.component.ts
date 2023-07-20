@@ -1,5 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { SharedDataService } from '../shared/shared-data.service';
+import { SharedDataService } from '../shared/services/shared-data.service';
 import { UserService } from '../user/services/user.service';
 import { Router } from '@angular/router';
 import { EMPTY, Subscription, catchError, of } from 'rxjs';

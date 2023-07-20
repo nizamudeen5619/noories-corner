@@ -3,9 +3,11 @@ import { ActivatedRoute } from '@angular/router';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { Observable, Subscription, catchError, concatMap, finalize, of, tap, throwError } from 'rxjs';
 
-import { AmazonService } from '../amazon.service';
 import { Product } from 'src/app/shared/models/product';
-import { SharedDataService } from 'src/app/shared/shared-data.service';
+
+import { AmazonService } from '../amazon.service';
+import { SharedDataService } from '../../shared/services/shared-data.service';
+import { FavouritesService } from "../../shared/services/favourites.service";
 
 @Component({
   selector: 'app-amazon-product-details',
@@ -28,7 +30,13 @@ export class AmazonProductDetailsComponent implements OnInit, OnDestroy {
   sharedServiceSubscription!: Subscription;
   @ViewChild('loginMessageModalButton') loginMessageModalButton !: ElementRef;
 
-  constructor(private route$: ActivatedRoute, private amazonService: AmazonService, private sharedService: SharedDataService, private sanitizer: DomSanitizer) { }
+  constructor(
+    private route$: ActivatedRoute, 
+    private amazonService: AmazonService, 
+    private sharedService: SharedDataService, 
+    private favService: FavouritesService, 
+    private sanitizer: DomSanitizer
+  ) { }
 
   ngOnInit(): void {
     this.isLoading = true;
@@ -57,7 +65,7 @@ export class AmazonProductDetailsComponent implements OnInit, OnDestroy {
       }),
       concatMap(() => {
         if (this.isLoggedIn) {
-          return this.sharedService.favouriteCheck(this.productID).pipe(
+          return this.favService.favouriteCheck(this.productID).pipe(
             catchError((error) => this.handleError(error)),
           );
         } else {
@@ -78,7 +86,7 @@ export class AmazonProductDetailsComponent implements OnInit, OnDestroy {
     if (this.isLoggedIn) {
       if (!this.isFavourite) {
         this.isLoading = true;
-        this.sharedServiceSubscription = this.sharedService.favouritesAdd(this.productID).pipe(
+        this.sharedServiceSubscription = this.favService.favouritesAdd(this.productID).pipe(
           catchError(error => this.handleError(error)),
           finalize(() => this.isLoading = false),
           tap(({ addedToFavourites }) => {
@@ -90,7 +98,7 @@ export class AmazonProductDetailsComponent implements OnInit, OnDestroy {
         ).subscribe();
       } else {
         this.isLoading = true;
-        this.sharedServiceSubscription = this.sharedService.favouritesDelete(this.productID).pipe(
+        this.sharedServiceSubscription = this.favService.favouritesDelete(this.productID).pipe(
           catchError(error => this.handleError(error)),
           finalize(() => this.isLoading = false),
           tap(({ removedFromFavourites }) => {

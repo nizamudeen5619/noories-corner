@@ -2,9 +2,11 @@ import { Component, ElementRef, ViewChild } from '@angular/core';
 import { SafeHtml, DomSanitizer } from '@angular/platform-browser';
 import { ActivatedRoute } from '@angular/router';
 import { Subscription, concatMap, catchError, tap, of, finalize, Observable, throwError } from 'rxjs';
-import { AmazonService } from 'src/app/amazon/amazon.service';
+
 import { Product } from 'src/app/shared/models/product';
-import { SharedDataService } from 'src/app/shared/shared-data.service';
+
+import { SharedDataService } from 'src/app/shared/services/shared-data.service';
+import { FavouritesService } from 'src/app/shared/services/favourites.service';
 import { MeeshoService } from '../meesho.service';
 
 @Component({
@@ -28,7 +30,12 @@ export class MeeshoProductDetailsComponent {
   sharedServiceSubscription!: Subscription;
   @ViewChild('loginMessageModalButton') loginMessageModalButton !: ElementRef;
 
-  constructor(private route$: ActivatedRoute, private meeshoService: MeeshoService, private sharedService: SharedDataService, private sanitizer: DomSanitizer) { }
+  constructor(
+    private route$: ActivatedRoute, 
+    private meeshoService: MeeshoService, 
+    private sharedService: SharedDataService,
+    private favService: FavouritesService, 
+    private sanitizer: DomSanitizer) { }
 
   ngOnInit(): void {
     this.isLoading = true;
@@ -57,7 +64,7 @@ export class MeeshoProductDetailsComponent {
       }),
       concatMap(() => {
         if (this.isLoggedIn) {
-          return this.sharedService.favouriteCheck(this.productID).pipe(
+          return this.favService.favouriteCheck(this.productID).pipe(
             catchError((error) => this.handleError(error)),
           );
         } else {
@@ -78,7 +85,7 @@ export class MeeshoProductDetailsComponent {
     if (this.isLoggedIn) {
       if (!this.isFavourite) {
         this.isLoading = true;
-        this.sharedServiceSubscription = this.sharedService.favouritesAdd(this.productID).pipe(
+        this.sharedServiceSubscription = this.favService.favouritesAdd(this.productID).pipe(
           catchError(error => this.handleError(error)),
           finalize(() => this.isLoading = false),
           tap(({ addedToFavourites }) => {
@@ -90,7 +97,7 @@ export class MeeshoProductDetailsComponent {
         ).subscribe();
       } else {
         this.isLoading = true;
-        this.sharedServiceSubscription = this.sharedService.favouritesDelete(this.productID).pipe(
+        this.sharedServiceSubscription = this.favService.favouritesDelete(this.productID).pipe(
           catchError(error => this.handleError(error)),
           finalize(() => this.isLoading = false),
           tap(({ removedFromFavourites }) => {

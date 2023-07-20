@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { UserService } from '../services/user.service';
+import { UserService } from '../../services/user.service';
 import { Router } from '@angular/router';
-import { SharedDataService } from 'src/app/shared/shared-data.service';
-import { FormGroup, FormControl, Validators, FormBuilder } from '@angular/forms';
+import { SharedDataService } from '../../../shared/services/shared-data.service';
+import { FormGroup, Validators, FormBuilder } from '@angular/forms';
 import { EMPTY, catchError, finalize, tap } from 'rxjs';
 @Component({
   selector: 'app-user-login',
@@ -18,12 +18,13 @@ export class UserLoginComponent implements OnInit {
   loginFailure: boolean = false;
   errorMessage = '';
   formSubmitted = false;
+  isError!: boolean;
 
   constructor(
     private userService: UserService,
     private route: Router,
     private sharedData: SharedDataService,
-    private formBuilder: FormBuilder,
+    private formBuilder: FormBuilder
   ) { }
 
   ngOnInit(): void {
@@ -31,7 +32,6 @@ export class UserLoginComponent implements OnInit {
       email: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required]],
     });
-
   }
 
   onSubmit(): void {
@@ -48,8 +48,8 @@ export class UserLoginComponent implements OnInit {
     this.userService.userLogin(userLogin)
       .pipe(
         tap((res) => {
+          if(res){
           this.loginFailure = false;
-          this.loginForm.reset();
 
           const { token, username } = res;
 
@@ -57,11 +57,20 @@ export class UserLoginComponent implements OnInit {
           this.sharedData.setUserObs(username);
 
           this.route.navigate(['user/profile']);
+          }
         }),
-        catchError((error) => {
+        catchError((error) => {          
+          if (error.status === 500) {
+            this.isError = true;
+          }
+          else if(error.status===401){
+            this.errorMessage="Invalid Credentials."
+          }
+          else{
+            this.errorMessage = error.message;            
+          }
           this.loginFailure = true;
           this.errorStatusCode = error.status;
-          this.errorMessage = error.message;
           return EMPTY;
         }),
         finalize(() => {

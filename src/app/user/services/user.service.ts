@@ -1,7 +1,8 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { EMPTY, Observable } from 'rxjs';
-import { SharedDataService } from 'src/app/shared/shared-data.service';
+import { SharedDataService } from '../../shared/services/shared-data.service';
+
 @Injectable({
   providedIn: 'root'
 })
@@ -51,5 +52,11 @@ export class UserService {
       return token ? true : false;
     })
     return isLoggedIn;
+  }
+  forgotPassword(email: string) {
+    return this.http.post<any>(`${this.baseUrl}/forgot-password`, { email });
+  }
+  resetPassword(token: string, password: string) {
+    return this.http.post<any>(`${this.baseUrl}/reset-password`, { token, password });
   }
 }
