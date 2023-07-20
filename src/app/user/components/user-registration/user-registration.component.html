@@ -72,6 +72,7 @@
                                                 address.</div>
                                         </div>
                                     </div>
+                                    <p class="text-danger mb-1" *ngIf="emailExistsError"> Email already exists.</p>
                                 </div>
 
                                 <div class="col-12">
@@ -123,8 +124,6 @@
                     </div>
                 </div>
             </div>
-
-            <app-alert [errorMessage]="errorMessage" [type]="'alert-danger'" *ngIf="!isLoading && registerUpdateFailure"></app-alert>
         </div>
     </div>
 </div>

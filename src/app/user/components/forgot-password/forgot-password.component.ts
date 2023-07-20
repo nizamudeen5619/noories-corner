@@ -21,7 +21,7 @@ export class ForgotPasswordComponent {
     private userService: UserService,
     private router: Router,
     private renderer: Renderer2,
-    private elementRef: ElementRef,
+    private elementRef: ElementRef
   ) { }
   onSubmit() {
     this.isLoading = true;

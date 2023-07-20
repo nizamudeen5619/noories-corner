@@ -1,9 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { EMPTY, Subscription, catchError } from 'rxjs';
+import { EMPTY, Subscription, catchError, finalize, tap } from 'rxjs';
 import { SharedDataService } from '../../../shared/services/shared-data.service';
 import { UserService } from '../../services/user.service';
+import { ChangeDetectorRef } from '@angular/core';
+
 
 @Component({
   selector: 'app-user-registration',
@@ -32,12 +34,15 @@ export class UserRegistrationComponent implements OnInit {
     password: false
   }
   showPassword = false;
+  emailExistsError = false;
+  errorEmail = '';
 
   constructor(
     private formBuilder: FormBuilder,
     private userService: UserService,
     private route: Router,
-    private sharedData: SharedDataService
+    private sharedData: SharedDataService,
+    private cdRef: ChangeDetectorRef
   ) { }
   ngOnInit() {
     this.isLoading = true;
@@ -75,17 +80,14 @@ export class UserRegistrationComponent implements OnInit {
       email: this.userForm.get('email')?.value,
       password: this.userForm.get('password')?.value
     };
+
     this.formData = this.userForm.value;
     if (this.userForm.valid) {
       let userServiceMethod;
-      let successMessage: string;
-
       if (this.isLoggedIn) {
         userServiceMethod = this.userService.userUpdate(user);
-        successMessage = 'Updated Successfully';
       } else {
         userServiceMethod = this.userService.userRegister(user);
-        successMessage = 'Registered Successfully';
       }
 
       userServiceMethod
@@ -93,33 +95,36 @@ export class UserRegistrationComponent implements OnInit {
           catchError((error) => {
             if (error.status === 500) {
               this.isError = true;
-            }
-            else if (error.status === 401) {
-              this.errorMessage = "Invalid Credentials."
-            }
-            else {
+            } else if (error.status === 501) {
+              this.errorMessage = "Email Already Exists";
+              this.emailExistsError = true;
+              this.errorEmail = user.email;
+            } else {
               this.errorMessage = error.message;
             }
             this.userForm.patchValue(this.formData);
             this.registerUpdateFailure = true;
             return EMPTY;
+          }),
+          tap((res) => {
+            if (res) {
+              this.sharedData.setUserObs(res.user);
+              this.sharedData.setAuthTokenObs(res.token);
+              this.route.navigate(['/profile']);
+            }
+          }),
+          finalize(() => {
+            this.isLoading = false;
           })
-        )
-        .subscribe((res) => {
-          if (res) {
-            this.sharedData.setUserObs(res.user);
-            this.sharedData.setAuthTokenObs(res.token);
-            this.route.navigate(['/profile']);
-          }
-          this.isLoading = false;
-        });
+        ).subscribe();
+
     }
     else {
       this.userForm.patchValue(this.formData);
       this.registerUpdateFailure = true;
       this.isLoading = false;
     }
-  }
+  }  
 
   validateFieldAndRemoveClass(fieldName: string): void {
     const control = this.userForm.get(fieldName);
@@ -136,6 +141,9 @@ export class UserRegistrationComponent implements OnInit {
         break;
       case 'email':
         this.isFocussed.email = false;
+        this.emailExistsError = (this.errorEmail === control?.value)
+        console.log(this.emailExistsError);
+
         break;
       case 'password':
         this.isFocussed.password = false;
