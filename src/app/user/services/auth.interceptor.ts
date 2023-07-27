@@ -7,17 +7,20 @@ import {
 } from '@angular/common/http';
 import { Observable, switchMap, take } from 'rxjs';
 import { SharedDataService } from '../../shared/services/shared-data.service';
+import { Router } from '@angular/router';
+
+import { environment } from "src/environments/environment";
 
 @Injectable()
 export class AuthInterceptor implements HttpInterceptor {
 
-  constructor(private sharedData: SharedDataService) { }
+  constructor(private sharedData: SharedDataService, private router: Router) { }
 
   intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     // Set the 'apipass' header
     let modifiedRequest = request.clone({
       setHeaders: {
-        'apipass': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhcGlwYXNzIjoiQmVyc2Vya2VyQDU2MTkiLCJpYXQiOjE2Nzk1NTg5NDZ9.SIBzq80blOIwyNuXkfBrxB9clVaDYCI3AbWmUxRG-sU'
+        'apipass': environment.apiPassword
       }
     });
 
@@ -25,13 +28,22 @@ export class AuthInterceptor implements HttpInterceptor {
     return this.sharedData.getAuthTokenObs().pipe(
       take(1), // Take only the first emission to prevent multiple subscriptions
       switchMap(token => {
-        
         if (token && !this.isUnauthenticatedEndpoint(request.url)) {
-          modifiedRequest = modifiedRequest.clone({
-            setHeaders: {
-              'Authorization': `Bearer ${token}`
+          const expdate = sessionStorage.getItem('tokenExpiration');
+          if (expdate) {
+            const expirationDate = new Date(expdate);
+            const currentDate = new Date();
+            if (currentDate < expirationDate) {
+              modifiedRequest = modifiedRequest.clone({
+                setHeaders: {
+                  'Authorization': `Bearer ${token}`
+                }
+              });
             }
-          });
+            else {
+              this.router.navigate(['login'])
+            }
+          }
         }
         return next.handle(modifiedRequest);
       })

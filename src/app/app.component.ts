@@ -1,21 +1,11 @@
-import { Component, HostListener, OnDestroy } from '@angular/core';
-import { UserService } from './user/services/user.service';
-import { SharedDataService } from './shared/services/shared-data.service';
+import { Component } from '@angular/core';
+
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
-export class AppComponent implements OnDestroy {
+export class AppComponent  {
   title = 'noories-corner';
-  constructor(private userService: UserService,private sharedData:SharedDataService) { }
-  @HostListener('window:beforeunload')
-  async ngOnDestroy() {
-    this.sharedData.getAuthTokenObs().subscribe((token)=>{
-      if(token){
-        this.userService.userLogout().subscribe()
-      }
-    })
-  }
 }

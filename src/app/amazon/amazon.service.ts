@@ -2,13 +2,14 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Product } from '../shared/models/product';
 import { Observable } from 'rxjs';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AmazonService {
 
-  public readonly API_BASE_URL = "http://localhost:3000/api/v1/amazon";
+  public readonly API_BASE_URL = environment.apiUrl + "amazon";
   public readonly DEFAULT_ERROR_STATUS_CODE = 500;
 
   constructor(private http: HttpClient) { }

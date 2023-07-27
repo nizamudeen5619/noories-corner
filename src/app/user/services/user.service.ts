@@ -2,20 +2,21 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { EMPTY, Observable } from 'rxjs';
 import { SharedDataService } from '../../shared/services/shared-data.service';
+import { environment } from "src/environments/environment";
 
 @Injectable({
   providedIn: 'root'
 })
 export class UserService {
 
-  baseUrl = "http://localhost:3000/api/v1/users";
+  baseUrl = environment.apiUrl + "users";
 
   constructor(private http: HttpClient, private sharedData: SharedDataService) { }
 
   userRegister(user: { name: string; age: number; email: string; password: string; }): Observable<any> {
     return this.http.post<any>(`${this.baseUrl}/register`, user);
   }
-  userLogin(userLogin: { email: string; password: string; }): Observable<any> {
+  userLogin(userLogin: { email: string; password: string; }): Observable<any> {    
     return this.http.post<any>(`${this.baseUrl}/login`, userLogin);
   }
   userLogout(): Observable<any> {

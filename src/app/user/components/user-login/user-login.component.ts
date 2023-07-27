@@ -66,9 +66,6 @@ export class UserLoginComponent implements OnInit {
           else if(error.status===401){
             this.errorMessage="Invalid Credentials."
           }
-          else{
-            this.errorMessage = error.message;            
-          }
           this.loginFailure = true;
           this.errorStatusCode = error.status;
           return EMPTY;

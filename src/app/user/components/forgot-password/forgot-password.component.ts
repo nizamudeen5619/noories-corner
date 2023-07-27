@@ -1,6 +1,6 @@
-import { Component, ElementRef, Renderer2 } from '@angular/core';
+import { Component, OnDestroy } from '@angular/core';
 import { UserService } from '../../services/user.service';
-import { tap, catchError, EMPTY, finalize } from 'rxjs';
+import { EMPTY, Subject, catchError, finalize, takeUntil, tap } from 'rxjs';
 import { Router } from '@angular/router';
 
 @Component({
@@ -8,41 +8,41 @@ import { Router } from '@angular/router';
   templateUrl: './forgot-password.component.html',
   styleUrls: ['./forgot-password.component.css']
 })
-export class ForgotPasswordComponent {
+export class ForgotPasswordComponent implements OnDestroy {
   email: string = '';
   isLoading!: boolean;
-  isError!: boolean;
+  isError = false;
   errorStatusCode!: number;
   errorMessage!: string;
   emailError = false;
-  myDiv = this.elementRef.nativeElement.querySelector('#staticBackdrop');
+  displayStyle = '';
+  private destroy$ = new Subject<void>();
+
 
   constructor(
     private userService: UserService,
-    private router: Router,
-    private renderer: Renderer2,
-    private elementRef: ElementRef
+    private router: Router
   ) { }
-  onSubmit() {
+
+  forgotPassword() {
     this.isLoading = true;
+
     this.userService.forgotPassword(this.email)
       .pipe(
+        takeUntil(this.destroy$),
         tap((res) => {
-          if (res) {
-            if (res.status === 'success') {
-              this.renderer.setStyle(this.myDiv, 'display', 'block');
-            }
+          if (res && res.status === 'success') {
+            this.displayStyle = 'block';
           }
         }),
         catchError((error) => {
           if (error.status === 500) {
             this.isError = true;
-          }
-          else if (error.status === 401) {
-            this.errorMessage = "Email not found";
+          } else if (error.status === 401) {
+            this.errorMessage = 'Email not found';
+            this.emailError = true;
           }
           this.errorStatusCode = error.status;
-          this.errorMessage = error.message;
           return EMPTY;
         }),
         finalize(() => {
@@ -51,9 +51,15 @@ export class ForgotPasswordComponent {
       )
       .subscribe();
   }
-
   closeModal() {
-    this.renderer.setStyle(this.myDiv, 'display', 'none');
+    this.displayStyle = "none";
     this.router.navigate(['']);
   }
+
+  ngOnDestroy() {
+    // Unsubscribe from all subscriptions when the component is destroyed
+    this.destroy$.next();
+    this.destroy$.complete();
+  }
+
 }

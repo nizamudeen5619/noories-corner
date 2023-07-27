@@ -99,8 +99,6 @@ export class UserRegistrationComponent implements OnInit {
               this.errorMessage = "Email Already Exists";
               this.emailExistsError = true;
               this.errorEmail = user.email;
-            } else {
-              this.errorMessage = error.message;
             }
             this.userForm.patchValue(this.formData);
             this.registerUpdateFailure = true;
@@ -124,7 +122,7 @@ export class UserRegistrationComponent implements OnInit {
       this.registerUpdateFailure = true;
       this.isLoading = false;
     }
-  }  
+  }
 
   validateFieldAndRemoveClass(fieldName: string): void {
     const control = this.userForm.get(fieldName);
@@ -141,9 +139,7 @@ export class UserRegistrationComponent implements OnInit {
         break;
       case 'email':
         this.isFocussed.email = false;
-        this.emailExistsError = (this.errorEmail === control?.value)
-        console.log(this.emailExistsError);
-
+        this.emailExistsError = (this.errorEmail === control?.value);
         break;
       case 'password':
         this.isFocussed.password = false;

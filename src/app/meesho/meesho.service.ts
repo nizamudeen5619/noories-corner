@@ -2,13 +2,14 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Product } from '../shared/models/product';
+import { environment } from 'src/environments/environment';
 
 
 @Injectable({
   providedIn: 'root'
 })
 export class MeeshoService {
-  public readonly API_BASE_URL = "http://localhost:3000/api/v1/meesho";
+  public readonly API_BASE_URL = environment.apiUrl + "meesho";
   public readonly DEFAULT_ERROR_STATUS_CODE = 500;
 
   constructor(private http: HttpClient) { }

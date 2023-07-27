@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
+import jwt_decode, { JwtPayload } from 'jwt-decode';
 
 @Injectable({
   providedIn: 'root'
@@ -23,9 +24,10 @@ export class SharedDataService {
   setUserAndToken() {
     const user = sessionStorage.getItem('user');
     const token = sessionStorage.getItem('token');
-
-    this.userName$.next(user);
-    this.authToken$.next(token);
+    if (user && token) {
+      this.userName$.next(user);
+      this.authToken$.next(token);
+    }
   }
 
   getUserObs(): Observable<string | null> {
@@ -43,9 +45,15 @@ export class SharedDataService {
     return this.authToken$.asObservable();
   }
 
-  setAuthTokenObs(token: string | null) {
-    sessionStorage.setItem('token', token || '')
-    this.authToken$.next(token || '');
+  setAuthTokenObs(token: string) {
+    const decodedToken = jwt_decode<JwtPayload>(token);
+    if (decodedToken && decodedToken.exp) {
+      const expirationDate = new Date(decodedToken.exp * 1000); // Convert the expiration timestamp to milliseconds.
+
+      sessionStorage.setItem('token', token);
+      sessionStorage.setItem('tokenExpiration', expirationDate.toISOString());
+      this.authToken$.next(token);
+    }
   }
 
   removeData() {
