@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { MeeshoService } from '../meesho.service';
 import { Product } from 'src/app/shared/models/product';
 import { ActivatedRoute } from '@angular/router';
-import { Subscription, map, distinctUntilChanged, switchMap, timeInterval, catchError, EMPTY } from 'rxjs';
+import { Subscription, map, distinctUntilChanged, switchMap, timeInterval, catchError, EMPTY, Subject, takeUntil } from 'rxjs';
 import { DesignFilter, ColorFilter } from 'src/app/shared/models/filters';
 
 @Component({
@@ -23,6 +23,7 @@ export class MeeshoProductListComponent implements OnInit {
   designFilter: DesignFilter[] = [];
   colorFilter: ColorFilter[] = [];
   queryParamsSubscription!: Subscription;
+  private destroy$: Subject<void> = new Subject<void>();
 
   constructor(private meeshoService: MeeshoService, private route: ActivatedRoute) { }
 
@@ -39,7 +40,8 @@ export class MeeshoProductListComponent implements OnInit {
   loadProducts() {
     this.isLoading = true;
     this.isError = false;
-    this.queryParamsSubscription = this.route.queryParams.pipe(
+    this.route.queryParams.pipe(
+      takeUntil(this.destroy$),
       map((params) => parseInt(params['page']) || 1),
       distinctUntilChanged(),
       switchMap((page) => {
@@ -64,8 +66,7 @@ export class MeeshoProductListComponent implements OnInit {
   }
 
   ngOnDestroy(): void {
-    if (this.queryParamsSubscription) {
-      this.queryParamsSubscription.unsubscribe();
-    }
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 }

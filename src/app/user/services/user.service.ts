@@ -16,7 +16,7 @@ export class UserService {
   userRegister(user: { name: string; age: number; email: string; password: string; }): Observable<any> {
     return this.http.post<any>(`${this.baseUrl}/register`, user);
   }
-  userLogin(userLogin: { email: string; password: string; }): Observable<any> {    
+  userLogin(userLogin: { email: string; password: string; }): Observable<any> {
     return this.http.post<any>(`${this.baseUrl}/login`, userLogin);
   }
   userLogout(): Observable<any> {
@@ -36,8 +36,8 @@ export class UserService {
   userUpdate(updateUser: { name: string; age: number; email: string; password: string; }): Observable<any> {
     return this.http.patch<any>(`${this.baseUrl}/me`, updateUser);
   }
-  userDelete(): Observable<any> {
-    return this.http.delete<any>(`${this.baseUrl}/me`);
+  userDelete(password: string): Observable<any> {
+    return this.http.delete<any>(`${this.baseUrl}/me`, { body: { password } });
   }
   avatarUpload(formData: any): Observable<any> {
     return this.http.post<any>(`${this.baseUrl}/me/avatar`, formData);
@@ -49,8 +49,9 @@ export class UserService {
     return this.http.get<any>(`${this.baseUrl}/me/avatar`, { observe: 'response', responseType: 'blob' as 'json' });
   }
   isLoggedIn() {
-    const isLoggedIn = this.sharedData.getAuthTokenObs().subscribe((token) => {
-      return token ? true : false;
+    let isLoggedIn = false;
+    this.sharedData.getAuthTokenObs().subscribe((token) => {
+      isLoggedIn = !!token;
     })
     return isLoggedIn;
   }

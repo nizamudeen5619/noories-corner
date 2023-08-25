@@ -1,37 +1,132 @@
-<div *ngIf="!isError && !isLoading" class="card">
-  <h2 class="bg-dark text-light text-center p-2">
-    <i class="fi-cnsuxl-user-circle-solid"></i> User Profile
-  </h2>
-  <div class="row">
-    <div class="col">
-      <div class="card1">
-        <img [src]="imageUrl" alt="Avatar" style="width: 80%;" class="img-fluid rounded">
+<div class="card gold-black-theme col-md-10 mt-2">
+  <div class="card-header text-center h3">
+    <i class="bi bi-person-square"></i> User Profile
+  </div>
+  <div class="row p-2">
+    <div class="col-md-5 col-sm-4">
+      <div class="ms-4">
+        <!-- Avatar -->
+        <img [src]="imageUrl" alt="Avatar" class="img-fluid rounded">
         <div class="p-2">
-          <button class="btn btn-dark" (click)="changeAvatar()">Change Avatar</button>
+          <!-- Change Avatar Button -->
+          <button *ngIf="!showFileInput" class="btn btn-dark btn-custom" (click)="showFileInput=true">Change
+            Avatar</button>
+
+          <!-- File Input -->
           <div *ngIf="showFileInput" class="mt-2">
-            <label for="filebutton"><strong>{{imageText}}</strong></label>
-            <div class="form-control">
+            <label for="filebutton" class="font-weight-bold">{{imageText}}</label>
+            <div class="input-group">
               <input name="filebutton" type="file" (change)="fileChangeEvent($event)">
-              <span class="input-group-btn">
-                <button type="button" class="btn btn-dark" (click)="upload()">
+              <span class="input-group-btn pt-1">
+                <button type="button" class="btn btn-custom" (click)="upload()">
                   <i class="fi-xnsuxl-upload-solid"></i> Upload
+                </button>
+                <button type="button" class="btn btn-secondary ml-2" (click)="showFileInput=false">
+                  Cancel
                 </button>
               </span>
             </div>
           </div>
         </div>
       </div>
+
     </div>
-    <div class="col">
-      <div class="card1 mt-2">
-        <h1>{{user.name}}</h1>
-        <p class="title"><strong>Age:</strong> {{user.age}}</p>
-        <p class="title">{{user.email}}</p>
-        <ul class="list-group list-group-flush">
-          <li class="list-group-item"><button class="btn btn-dark text-light" (click)="logoutAll()">Logout All Devices</button></li>
-          <li class="list-group-item"><a class="btn btn-warning text-light" routerLink="/edit-profile">Edit Account</a></li>
-          <li class="list-group-item"><button class="btn btn-danger" (click)="deleteAccount()">Delete Account</button></li>
-        </ul>
+    <div class="col-md-7 col-sm-8">
+      <div class="text-center">
+        <h1 class="display-4">{{user.name}}</h1>
+        <p class="lead"><strong><i class="bi bi-calendar"></i> Age:</strong> {{user.age}}</p>
+        <p><i class="bi bi-envelope"></i> Email: {{user.email}}</p>
+      </div>
+
+      <div class="d-flex flex-wrap justify-content-center">
+        <!-- Logout and Logout All Buttons -->
+        <div>
+          <button class="btn btn-dark btn-sm me-1 mb-2" (click)="openModal('logout')">
+            <i class="bi bi-box-arrow-right"></i> Logout
+          </button>
+          <button class="btn btn-dark btn-sm me-1 mb-2" (click)="openModal('logoutAll')">
+            <i class="bi bi-box-arrow-right"></i> Logout All Devices
+          </button>
+        </div>
+        <div>
+
+          <!-- Edit and Delete Buttons -->
+          <button class="btn btn-warning btn-sm me-1 mb-2" routerLink="/edit-profile">
+            <i class="bi bi-pencil-square"></i> Edit Account
+          </button>
+          <button class="btn btn-danger btn-sm mb-2" (click)="openModal('deleteAccount')">
+            <i class="bi bi-trash"></i> Delete Account
+          </button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+
+<app-alert [errorMessage]="errorMessage" [type]="'alert-danger'" *ngIf="!isLoading && isFileError"></app-alert>
+
+<div class="modal fade show" [ngStyle]="{'display':displayStyle}" id="staticBackdrop" data-bs-backdrop="static"
+  data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel">
+  <div class="modal-dialog  modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="staticBackdropLabel">{{modalHeading}}</h1>
+      </div>
+      <div class="modal-body">
+        <div *ngIf="currentProcess==='logoutSuccess'" class="logoutAll-success">
+          <div class="d-flex justify-content-center align-items-center">
+            <i class="bi bi-check-circle text-success fs-1 me-3"></i>
+            <h5 class="modal-title">Logout from All Devices Successful</h5>
+          </div>
+          <p class="text-center">You have successfully logged out from all your devices.</p>
+        </div>
+        <div *ngIf="currentProcess==='deleteSuccess'" class="accountDelete-success">
+          <div class="d-flex justify-content-center align-items-center">
+            <i class="bi bi-trash text-danger fs-1 me-3"></i>
+            <h5 class="modal-title">Account Deletion Successful</h5>
+          </div>
+          <p class="text-center">Your account has been successfully deleted.</p>
+        </div>
+        <div *ngIf="currentProcess==='deleteAccount'" class="account-deletion-message">
+          <p><strong>Before proceeding with the account deletion process, please read the following carefully:</strong>
+          </p>
+          <ol>
+            <li><strong>Data Removal:</strong> Deleting your account will permanently erase all your personal
+              information, including profile data, saved preferences, and activity history. This action is irreversible
+              and cannot be undone.</li>
+            <li><strong>Access Termination:</strong> Once the account deletion process is complete, you will lose access
+              to all services, content, and features.</li>
+            <li><strong>Back Up Important Data:</strong> If you have any crucial data or files stored in your account,
+              we strongly advise downloading and backing them up before proceeding with the deletion process.</li>
+            <li><strong>Cautious Decision:</strong> Account deletion is final. If you are unsure about this decision or
+              believe your account has been compromised, consider changing your password.</li>
+          </ol>
+          <div class="form-group">
+            <label for="password">Enter your account password to proceed:</label>
+            <input type="text" class="form-control" id="password" name="password" [(ngModel)]="confirmPassword"
+              required>
+            <span *ngIf="!confirmPassword" class="text-danger">Required</span>
+            <span *ngIf="!confirmPassword" class="text-danger">Required</span>
+          </div>
+        </div>
+        <div *ngIf="currentProcess==='logoutAll'" class="logout-message">
+          <h2>Are you sure you want to log out from all devices?</h2>
+          <p>Logging out from all devices will end all active sessions and require you to re-enter your credentials when
+            logging in again.</p>
+          <p>Please be aware that this action cannot be undone. Make sure you have saved any important work and remember
+            your login details before proceeding.</p>
+          <p>If you suspect unauthorized access to your account or have security concerns, it's essential to change your
+            password immediately after logging out from all devices.</p>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button *ngIf="!goTohomeButton" type="button" class="btn btn-gold"
+          (click)="confirmLogoutAllAndDeleteAccount()">Confirm</button>
+        <button *ngIf="!goTohomeButton" type="button" class="btn btn-dark text-gold"
+          (click)="closeModal()">Cancel</button>
+        <button *ngIf="goTohomeButton" type="button" class="btn btn-dark text-gold" (click)="goToHome()">OK</button>
       </div>
     </div>
   </div>

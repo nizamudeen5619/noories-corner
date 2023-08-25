@@ -1,6 +1,6 @@
 import { Component, OnDestroy } from '@angular/core';
 import { UserService } from '../../services/user.service';
-import { EMPTY, Subject, catchError, finalize, takeUntil, tap } from 'rxjs';
+import { Subject, finalize, takeUntil } from 'rxjs';
 import { Router } from '@angular/router';
 
 @Component({
@@ -30,26 +30,27 @@ export class ForgotPasswordComponent implements OnDestroy {
     this.userService.forgotPassword(this.email)
       .pipe(
         takeUntil(this.destroy$),
-        tap((res) => {
+        finalize(() => {
+          this.isLoading = false;
+        })
+      )
+      .subscribe({
+        next: (res) => {
           if (res && res.status === 'success') {
             this.displayStyle = 'block';
           }
-        }),
-        catchError((error) => {
+        },
+        error: (error) => {
           if (error.status === 500) {
             this.isError = true;
+            this.router.navigate(['error/' + error.status]);
           } else if (error.status === 401) {
             this.errorMessage = 'Email not found';
             this.emailError = true;
           }
           this.errorStatusCode = error.status;
-          return EMPTY;
-        }),
-        finalize(() => {
-          this.isLoading = false;
-        })
-      )
-      .subscribe();
+        }
+      });
   }
   closeModal() {
     this.displayStyle = "none";

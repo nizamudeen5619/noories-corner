@@ -2,21 +2,31 @@
 
 <div *ngIf="!isLoading && !isError" class="login-page">
   <div class="container">
-    <div class="row">
-      <div class="col-lg-10 offset-lg-1">
-        <h3 class="mb-3">Login Now</h3>
+    <div class="row py-2">
+      <div class="col-lg-11 offset-lg-1">
+        <div class="row">
+          <div class="col-7 col-md-8">
+            <h2 class="mt-1 heading-text">Login Now</h2>
+          </div>
+          <div class="col-5 col-md-4 mb-3">
+            <img class="img-fluid d-md-none" src="https://i.imgur.com/M5KeEPd.png" alt="Image for small screens">
+          </div>
+        </div>
         <div class="bg-white shadow rounded">
           <div class="row">
-            <div class="col-md-7 pe-0">
-              <div class="form-left h-100 py-5 px-5">
-                <form [formGroup]="loginForm" class="row g-4" (ngSubmit)="onSubmit()">
+            <div class="col-md-7 col-lg-6 col-sm-12 py-3">
+              <div class="form-left pt-3 pb-4 px-3">
+                <form [formGroup]="loginForm" class="login-form g-4" (ngSubmit)="onSubmit()">
                   <div class="col-12">
-                    <label>Email</label>
+                    <label class="text">Email</label>
                     <div class="input-group">
-                      <div class="input-group-text"><i class="bi bi-person-fill"></i></div>
+                      <div class="input-group-text" [ngClass]="isFocussed.email ? 'bg-light-gold' : 'bg-gold'"><i
+                          class="bi bi-person-fill"></i></div>
                       <input type="email"
                         [ngClass]="{'is-invalid': loginForm.controls['email'].invalid && formSubmitted}"
-                        class="form-control" id="email" formControlName="email" required>
+                        (mouseenter)="isFocussed.email=true" (mouseleave)="isFocussed.email=false"
+                        (focus)="isFocussed.email=true" class="form-control" id="email" formControlName="email"
+                        required>
                       <div class="invalid-feedback" *ngIf="loginForm.controls['email'].invalid && formSubmitted">
                         <div *ngIf="loginForm.controls['email'].errors?.['required']">Email is required.</div>
                         <div *ngIf="loginForm.controls['email'].errors?.['email']">Invalid email address.</div>
@@ -25,42 +35,57 @@
                   </div>
 
                   <div class="col-12">
-                    <label>Password</label>
+                    <div class="row">
+                      <div class="col-4">
+                        <label for="text">Password</label>
+                      </div>
+                      <div class="col-8">
+                        <a routerLink="/user/forgot-password" class="float-end text-primary">Forgot Password?</a>
+                      </div>
+                    </div>
                     <div class="input-group">
-                      <div class="input-group-text"><i class="bi bi-lock-fill"></i></div>
+                      <div class="input-group-text" [ngClass]="isFocussed.password ? 'bg-light-gold' : 'bg-gold'"><i
+                          class="bi bi-lock-fill"></i></div>
                       <input type="password"
                         [ngClass]="{'is-invalid': loginForm.controls['password'].invalid && formSubmitted}"
-                        class="form-control" id="password" formControlName="password" required>
+                        (mouseenter)="isFocussed.password=true" (mouseleave)="isFocussed.password=false"
+                        (focus)="isFocussed.password=true" class="form-control" id="password" formControlName="password"
+                        required>
                       <div class="invalid-feedback" *ngIf="loginForm.controls['password'].invalid && formSubmitted">
                         <div *ngIf="loginForm.controls['password'].errors?.['required']">Password is required.</div>
                       </div>
                     </div>
                   </div>
 
-                  <div class="col-sm-6">
+                  <div class="col-12 py-3">
                     <div class="form-check">
-                      <input class="form-check-input" type="checkbox" id="inlineFormCheck">
+                      <input class="form-check-input custom-checkbox" type="checkbox" id="inlineFormCheck"
+                        formControlName="rememberMe">
                       <label class="form-check-label" for="inlineFormCheck">Remember me</label>
                     </div>
                   </div>
-
-                  <div class="col-sm-6">
-                    <a routerLink="/user/forgot-password" class="float-end text-primary">Forgot Password?</a>
-                  </div>
-
                   <div class="col-12">
-                    <button type="submit" class="btn btn-gold px-4 float-end mt-4">login</button>
+                    <div class="row  d-flex align-items-center">
+                      <div class="col-8">
+                        <span>Don't have an account? <a routerLink="/user/register" class="text-primary">Create
+                            one</a></span>
+                      </div>
+                      <div class="col-4">
+                        <button type="submit" class="btn btn-gold px-4 float-end mt-2">Login</button>
+                      </div>
+                    </div>
                   </div>
                 </form>
               </div>
             </div>
-            <div class="col-md-4 ps-0 d-none d-md-block">
-              <div class="form-right h-100 text-center pt-5">
-                <img class="col-lg-12 mt-3" src="https://i.imgur.com/3crxEV5.png">
+            <div class="col-md-5 col-lg-6 pt-md-5 pt-lg-0 d-none d-md-block">
+              <div class="form-right h-100 text-center pe-4 pt-1">
+                <img class="img-fluid mt-3" src="https://i.imgur.com/3crxEV5.png">
               </div>
             </div>
           </div>
-          <app-alert [errorMessage]="errorMessage" [type]="'alert-danger'" *ngIf="!isLoading && loginFailure"></app-alert>
+          <app-alert [errorMessage]="errorMessage" [type]="'alert-danger'"
+            *ngIf="!isLoading && loginFailure"></app-alert>
         </div>
       </div>
     </div>

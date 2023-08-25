@@ -1,10 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { EMPTY, Subscription, catchError, finalize, tap } from 'rxjs';
+import { EMPTY, Subject, Subscription, catchError, finalize, takeUntil, tap } from 'rxjs';
 import { SharedDataService } from '../../../shared/services/shared-data.service';
 import { UserService } from '../../services/user.service';
-import { ChangeDetectorRef } from '@angular/core';
 
 
 @Component({
@@ -36,13 +35,14 @@ export class UserRegistrationComponent implements OnInit {
   showPassword = false;
   emailExistsError = false;
   errorEmail = '';
+  private destroy$ = new Subject<void>();
+
 
   constructor(
     private formBuilder: FormBuilder,
     private userService: UserService,
-    private route: Router,
-    private sharedData: SharedDataService,
-    private cdRef: ChangeDetectorRef
+    private router: Router,
+    private sharedData: SharedDataService
   ) { }
   ngOnInit() {
     this.isLoading = true;
@@ -60,7 +60,6 @@ export class UserRegistrationComponent implements OnInit {
     const email = this.isLoggedIn ? this.user.email : "";
     const password = this.isLoggedIn ? this.user.password : "";
 
-    this.formName = this.isLoggedIn ? "Update Your Account Now!" : "Create Your Account Today!";
     this.buttonName = this.isLoggedIn ? "Update" : "Register";
     this.userForm = this.formBuilder.group({
       name: [name, Validators.required],
@@ -92,9 +91,22 @@ export class UserRegistrationComponent implements OnInit {
 
       userServiceMethod
         .pipe(
-          catchError((error) => {
+          takeUntil(this.destroy$),
+          finalize(() => {
+            this.isLoading = false;
+          })
+        ).subscribe({
+          next: (res) => {
+            if (res) {
+              this.sharedData.setUserObs(res.user);
+              this.sharedData.setAuthTokenObs(res.token);
+              this.router.navigate(['/profile']);
+            }
+          },
+          error: (error) => {
             if (error.status === 500) {
               this.isError = true;
+              this.router.navigate(['error/' + error.status]);
             } else if (error.status === 501) {
               this.errorMessage = "Email Already Exists";
               this.emailExistsError = true;
@@ -102,19 +114,8 @@ export class UserRegistrationComponent implements OnInit {
             }
             this.userForm.patchValue(this.formData);
             this.registerUpdateFailure = true;
-            return EMPTY;
-          }),
-          tap((res) => {
-            if (res) {
-              this.sharedData.setUserObs(res.user);
-              this.sharedData.setAuthTokenObs(res.token);
-              this.route.navigate(['/profile']);
-            }
-          }),
-          finalize(() => {
-            this.isLoading = false;
-          })
-        ).subscribe();
+          }
+        });
 
     }
     else {
@@ -152,6 +153,12 @@ export class UserRegistrationComponent implements OnInit {
   }
 
   cancelUpdate() {
-    this.route.navigate(['profile']);
+    this.router.navigate(['profile']);
+  }
+
+  ngOnDestroy() {
+    // Unsubscribe from all subscriptions when the component is destroyed
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 }

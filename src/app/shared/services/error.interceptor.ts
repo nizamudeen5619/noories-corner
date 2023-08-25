@@ -28,7 +28,7 @@ export class ErrorInterceptor implements HttpInterceptor {
           };
         } else {
           errorMsg = {
-            status: error.status ? error.status : 404,
+            status: error.status ? error.status : 500,
             message: error.message
           };
         }

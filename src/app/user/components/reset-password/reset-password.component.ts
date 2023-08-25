@@ -1,7 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { UserService } from '../../services/user.service';
-import { EMPTY, Subject, catchError, finalize, takeUntil, tap } from 'rxjs';
+import { Subject, finalize, takeUntil} from 'rxjs';
 import { AbstractControl, FormBuilder, FormGroup, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
 
 @Component({
@@ -10,8 +10,7 @@ import { AbstractControl, FormBuilder, FormGroup, ValidationErrors, ValidatorFn,
   styleUrls: ['./reset-password.component.css']
 })
 export class ResetPasswordComponent implements OnInit, OnDestroy {
-  newPassword: string = '';
-  confirmPassword: string = '';
+
   token: string = '';
   isError!: boolean;
   errorStatusCode!: string;
@@ -29,9 +28,9 @@ export class ResetPasswordComponent implements OnInit, OnDestroy {
     private fb: FormBuilder
   ) {
     this.resetForm = this.fb.group({
-      newPassword: ['', [Validators.required, Validators.minLength(8)]],
+      newPassword: ['', [Validators.required, Validators.minLength(8), this.passwordValidator]],
       confirmPassword: ['', Validators.required]
-    }, { validator: this.passwordMatchValidator() }); // Add the custom validator to the form group
+    }, { validators: this.passwordMatchValidator() }); // Add the custom validator to the form group
   }
 
 
@@ -44,6 +43,16 @@ export class ResetPasswordComponent implements OnInit, OnDestroy {
     }
   }
 
+  passwordValidator(): ValidatorFn {
+    return (control: AbstractControl): ValidationErrors | null => {
+      const value: string = control.value;
+      // Check if the password contains at least 8 characters, one uppercase letter,
+      // one lowercase letter, one symbol, and one number.
+      const regex = /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[^\w\s]).{8,}$/;
+
+      return regex.test(value) ? null : { invalidPassword: true };
+    };
+  }
   passwordMatchValidator(): ValidatorFn {
     return (control: AbstractControl): ValidationErrors | null => {
       const newPassword = control.get('newPassword')?.value;
@@ -59,29 +68,30 @@ export class ResetPasswordComponent implements OnInit, OnDestroy {
   resetPassword() {
     if (this.resetForm.valid) {
       this.isLoading = true;
-      this.userService.resetPassword(this.token, this.confirmPassword)
+      this.userService.resetPassword(this.token, this.resetForm.get('confirmPassword')?.value)
         .pipe(
           takeUntil(this.destroy$),
-          tap((res) => {
+          finalize(() => {
+            this.isLoading = false;
+          })
+        )
+        .subscribe({
+          next: (res) => {
             if (res && res.status === 'success') {
               this.displayStyle = 'block';
             }
-          }),
-          catchError((error) => {
+          },
+          error: (error) => {
             if (error.status === 500) {
               this.isError = true;
+              this.router.navigate(['error/' + error.status]);
             } else if (error.status === 401) {
               this.passwordExpiredError = true;
               this.errorMessage = 'Link Expired';
             }
             this.errorStatusCode = error.status;
-            return EMPTY; // Rethrow the error to be caught by the component's error handling if necessary.
-          }),
-          finalize(() => {
-            this.isLoading = false;
-          })
-        )
-        .subscribe();
+          }
+        });
     }
   }
 

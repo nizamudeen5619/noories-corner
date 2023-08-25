@@ -3,7 +3,7 @@ import { UserService } from '../../services/user.service';
 import { Router } from '@angular/router';
 import { SharedDataService } from '../../../shared/services/shared-data.service';
 import { FormGroup, Validators, FormBuilder } from '@angular/forms';
-import { EMPTY, catchError, finalize, tap } from 'rxjs';
+import { EMPTY, Subject, catchError, finalize, takeUntil, tap } from 'rxjs';
 @Component({
   selector: 'app-user-login',
   templateUrl: './user-login.component.html',
@@ -19,18 +19,26 @@ export class UserLoginComponent implements OnInit {
   errorMessage = '';
   formSubmitted = false;
   isError!: boolean;
+  isFocussed = {
+    email: false,
+    password: false
+  }
+  private destroy$ = new Subject<void>();
+
 
   constructor(
     private userService: UserService,
-    private route: Router,
+    private router: Router,
     private sharedData: SharedDataService,
     private formBuilder: FormBuilder
   ) { }
 
   ngOnInit(): void {
+    const email = localStorage.getItem('NC_Email') || '';
     this.loginForm = this.formBuilder.group({
-      email: ['', [Validators.required, Validators.email]],
+      email: [email, [Validators.required, Validators.email]],
       password: ['', [Validators.required]],
+      rememberMe: [false]
     });
   }
 
@@ -43,37 +51,47 @@ export class UserLoginComponent implements OnInit {
       this.isLoading = false;
       return;
     }
-
-    const userLogin = this.loginForm.value;
-    this.userService.userLogin(userLogin)
+    const { email, password, rememberMe } = this.loginForm.value;
+    this.userService.userLogin({ email, password })
       .pipe(
-        tap((res) => {
-          if(res){
-          this.loginFailure = false;
-
-          const { token, username } = res;
-
-          this.sharedData.setAuthTokenObs(token);
-          this.sharedData.setUserObs(username);
-
-          this.route.navigate(['user/profile']);
-          }
-        }),
-        catchError((error) => {          
-          if (error.status === 500) {
-            this.isError = true;
-          }
-          else if(error.status===401){
-            this.errorMessage="Invalid Credentials."
-          }
-          this.loginFailure = true;
-          this.errorStatusCode = error.status;
-          return EMPTY;
-        }),
+        takeUntil(this.destroy$),
         finalize(() => {
           this.isLoading = false;
         })
       )
-      .subscribe();
+      .subscribe({
+        next: (res) => {
+          if (res) {
+            if (rememberMe) {
+              localStorage.setItem('NC_Email', email)
+            }
+            this.loginFailure = false;
+
+            const { token, username } = res;
+
+            this.sharedData.setAuthTokenObs(token);
+            this.sharedData.setUserObs(username);
+
+            this.router.navigate(['user/profile']);
+          }
+        },
+        error: (error) => {
+          if (error.status === 500) {
+            this.isError = true;
+            this.router.navigate(['error/' + error.status]);
+          }
+          else if (error.status === 401) {
+            this.errorMessage = "Invalid Credentials."
+            this.loginFailure = true;
+          }
+          this.errorStatusCode = error.status;
+        }
+      });
+  }
+
+  ngOnDestroy() {
+    // Unsubscribe from all subscriptions when the component is destroyed
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 }

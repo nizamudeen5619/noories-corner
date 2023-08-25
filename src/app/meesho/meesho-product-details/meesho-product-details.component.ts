@@ -1,7 +1,7 @@
 import { Component, ElementRef, ViewChild } from '@angular/core';
 import { SafeHtml, DomSanitizer } from '@angular/platform-browser';
 import { ActivatedRoute } from '@angular/router';
-import { Subscription, concatMap, catchError, tap, of, finalize, Observable, throwError } from 'rxjs';
+import { concatMap, catchError, tap, of, finalize, Observable, throwError, takeUntil, Subject } from 'rxjs';
 
 import { Product } from 'src/app/shared/models/product';
 
@@ -26,21 +26,21 @@ export class MeeshoProductDetailsComponent {
   isLoading !: boolean;
   isError !: boolean;
   errorStatusCode = 0;
-  routeSubscription!: Subscription;
-  sharedServiceSubscription!: Subscription;
   @ViewChild('loginMessageModalButton') loginMessageModalButton !: ElementRef;
+  private destroy$: Subject<void> = new Subject<void>();
 
   constructor(
-    private route$: ActivatedRoute, 
-    private meeshoService: MeeshoService, 
+    private route$: ActivatedRoute,
+    private meeshoService: MeeshoService,
     private sharedService: SharedDataService,
-    private favService: FavouritesService, 
+    private favService: FavouritesService,
     private sanitizer: DomSanitizer) { }
 
   ngOnInit(): void {
     this.isLoading = true;
     this.isError = false;
-    this.routeSubscription = this.route$.params.pipe(
+    this.route$.params.pipe(
+      takeUntil(this.destroy$),
       concatMap(({ id }) => {
         this.productID = id;
         return this.meeshoService.getProductDetails(id).pipe(
@@ -74,39 +74,43 @@ export class MeeshoProductDetailsComponent {
       tap(({ checkFavourite }) => {
         this.isFavourite = checkFavourite;
         this.buttonText = checkFavourite ? "Remove from Favourites" : "Add to Favourites";
+      }),
+      finalize(() => {
+        this.isLoading = false;
       })
-    ).subscribe(() => {
-      this.isLoading = false;
-    }
-    )
+    ).subscribe()
   }
 
   addRemoveFavourites() {
     if (this.isLoggedIn) {
       if (!this.isFavourite) {
         this.isLoading = true;
-        this.sharedServiceSubscription = this.favService.favouritesAdd(this.productID).pipe(
-          catchError(error => this.handleError(error)),
-          finalize(() => this.isLoading = false),
-          tap(({ addedToFavourites }) => {
+        this.favService.favouritesAdd(this.productID).pipe(
+          takeUntil(this.destroy$),
+          finalize(() => this.isLoading = false)
+        ).subscribe({
+          next: ({ addedToFavourites }) => {
             if (addedToFavourites) {
               this.isFavourite = true;
               this.buttonText = "Remove from Favourites";
             }
-          })
-        ).subscribe();
+          },
+          error: (error => this.handleError(error))
+        });
       } else {
         this.isLoading = true;
-        this.sharedServiceSubscription = this.favService.favouritesDelete(this.productID).pipe(
-          catchError(error => this.handleError(error)),
-          finalize(() => this.isLoading = false),
-          tap(({ removedFromFavourites }) => {
+        this.favService.favouritesDelete(this.productID).pipe(
+          takeUntil(this.destroy$),
+          finalize(() => this.isLoading = false)
+        ).subscribe({
+          next: ({ removedFromFavourites }) => {
             if (removedFromFavourites) {
               this.isFavourite = false;
               this.buttonText = "Add to Favourites";
             }
-          })
-        ).subscribe();
+          },
+          error: (error => this.handleError(error))
+        });
       }
     }
     else {
@@ -121,9 +125,8 @@ export class MeeshoProductDetailsComponent {
   }
 
   ngOnDestroy(): void {
-    if (this.routeSubscription) {
-      this.routeSubscription.unsubscribe();
-    }
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 
 }
