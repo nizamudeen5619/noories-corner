@@ -1,0 +1,7 @@
+.navbar-nav .nav-link.active {
+    color: #ffd700;
+}
+
+.navbar-nav .nav-link.active i {
+    color: #ffd700;
+}

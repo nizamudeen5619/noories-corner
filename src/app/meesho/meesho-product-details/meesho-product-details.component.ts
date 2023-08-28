@@ -74,11 +74,8 @@ export class MeeshoProductDetailsComponent {
       tap(({ checkFavourite }) => {
         this.isFavourite = checkFavourite;
         this.buttonText = checkFavourite ? "Remove from Favourites" : "Add to Favourites";
-      }),
-      finalize(() => {
-        this.isLoading = false;
       })
-    ).subscribe()
+    ).subscribe(() => this.isLoading = false)
   }
 
   addRemoveFavourites() {

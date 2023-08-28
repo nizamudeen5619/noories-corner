@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { EMPTY, Subject, Subscription, catchError, finalize, takeUntil, tap } from 'rxjs';
+import { EMPTY, Subject, Subscription, catchError, finalize, switchMap, takeUntil, tap } from 'rxjs';
 import { SharedDataService } from '../../../shared/services/shared-data.service';
 import { UserService } from '../../services/user.service';
 
@@ -45,49 +45,72 @@ export class UserRegistrationComponent implements OnInit {
     private sharedData: SharedDataService
   ) { }
   ngOnInit() {
-    this.isLoading = true;
-    this.userSubscription$ = this.sharedData.getUserObs().subscribe((user) => {
-      this.isLoggedIn = !!user;
-      this.user = user;
-      this.isError = false;
-      this.setupForm();
-    });
+    if (this.userService.isLoggedIn()) {
+      this.isLoading = true;
+      this.isLoggedIn = true;
+      this.userService.userProfile().pipe(
+        takeUntil(this.destroy$)
+      ).subscribe({
+        next: (user) => {
+          if (user) {
+            this.user = user;
+          }
+          this.setupForm()
+        },
+        error: (error) => {
+          this.isError = true;
+          this.errorStatusCode = error.status;
+        }
+      });
+    }
   }
 
   private setupForm() {
     const name = this.isLoggedIn ? this.user.name : "";
     const age = this.isLoggedIn ? this.user.age : "";
     const email = this.isLoggedIn ? this.user.email : "";
-    const password = this.isLoggedIn ? this.user.password : "";
+    const password = "";
 
     this.buttonName = this.isLoggedIn ? "Update" : "Register";
+
     this.userForm = this.formBuilder.group({
       name: [name, Validators.required],
       age: [age, [Validators.required, Validators.min(13)]],
       email: [email, [Validators.required, Validators.email]],
-      password: [password, [Validators.required, Validators.pattern(/^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&-+=()])(?=\S+$).{8,20}$/)]],
+      password: [password, []], // Initialize password field for conditional addition
     });
+
+    if (!this.isLoggedIn) {
+      this.userForm.get('password')?.setValidators([
+        Validators.required,
+        Validators.pattern(
+          /^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&-+=()])(?=\S+$).{8,20}$/
+        ),
+      ]);
+      this.userForm.get('password')?.updateValueAndValidity();
+    }
+
     this.isLoading = false;
   }
 
   onSubmit() {
     this.formSubmitted = true;
     this.isLoading = true;
-    const user = {
-      name: this.userForm.get('name')?.value,
-      age: this.userForm.get('age')?.value,
-      email: this.userForm.get('email')?.value,
-      password: this.userForm.get('password')?.value
-    };
 
-    this.formData = this.userForm.value;
     if (this.userForm.valid) {
-      let userServiceMethod;
-      if (this.isLoggedIn) {
-        userServiceMethod = this.userService.userUpdate(user);
-      } else {
-        userServiceMethod = this.userService.userRegister(user);
+      const user: any = {
+        name: this.userForm.get('name')?.value,
+        age: this.userForm.get('age')?.value,
+        email: this.userForm.get('email')?.value,
+      };
+
+      if (!this.isLoggedIn) {
+        user['password'] = this.userForm.get('password')?.value;
       }
+
+      const userServiceMethod = this.isLoggedIn
+        ? this.userService.userUpdate(user)
+        : this.userService.userRegister(user);
 
       userServiceMethod
         .pipe(

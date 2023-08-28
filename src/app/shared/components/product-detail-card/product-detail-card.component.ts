@@ -25,7 +25,7 @@ export class ProductDetailCardComponent implements OnInit {
     this.MRP = this.sharedData.DEFAULT_MRP;
   }
   ngOnInit(): void {
-    this.logo = (this.platform === "amazon") ? "amazon.png" : "meesho.png";
+    this.logo = (this.platform === "amazon") ? "https://i.imgur.com/BklOZWu.png" : "https://i.imgur.com/zvAZrdM.png";
     this.searchURL = (this.platform === "amazon") ? "https://www.amazon.in/s?k=" + this.product.ProductId : this.product.Link || '';
     if (this.searchURL === '') {
       this.disableBuyButton = true;

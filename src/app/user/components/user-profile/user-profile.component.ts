@@ -200,6 +200,21 @@ export class UserProfileComponent implements OnInit, OnDestroy {
     }
   }
 
+  logout() {
+    this.isLoading = true;
+    this.userService.userLogout().pipe(
+      catchError((error) => {
+        this.errorStatusCode = error.status;
+        this.route.navigate(['/error', this.errorStatusCode]);
+        return EMPTY;
+      })
+    ).subscribe(() => {
+      this.sharedData.removeData();
+      this.route.navigateByUrl('');
+      this.isLoading = false;
+    });
+  }
+
   goToHome() {
     this.displayStyle = 'none';
     this.sharedData.removeData();

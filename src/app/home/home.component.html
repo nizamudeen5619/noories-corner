@@ -4,33 +4,62 @@
 
 <div class="container mt-1" *ngIf="!isLoading && !isError">
     <div class="card text-bg-dark">
-        <img src="assets/images/collage.jpg" class="card-img" alt="product-collage">
-        <div class="card-img-overlay d-flex flex-column align-items-center justify-content-center">
-            <h1 class="card-title text-design">Noorie's Corner</h1>
-            <h4 class="card-text text-design-sub">Fashion with Tradition!</h4>
+        <img src="https://i.imgur.com/ny8EXnN.png" class="card-img" alt="product-collage">
+    </div>
+    <div id="topSellingCarousel" class="carousel slide mt-2 carousel-fade" data-bs-ride="carousel">
+        <div class="carousel-inner">
+            <div class="carousel-item active" data-bs-interval="5000">
+                <div class="d-flex">
+                    <div *ngFor="let product of topSelling.slice(0, 3)" class="carousel-image-container">
+                        <img [src]="product.Image1" class="carousel-image" alt="Product Image"
+                            [routerLink]="['/'+product.Platform+'/product/'+product._id]">
+                    </div>
+                </div>
+            </div>
+            <div class="carousel-item" data-bs-interval="5000">
+                <div class="d-flex">
+                    <div *ngFor="let product of topSelling.slice(3, 6)" class="carousel-image-container">
+                        <img [src]="product.Image1" class="carousel-image" alt="Product Image"
+                            [routerLink]="['/'+product.Platform+'/product/'+product._id]">
+                    </div>
+                </div>
+            </div>
         </div>
+        <button class="carousel-control-prev" type="button" data-bs-target="#topSellingCarousel" data-bs-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Previous</span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#topSellingCarousel" data-bs-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Next</span>
+        </button>
     </div>
 
-    <div class="container-fluid bg-grey">
+    <div class="container-fluid bg-grey mt-4">
         <div>
-            <h2>About Us</h2><br>
+            <h2>About Us</h2>
             <h4>At Noorie's Corner,</h4>
             <p>
-                <i class="bi bi-caret-right-fill"></i> We are passionate about celebrating and promoting the beauty of ethnic fashion.
+                <i class="bi bi-caret-right-fill"></i> We are passionate about celebrating and promoting the beauty of
+                ethnic fashion.
             </p>
             <p>
-                <i class="bi bi-caret-right-fill"></i> Our collection of exquisite ethnic blouses blends traditional craftsmanship with modern design, reflecting the rich tapestry of cultures worldwide.
+                <i class="bi bi-caret-right-fill"></i> Our collection of exquisite ethnic blouses blends traditional
+                craftsmanship with modern design, reflecting the rich tapestry of cultures worldwide.
             <p>
-                <i class="bi bi-caret-right-fill"></i> We work closely with skilled artisans to create unique pieces that honor their expertise and preserve traditional techniques.
+                <i class="bi bi-caret-right-fill"></i> We work closely with skilled artisans to create unique pieces
+                that honor their expertise and preserve traditional techniques.
             </p>
             <p>
-                <i class="bi bi-caret-right-fill"></i> With a commitment to quality, inclusivity, and exceptional customer service, we offer luxurious and durable blouses that cater to diverse tastes and occasions.
+                <i class="bi bi-caret-right-fill"></i> With a commitment to quality, inclusivity, and exceptional
+                customer service, we offer luxurious and durable blouses that cater to diverse tastes and occasions.
             </p>
             <p>
-                <i class="bi bi-caret-right-fill"></i> Join us on a journey of cultural exploration and fashion-forward expression as we embrace the beauty of ethnic fashion.
+                <i class="bi bi-caret-right-fill"></i> Join us on a journey of cultural exploration and fashion-forward
+                expression as we embrace the beauty of ethnic fashion.
             </p>
         </div>
-        <div>
+        <div class="pt-4">
             <h2>Our Values</h2>
             <h4><strong>MISSION:</strong> Our mission is to curate and create exceptional ethnic blouses that blend
                 traditional craftsmanship with contemporary design. We are committed to preserving cultural
@@ -45,11 +74,11 @@
         <h2>OUR SERVICES</h2>
         <div class="row">
             <div class="col-sm-6">
-                <div><img style="height: 50px;" src="/assets/images/amazon.png" alt="Amazon"></div>
+                <div><img style="height: 50px;" src="https://imgur.com/BklOZWu" alt="Amazon"></div>
                 <p><a class="btn btn-secondary" href="https://www.amazon.in/s?k=SAMSHAY%3A+Be+unique">SAMSHAY</a></p>
             </div>
             <div class="col-sm-6">
-                <div><img style="height: 50px;" src="/assets/images/meesho.png" alt="Meesho"></div>
+                <div><img style="height: 50px;" src="https://i.imgur.com/zvAZrdM.png" alt="Meesho"></div>
                 <p><a class="btn btn-secondary" href="https://www.meesho.com/VRETAIL87791?_ms=2">V Retail</a></p>
             </div>
         </div>
@@ -60,22 +89,22 @@
         <div class="row row-cols-1 row-cols-md-2 g-4">
             <div class="col">
                 <div class="card">
-                    <img src="assets/images/review1.png" height="100" class="card-img-top" alt="review1">
+                    <img src="https://i.imgur.com/fMjExAE.png" height="100" class="card-img-top" alt="review1">
                 </div>
             </div>
             <div class="col">
                 <div class="card">
-                    <img src="assets/images/review2.png" height="100" class="card-img-top" alt="review2">
+                    <img src="https://i.imgur.com/fIlfZON.png" height="100" class="card-img-top" alt="review2">
                 </div>
             </div>
             <div class="col">
                 <div class="card">
-                    <img src="assets/images/review3.png" height="80" class="card-img-top" alt="review3">
+                    <img src="https://i.imgur.com/JbK4tO6.png" height="80" class="card-img-top" alt="review3">
                 </div>
             </div>
             <div class="col">
                 <div class="card">
-                    <img src="assets/images/review4.png" height="80" class="card-img-top" alt="review4">
+                    <img src="https://i.imgur.com/G2M7M7y.png" height="80" class="card-img-top" alt="review4">
                 </div>
             </div>
         </div>

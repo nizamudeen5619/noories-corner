@@ -1,6 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Product } from '../shared/models/product';
-import { EMPTY, Subscription, catchError, finalize, map, switchMap } from 'rxjs';
+import { EMPTY, Subject, catchError, finalize, map, switchMap, takeUntil } from 'rxjs';
 import { SharedDataService } from '../shared/services/shared-data.service';
 
 @Component({
@@ -14,23 +14,23 @@ export class HomeComponent implements OnInit, OnDestroy {
   topSelling: Product[] = [];
   topRated: Product[] = [];
   errorStatusCode: any;
-  topProductssubscription!: Subscription;
+  private destroy$ = new Subject<void>();
+
   constructor(private sharedData: SharedDataService) { }
   ngOnInit(): void {
     this.isLoading = true;
     this.isError = false;
-    this.topProductssubscription = this.sharedData.getTopProductsAmazon().pipe(
+    this.sharedData.getTopProductsAmazon().pipe(
+      takeUntil(this.destroy$),
       switchMap((data1) => {
         return this.sharedData.getTopProductsMeesho().pipe(
           map((data2) => {
-            this.topSelling = [...data1.topSelling, ...data2.topSelling];
-            this.topRated = [...data1.topRated, ...data2.topRated];
+            this.topSelling = [...data1.topSelling, ...data2.topSelling];           
+            this.topRated = [...data1.topRated, ...data2.topRated];            
           })
         );
       }),
       catchError((error) => {
-        console.log(error);
-        
         this.errorStatusCode = error.status;
         this.isError = true;
         return EMPTY;
@@ -41,8 +41,7 @@ export class HomeComponent implements OnInit, OnDestroy {
     ).subscribe()
   }
   ngOnDestroy(): void {
-    if (this.topProductssubscription) {
-      this.topProductssubscription.unsubscribe()
-    }
+    this.destroy$.next();
+    this.destroy$.complete()
   }
 }

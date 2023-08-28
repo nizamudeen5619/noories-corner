@@ -1,4 +1,6 @@
-<div class="card gold-black-theme col-md-10 mt-2">
+<app-spinner *ngIf="isLoading"></app-spinner>
+
+<div *ngIf="!isLoading" class="card gold-black-theme col-md-10 mt-2">
   <div class="card-header text-center h3">
     <i class="bi bi-person-square"></i> User Profile
   </div>
@@ -11,7 +13,6 @@
           <!-- Change Avatar Button -->
           <button *ngIf="!showFileInput" class="btn btn-dark btn-custom" (click)="showFileInput=true">Change
             Avatar</button>
-
           <!-- File Input -->
           <div *ngIf="showFileInput" class="mt-2">
             <label for="filebutton" class="font-weight-bold">{{imageText}}</label>
@@ -48,10 +49,9 @@
             <i class="bi bi-box-arrow-right"></i> Logout All Devices
           </button>
         </div>
+        <!-- Edit and Delete Buttons -->
         <div>
-
-          <!-- Edit and Delete Buttons -->
-          <button class="btn btn-warning btn-sm me-1 mb-2" routerLink="/edit-profile">
+          <button class="btn btn-warning btn-sm me-1 mb-2" routerLink="../edit-profile">
             <i class="bi bi-pencil-square"></i> Edit Account
           </button>
           <button class="btn btn-danger btn-sm mb-2" (click)="openModal('deleteAccount')">
@@ -64,7 +64,6 @@
   </div>
 </div>
 
-
 <app-alert [errorMessage]="errorMessage" [type]="'alert-danger'" *ngIf="!isLoading && isFileError"></app-alert>
 
 <div class="modal fade show" [ngStyle]="{'display':displayStyle}" id="staticBackdrop" data-bs-backdrop="static"
@@ -75,6 +74,7 @@
         <h1 class="modal-title fs-5" id="staticBackdropLabel">{{modalHeading}}</h1>
       </div>
       <div class="modal-body">
+        <!--Logout all Success Modal-->
         <div *ngIf="currentProcess==='logoutSuccess'" class="logoutAll-success">
           <div class="d-flex justify-content-center align-items-center">
             <i class="bi bi-check-circle text-success fs-1 me-3"></i>
@@ -82,6 +82,7 @@
           </div>
           <p class="text-center">You have successfully logged out from all your devices.</p>
         </div>
+        <!--Delete Success Modal-->
         <div *ngIf="currentProcess==='deleteSuccess'" class="accountDelete-success">
           <div class="d-flex justify-content-center align-items-center">
             <i class="bi bi-trash text-danger fs-1 me-3"></i>
@@ -89,6 +90,7 @@
           </div>
           <p class="text-center">Your account has been successfully deleted.</p>
         </div>
+        <!--Delete Prompt-->
         <div *ngIf="currentProcess==='deleteAccount'" class="account-deletion-message">
           <p><strong>Before proceeding with the account deletion process, please read the following carefully:</strong>
           </p>
@@ -103,14 +105,15 @@
             <li><strong>Cautious Decision:</strong> Account deletion is final. If you are unsure about this decision or
               believe your account has been compromised, consider changing your password.</li>
           </ol>
+          <!--Password confirmation for Dlete Account-->
           <div class="form-group">
             <label for="password">Enter your account password to proceed:</label>
             <input type="text" class="form-control" id="password" name="password" [(ngModel)]="confirmPassword"
               required>
             <span *ngIf="!confirmPassword" class="text-danger">Required</span>
-            <span *ngIf="!confirmPassword" class="text-danger">Required</span>
           </div>
         </div>
+        <!--Logout all Prompt-->
         <div *ngIf="currentProcess==='logoutAll'" class="logout-message">
           <h2>Are you sure you want to log out from all devices?</h2>
           <p>Logging out from all devices will end all active sessions and require you to re-enter your credentials when
@@ -122,10 +125,12 @@
         </div>
       </div>
       <div class="modal-footer">
+        <!--Confirm & Cancel buttons for Prompts-->
         <button *ngIf="!goTohomeButton" type="button" class="btn btn-gold"
           (click)="confirmLogoutAllAndDeleteAccount()">Confirm</button>
         <button *ngIf="!goTohomeButton" type="button" class="btn btn-dark text-gold"
           (click)="closeModal()">Cancel</button>
+        <!--Ok button for Success Modal-->
         <button *ngIf="goTohomeButton" type="button" class="btn btn-dark text-gold" (click)="goToHome()">OK</button>
       </div>
     </div>

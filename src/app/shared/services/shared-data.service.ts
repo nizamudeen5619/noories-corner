@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 import jwt_decode, { JwtPayload } from 'jwt-decode';
+import { CookieService } from 'ngx-cookie-service';
 
 @Injectable({
   providedIn: 'root'
@@ -17,13 +18,13 @@ export class SharedDataService {
   topProducAmazontUrl = "http://localhost:3000/api/v1/amazontop";
   topProductMeeshoUrl = "http://localhost:3000/api/v1/meeshotop";
 
-  constructor(private http: HttpClient) {
+  constructor(private http: HttpClient, private cookieService: CookieService) {
     this.setUserAndToken()
   }
 
   setUserAndToken() {
-    const user = sessionStorage.getItem('user');
-    const token = sessionStorage.getItem('token');
+    const user = this.cookieService.get('user');
+    const token = this.cookieService.get('token');
     if (user && token) {
       this.userName$.next(user);
       this.authToken$.next(token);
@@ -36,7 +37,11 @@ export class SharedDataService {
   }
 
   setUserObs(user: string | null) {
-    sessionStorage.setItem('user', user || '')
+    if (user) {
+      this.cookieService.set('user', user);
+    } else {
+      this.cookieService.delete('user');
+    }
     this.userName$.next(user || '');
   }
 
@@ -50,15 +55,15 @@ export class SharedDataService {
     if (decodedToken && decodedToken.exp) {
       const expirationDate = new Date(decodedToken.exp * 1000); // Convert the expiration timestamp to milliseconds.
 
-      sessionStorage.setItem('token', token);
-      sessionStorage.setItem('tokenExpiration', expirationDate.toISOString());
+      this.cookieService.set('token', token);
+      this.cookieService.set('tokenExpiration', expirationDate.toISOString());
       this.authToken$.next(token);
     }
   }
 
   removeData() {
-    sessionStorage.removeItem('user');
-    sessionStorage.removeItem('token');
+    this.cookieService.delete('user');
+    this.cookieService.delete('token');
     this.userName$.next(null);
     this.authToken$.next(null);
   }
@@ -70,6 +75,5 @@ export class SharedDataService {
   getTopProductsMeesho(): Observable<any> {
     return this.http.get<any>(`${this.topProductMeeshoUrl}`);
   }
-
 
 }

@@ -1,4 +1,4 @@
-<app-spinner *ngIf="isLoading"></app-spinner>
+<app-spinner *ngIf="isLoading && !isError"></app-spinner>
 
 <div *ngIf="!isLoading && !isError" class="container register-update-page  mt-3">
     <div class="row">
@@ -8,8 +8,7 @@
                     <h2 class="mt-1 heading-text">{{buttonName}}</h2>
                 </div>
                 <div class="col-5 col-md-4 mb-3">
-                    <img class="img-fluid d-md-none" src="https://i.imgur.com/M5KeEPd.png"
-                        alt="Logo">
+                    <img class="img-fluid d-md-none" src="https://i.imgur.com/M5KeEPd.png" alt="Logo">
                 </div>
             </div>
             <div>
@@ -83,7 +82,7 @@
                                     <p class="text-danger mb-1" *ngIf="emailExistsError"> Email already exists.</p>
                                 </div>
 
-                                <div class="col-12">
+                                <div class="col-12" *ngIf="!isLoggedIn">
                                     <label class="text-dark" for="password">Password<span
                                             class="text-danger">*</span></label>
                                     <div class="input-group">
@@ -117,7 +116,9 @@
 
                                 <div class="col-12">
                                     <button type="submit"
-                                        class="btn btn-gold px-4 float-end mt-2">{{buttonName}}</button>
+                                        class="btn btn-gold px-4 mt-2">{{buttonName}}</button>
+                                        <a type="button" routerLink="../user-profile"
+                                        class="btn btn-dark px-4 float-end mt-2">Cancel</a>
                                 </div>
 
                             </form>
@@ -125,8 +126,8 @@
                     </div>
 
                     <div class="col-md-5 ps-0 d-none d-md-block">
-                        <div class="form-right text-white text-center pt-5">
-                            <img class="col-lg-12 col-md-12 mx-auto mt-2 img-fluid" style="max-height: 100%;"
+                        <div class="form-right text-white text-center pt-lg-4">
+                            <img class="col-lg-12 col-md-12 img-fluid" style="max-height: 100%;"
                                 src="https://i.imgur.com/3crxEV5.png">
                         </div>
                     </div>
@@ -136,4 +137,4 @@
     </div>
 </div>
 
-<app-server-error *ngIf="isError" [statusCode]="errorStatusCode"></app-server-error>
+<app-server-error *ngIf="isError && !isLoading" [statusCode]="errorStatusCode"></app-server-error>

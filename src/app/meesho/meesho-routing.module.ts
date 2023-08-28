@@ -4,8 +4,12 @@ import { MeeshoProductListComponent } from './meesho-product-list/meesho-product
 import { MeeshoProductDetailsComponent } from './meesho-product-details/meesho-product-details.component';
 
 const routes: Routes = [
-  { path: 'products', component: MeeshoProductListComponent },
-  { path: 'product/:id', component: MeeshoProductDetailsComponent }
+  {
+    path: 'meesho', children: [
+      { path: 'products', component: MeeshoProductListComponent },
+      { path: 'product/:id', component: MeeshoProductDetailsComponent }
+    ]
+  }
 ];
 
 

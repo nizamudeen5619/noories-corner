@@ -33,7 +33,7 @@ export class UserService {
   userProfile(): Observable<any> {
     return this.http.get<any>(`${this.baseUrl}/me`);
   }
-  userUpdate(updateUser: { name: string; age: number; email: string; password: string; }): Observable<any> {
+  userUpdate(updateUser: { name: string; age: number; email: string; }): Observable<any> {
     return this.http.patch<any>(`${this.baseUrl}/me`, updateUser);
   }
   userDelete(password: string): Observable<any> {

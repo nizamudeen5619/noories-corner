@@ -9,12 +9,16 @@ import { ResetPasswordComponent } from './components/reset-password/reset-passwo
 
 
 const routes: Routes = [
-  { path: 'login', component: UserLoginComponent },
-  { path: 'register', component: UserRegistrationComponent },
-  { path: 'profile', component: UserProfileComponent, canActivate: [AuthGuard] },
-  { path: 'edit-profile', component: UserRegistrationComponent, canActivate: [AuthGuard] },
-  { path: 'forgot-password', component: ForgotPasswordComponent },
-  { path: 'reset-password/:token', component: ResetPasswordComponent }
+  {
+    path: 'user', children: [
+      { path: 'login', component: UserLoginComponent },
+      { path: 'register', component: UserRegistrationComponent },
+      { path: 'profile', component: UserProfileComponent, canActivate: [AuthGuard] },
+      { path: 'edit-profile', component: UserRegistrationComponent, canActivate: [AuthGuard] },
+      { path: 'forgot-password', component: ForgotPasswordComponent },
+      { path: 'reset-password/:token', component: ResetPasswordComponent }
+    ]
+  }
 ]
 
 @NgModule({

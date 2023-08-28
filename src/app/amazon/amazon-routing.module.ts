@@ -4,8 +4,11 @@ import { AmazonProductListComponent } from './amazon-product-list/amazon-product
 import { AmazonProductDetailsComponent } from './amazon-product-details/amazon-product-details.component';
 
 const routes: Routes = [
-    { path: 'products', component: AmazonProductListComponent },
-    { path: 'product/:id', component: AmazonProductDetailsComponent }
+    {
+        path: 'amazon', children: [
+            { path: 'products', component: AmazonProductListComponent },
+            { path: 'product/:id', component: AmazonProductDetailsComponent }]
+    }
 ];
 
 @NgModule({

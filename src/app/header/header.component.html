@@ -1,7 +1,7 @@
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
   <div class="container-fluid">
     <a routerLink="/" class="navbar-brand">
-      <img src="../../assets/images/logo11.png" height="40" alt="Noorie's Corner">
+      <img src="https://i.imgur.com/M5KeEPd.png" height="40" alt="Noorie's Corner">
     </a>
     <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
       <span class="navbar-toggler-icon"></span>
@@ -13,9 +13,8 @@
         <a routerLink="/meesho/products" class="nav-item nav-link active">Meesho</a>
       </div>
       <div class="navbar-nav ms-auto" *ngIf="isLoggedIn">
-        <a class="nav-item nav-link active" routerLink="/profile"><i
+        <a class="nav-item nav-link active" routerLink="/user/profile"><i
             class="fi-cnsuxl-user-circle-solid"></i>{{userName}}</a>
-        <button class="btn btn-danger" (click)="logout()">Logout</button>
       </div>
       <div class="navbar-nav ms-auto" *ngIf="!isLoggedIn">
         <a class="nav-item nav-link active" routerLink="user/register"><i class="fi-snsuxl-user-plus-solid"></i> Sign

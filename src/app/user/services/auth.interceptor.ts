@@ -10,11 +10,12 @@ import { SharedDataService } from '../../shared/services/shared-data.service';
 import { Router } from '@angular/router';
 
 import { environment } from "src/environments/environment";
+import { CookieService } from 'ngx-cookie-service';
 
 @Injectable()
 export class AuthInterceptor implements HttpInterceptor {
 
-  constructor(private sharedData: SharedDataService, private router: Router) { }
+  constructor(private sharedData: SharedDataService, private router: Router, private cookieService: CookieService) { }
 
   intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     // Set the 'apipass' header
@@ -29,7 +30,7 @@ export class AuthInterceptor implements HttpInterceptor {
       take(1), // Take only the first emission to prevent multiple subscriptions
       switchMap(token => {
         if (token && !this.isUnauthenticatedEndpoint(request.url)) {
-          const expdate = sessionStorage.getItem('tokenExpiration');
+          const expdate = this.cookieService.get('tokenExpiration');
           if (expdate) {
             const expirationDate = new Date(expdate);
             const currentDate = new Date();
