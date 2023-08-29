@@ -6,12 +6,15 @@
     <div class="card text-bg-dark">
         <img src="https://i.imgur.com/ny8EXnN.png" class="card-img" alt="product-collage">
     </div>
-    <div id="topSellingCarousel" class="carousel slide mt-2 carousel-fade" data-bs-ride="carousel">
-        <div class="carousel-inner">
-            <div class="carousel-item active" data-bs-interval="5000">
+    <div id="topSellingCarousel" class="carousel slide mt-2" data-bs-ride="carousel">
+        <div class="carousel-heading">
+            <h2>Top Selling Products</h2>
+        </div>
+        <div class="carousel-inner pt-2">
+            <div class="carousel-item active  bg-light" data-bs-interval="5000">
                 <div class="d-flex">
                     <div *ngFor="let product of topSelling.slice(0, 3)" class="carousel-image-container">
-                        <img [src]="product.Image1" class="carousel-image" alt="Product Image"
+                        <img [src]="product.Image1" class="carousel-image p-1 h-100" alt="Product Image"
                             [routerLink]="['/'+product.Platform+'/product/'+product._id]">
                     </div>
                 </div>
@@ -35,10 +38,43 @@
         </button>
     </div>
 
+    <div id="topRatedCarousel" class="carousel slide mt-2" data-bs-ride="carousel">
+        <div class="carousel-heading">
+            <h2>Top Rated Products</h2>
+        </div>
+        <div class="carousel-inner pt-2">
+            <div class="carousel-item active" data-bs-interval="5000">
+                <div class="d-flex">
+                    <div *ngFor="let product of topRated.slice(0, 3)" class="carousel-image-container">
+                        <img [src]="product.Image1" class="carousel-image" alt="Product Image"
+                            [routerLink]="['/'+product.Platform+'/product/'+product._id]">
+                    </div>
+                </div>
+            </div>
+            <div class="carousel-item" data-bs-interval="5000">
+                <div class="d-flex">
+                    <div *ngFor="let product of topRated.slice(3, 6)" class="carousel-image-container">
+                        <img [src]="product.Image1" class="carousel-image" alt="Product Image"
+                            [routerLink]="['/'+product.Platform+'/product/'+product._id]">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <button class="carousel-control-prev" type="button" data-bs-target="#topRatedCarousel" data-bs-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Previous</span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#topRatedCarousel" data-bs-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Next</span>
+        </button>
+    </div>
+
+
     <div class="container-fluid bg-grey mt-4">
         <div>
-            <h2>About Us</h2>
-            <h4>At Noorie's Corner,</h4>
+            <h2 class="heading">About Us</h2>
+            <h4 class="sub-heading">At Noorie's Corner,</h4>
             <p>
                 <i class="bi bi-caret-right-fill"></i> We are passionate about celebrating and promoting the beauty of
                 ethnic fashion.
@@ -60,21 +96,21 @@
             </p>
         </div>
         <div class="pt-4">
-            <h2>Our Values</h2>
-            <h4><strong>MISSION:</strong> Our mission is to curate and create exceptional ethnic blouses that blend
-                traditional craftsmanship with contemporary design. We are committed to preserving cultural
-                heritage, empowering artisans, promoting inclusivity, delivering uncompromising quality, inspiring
-                fashion-forward expression, and promoting sustainability.</h4>
-            <h4><strong>VISION:</strong> Our vision is to be a national leader in ethnic fashion, celebrating the
+            <h2 class="heading">Our Values</h2>
+            <h4 class="sub-heading"><strong>MISSION:</strong> Our mission is to curate and create exceptional ethnic
+                blouses that blend
+                traditional craftsmanship with contemporary design.</h4>
+            <h4 class="sub-heading"><strong>VISION:</strong> Our vision is to be a national leader in ethnic fashion,
+                celebrating the
                 beauty of diverse cultures through our collection of exquisite ethnic blouses.</h4>
         </div>
     </div>
 
     <div id="services" class="container-fluid text-center">
-        <h2>OUR SERVICES</h2>
+        <h2 class="heading">OUR SERVICES</h2>
         <div class="row">
             <div class="col-sm-6">
-                <div><img style="height: 50px;" src="https://imgur.com/BklOZWu" alt="Amazon"></div>
+                <div><img style="height: 50px;" src="https://imgur.com/BklOZWu.png" alt="Amazon"></div>
                 <p><a class="btn btn-secondary" href="https://www.amazon.in/s?k=SAMSHAY%3A+Be+unique">SAMSHAY</a></p>
             </div>
             <div class="col-sm-6">
@@ -85,7 +121,7 @@
     </div>
 
     <div id="portfolio" class="container-fluid text-center bg-grey">
-        <h2>What our customers say</h2>
+        <h2 class="heading">What our customers say</h2>
         <div class="row row-cols-1 row-cols-md-2 g-4">
             <div class="col">
                 <div class="card">
@@ -111,8 +147,8 @@
     </div>
 
     <div id="contact" class="container-fluid bg-grey">
-        <h2 class="text-center">CONTACT</h2>
-        <h4 class="text-center">Contact us and we'll get back to you within 24 hrs</h4>
+        <h2 class="text-center heading">CONTACT</h2>
+        <h4 class="text-center sub-heading">Contact us and we'll get back to you within 24 hrs</h4>
         <div class="row">
             <div class="col">
                 <p>

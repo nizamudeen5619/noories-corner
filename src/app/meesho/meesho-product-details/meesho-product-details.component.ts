@@ -1,6 +1,6 @@
-import { Component, ElementRef, ViewChild } from '@angular/core';
+import { Component } from '@angular/core';
 import { SafeHtml, DomSanitizer } from '@angular/platform-browser';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { concatMap, catchError, tap, of, finalize, Observable, throwError, takeUntil, Subject } from 'rxjs';
 
 import { Product } from 'src/app/shared/models/product';
@@ -26,7 +26,7 @@ export class MeeshoProductDetailsComponent {
   isLoading !: boolean;
   isError !: boolean;
   errorStatusCode = 0;
-  @ViewChild('loginMessageModalButton') loginMessageModalButton !: ElementRef;
+  displayStyle = 'none';
   private destroy$: Subject<void> = new Subject<void>();
 
   constructor(
@@ -34,7 +34,8 @@ export class MeeshoProductDetailsComponent {
     private meeshoService: MeeshoService,
     private sharedService: SharedDataService,
     private favService: FavouritesService,
-    private sanitizer: DomSanitizer) { }
+    private sanitizer: DomSanitizer
+  ) { }
 
   ngOnInit(): void {
     this.isLoading = true;
@@ -111,9 +112,10 @@ export class MeeshoProductDetailsComponent {
       }
     }
     else {
-      this.loginMessageModalButton.nativeElement.click();
+      this.displayStyle = 'block';
     }
   }
+
   handleError(error: any): Observable<never> {
     this.isError = true;
     this.errorStatusCode = error.status;

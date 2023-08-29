@@ -1,4 +1,4 @@
-import { Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { Observable, Subscription, catchError, concatMap, finalize, of, tap, throwError } from 'rxjs';
@@ -28,13 +28,13 @@ export class AmazonProductDetailsComponent implements OnInit, OnDestroy {
   errorStatusCode = 0;
   routeSubscription!: Subscription;
   sharedServiceSubscription!: Subscription;
-  @ViewChild('loginMessageModalButton') loginMessageModalButton !: ElementRef;
+  displayStyle = 'none';
 
   constructor(
-    private route$: ActivatedRoute, 
-    private amazonService: AmazonService, 
-    private sharedService: SharedDataService, 
-    private favService: FavouritesService, 
+    private route$: ActivatedRoute,
+    private amazonService: AmazonService,
+    private sharedService: SharedDataService,
+    private favService: FavouritesService,
     private sanitizer: DomSanitizer
   ) { }
 
@@ -111,9 +111,10 @@ export class AmazonProductDetailsComponent implements OnInit, OnDestroy {
       }
     }
     else {
-      this.loginMessageModalButton.nativeElement.click();
+      this.displayStyle = 'block';
     }
   }
+
   handleError(error: any): Observable<never> {
     this.isError = true;
     this.errorStatusCode = error.status;

@@ -12,6 +12,7 @@ import { ProductDetailCardComponent } from './components/product-detail-card/pro
 import { StarRatingComponent } from './components/star-rating/star-rating.component';
 import { ServerErrorComponent } from './components/server-error/server-error.component';
 import { AlertComponent } from './components/alert/alert.component';
+import { ModalComponent } from './components/modal/modal.component';
 
 
 @NgModule({
@@ -28,7 +29,8 @@ import { AlertComponent } from './components/alert/alert.component';
     PaginationComponent,
     ProductDetailCardComponent,
     ServerErrorComponent,
-    AlertComponent
+    AlertComponent,
+    ModalComponent
   ],
   declarations: [
     ReduceProductNamePipe,
@@ -39,7 +41,8 @@ import { AlertComponent } from './components/alert/alert.component';
     ProductDetailCardComponent,
     StarRatingComponent,
     ServerErrorComponent,
-    AlertComponent
+    AlertComponent,
+    ModalComponent
   ]
 })
 export class SharedModule { }
