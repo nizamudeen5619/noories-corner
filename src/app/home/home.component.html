@@ -7,67 +7,74 @@
         <img src="https://i.imgur.com/ny8EXnN.png" class="card-img" alt="product-collage">
     </div>
     <div id="topSellingCarousel" class="carousel slide mt-2" data-bs-ride="carousel">
-        <div class="carousel-heading">
-            <h2>Top Selling Products</h2>
+        <div class="centered-container">
+            <h1 class="underlined-heading">Top Selling</h1>
         </div>
-        <div class="carousel-inner pt-2">
-            <div class="carousel-item active  bg-light" data-bs-interval="5000">
+        <div class="carousel-indicators">
+            <button type="button" data-bs-target="#topSellingCarousel" data-bs-slide-to="0" class="active bg-dark"
+                aria-current="true" aria-label="Slide 1"></button>
+            <button type="button" data-bs-target="#topSellingCarousel" data-bs-slide-to="1" class="bg-dark"
+                aria-label="Slide 2"></button>
+        </div>
+        <div class="carousel-inner pt-3">
+            <div class="carousel-item active" data-bs-interval="5000">
                 <div class="d-flex">
                     <div *ngFor="let product of topSelling.slice(0, 3)" class="carousel-image-container">
-                        <img [src]="product.Image1" class="carousel-image p-1 h-100" alt="Product Image"
-                            [routerLink]="['/'+product.Platform+'/product/'+product._id]">
+                        <div class="image-container">
+                            <img [src]="product.Image1" class="carousel-image p-2 h-100" alt="Product Image"
+                                [routerLink]="['/'+product.Platform+'/product/'+product._id]">
+                            <span class="badge" [ngClass]="product.Platform">{{product.Platform}}</span>
+                        </div>
                     </div>
                 </div>
             </div>
             <div class="carousel-item" data-bs-interval="5000">
                 <div class="d-flex">
                     <div *ngFor="let product of topSelling.slice(3, 6)" class="carousel-image-container">
-                        <img [src]="product.Image1" class="carousel-image" alt="Product Image"
-                            [routerLink]="['/'+product.Platform+'/product/'+product._id]">
+                        <div class="image-container">
+                            <img [src]="product.Image1" class="carousel-image p-2 h-100" alt="Product Image"
+                                [routerLink]="['/'+product.Platform+'/product/'+product._id]">
+                            <span class="badge" [ngClass]="product.Platform">{{product.Platform}}</span>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-        <button class="carousel-control-prev" type="button" data-bs-target="#topSellingCarousel" data-bs-slide="prev">
-            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-            <span class="visually-hidden">Previous</span>
-        </button>
-        <button class="carousel-control-next" type="button" data-bs-target="#topSellingCarousel" data-bs-slide="next">
-            <span class="carousel-control-next-icon" aria-hidden="true"></span>
-            <span class="visually-hidden">Next</span>
-        </button>
     </div>
 
     <div id="topRatedCarousel" class="carousel slide mt-2" data-bs-ride="carousel">
-        <div class="carousel-heading">
-            <h2>Top Rated Products</h2>
+        <div class="centered-container">
+            <h1 class="underlined-heading">Top Rated</h1>
         </div>
-        <div class="carousel-inner pt-2">
+        <div class="carousel-indicators">
+            <button type="button" data-bs-target="#topRatedCarousel" data-bs-slide-to="0" class="active bg-dark"
+                aria-current="true" aria-label="Slide 1"></button>
+            <button type="button" data-bs-target="#topRatedCarousel" data-bs-slide-to="1" class="bg-dark"
+                aria-label="Slide 2"></button>
+        </div>
+        <div class="carousel-inner pt-3">
             <div class="carousel-item active" data-bs-interval="5000">
                 <div class="d-flex">
                     <div *ngFor="let product of topRated.slice(0, 3)" class="carousel-image-container">
-                        <img [src]="product.Image1" class="carousel-image" alt="Product Image"
+                        <img [src]="product.Image1" class="carousel-image p-2 h-100" alt="Product Image"
                             [routerLink]="['/'+product.Platform+'/product/'+product._id]">
+                        <span class="badge" [ngClass]="product.Platform">{{product.Platform}}</span>
+                    {{product.Platform}}
                     </div>
                 </div>
             </div>
             <div class="carousel-item" data-bs-interval="5000">
                 <div class="d-flex">
                     <div *ngFor="let product of topRated.slice(3, 6)" class="carousel-image-container">
-                        <img [src]="product.Image1" class="carousel-image" alt="Product Image"
+                        <img [src]="product.Image1" class="carousel-image p-2 h-100" alt="Product Image"
                             [routerLink]="['/'+product.Platform+'/product/'+product._id]">
+                        <span class="badge" [ngClass]="product.Platform">{{product.Platform}}</span>
+                    {{product.Platform}}
+
                     </div>
                 </div>
             </div>
         </div>
-        <button class="carousel-control-prev" type="button" data-bs-target="#topRatedCarousel" data-bs-slide="prev">
-            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-            <span class="visually-hidden">Previous</span>
-        </button>
-        <button class="carousel-control-next" type="button" data-bs-target="#topRatedCarousel" data-bs-slide="next">
-            <span class="carousel-control-next-icon" aria-hidden="true"></span>
-            <span class="visually-hidden">Next</span>
-        </button>
     </div>
 
 
@@ -82,10 +89,6 @@
             <p>
                 <i class="bi bi-caret-right-fill"></i> Our collection of exquisite ethnic blouses blends traditional
                 craftsmanship with modern design, reflecting the rich tapestry of cultures worldwide.
-            <p>
-                <i class="bi bi-caret-right-fill"></i> We work closely with skilled artisans to create unique pieces
-                that honor their expertise and preserve traditional techniques.
-            </p>
             <p>
                 <i class="bi bi-caret-right-fill"></i> With a commitment to quality, inclusivity, and exceptional
                 customer service, we offer luxurious and durable blouses that cater to diverse tastes and occasions.

@@ -14,11 +14,14 @@ export class HeaderComponent implements OnInit, OnDestroy {
   userName?: string;
   isLoading!: boolean;
   errorStatusCode: any;
+  currentPage = 'home';
   private destroy$ = new Subject<void>();
 
   constructor(private sharedData: SharedDataService, private route$: Router) {
   }
   ngOnInit(): void {
+    console.log(this.currentPage);
+    
     this.sharedData.getUserObs().pipe(
       takeUntil(this.destroy$),
     ).subscribe({

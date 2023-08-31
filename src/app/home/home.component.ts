@@ -26,7 +26,9 @@ export class HomeComponent implements OnInit, OnDestroy {
         return this.sharedData.getTopProductsMeesho().pipe(
           map((data2) => {
             this.topSelling = [...data1.topSelling, ...data2.topSelling];           
-            this.topRated = [...data1.topRated, ...data2.topRated];            
+            this.topRated = [...data1.topRated, ...data2.topRated];
+            console.log(this.topRated);
+                      
           })
         );
       }),

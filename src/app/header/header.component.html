@@ -8,18 +8,21 @@
     </button>
     <div class="collapse navbar-collapse" id="navbarCollapse">
       <div class="navbar-nav">
-        <a routerLink="/" class="nav-item nav-link active">Home</a>
-        <a routerLink="/amazon/products" class="nav-item nav-link active">Amazon</a>
-        <a routerLink="/meesho/products" class="nav-item nav-link active">Meesho</a>
+        <a routerLink="/" class="nav-item nav-link" (click)="currentPage='home'"
+          [ngClass]="currentPage=='home'?'active':'text-light'">Home</a>
+        <a routerLink="/amazon/products" class="nav-item nav-link" (click)="currentPage='amazon'"
+          [ngClass]="currentPage=='amazon'?'active':'text-light'">Amazon</a>
+        <a routerLink="/meesho/products" class="nav-item nav-link" (click)="currentPage='meesho'"
+          [ngClass]="currentPage=='meesho'?'active':'text-light'">Meesho</a>
       </div>
       <div class="navbar-nav ms-auto" *ngIf="isLoggedIn">
-        <a class="nav-item nav-link active" routerLink="/user/profile"><i
-            class="fi-cnsuxl-user-circle-solid"></i>{{userName}}</a>
+        <a class="nav-item nav-link text-light" routerLink="/user/profile">{{userName}}</a>
       </div>
       <div class="navbar-nav ms-auto" *ngIf="!isLoggedIn">
-        <a class="nav-item nav-link active" routerLink="user/register"><i class="fi-snsuxl-user-plus-solid"></i> Sign
-          Up</a>
-        <a class="nav-item nav-link active" routerLink="user/login"><i class="fi-swsuxl-sign-in-solid"></i> Login</a>
+        <a class="nav-item nav-link text-light" routerLink="user/login">
+          Login</a>
+        <a class="nav-item nav-link text-light" routerLink="user/register">
+          Sign Up</a>
       </div>
     </div>
   </div>
