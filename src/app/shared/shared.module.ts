@@ -10,7 +10,6 @@ import { FilterPanelComponent } from './components/filter-panel/filter-panel.com
 import { ReduceProductNamePipe } from './pipes/reduce-product-name.pipe';
 import { ProductDetailCardComponent } from './components/product-detail-card/product-detail-card.component';
 import { StarRatingComponent } from './components/star-rating/star-rating.component';
-import { ServerErrorComponent } from './components/server-error/server-error.component';
 import { AlertComponent } from './components/alert/alert.component';
 import { ModalComponent } from './components/modal/modal.component';
 
@@ -28,7 +27,6 @@ import { ModalComponent } from './components/modal/modal.component';
     SpinnerComponent,
     PaginationComponent,
     ProductDetailCardComponent,
-    ServerErrorComponent,
     AlertComponent,
     ModalComponent
   ],
@@ -40,7 +38,6 @@ import { ModalComponent } from './components/modal/modal.component';
     FilterPanelComponent,
     ProductDetailCardComponent,
     StarRatingComponent,
-    ServerErrorComponent,
     AlertComponent,
     ModalComponent
   ]

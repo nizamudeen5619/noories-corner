@@ -10,6 +10,7 @@ import { UserProfileComponent } from './components/user-profile/user-profile.com
 import { UserLoginComponent } from './components/user-login/user-login.component';
 import { ForgotPasswordComponent } from './components/forgot-password/forgot-password.component';
 import { ResetPasswordComponent } from './components/reset-password/reset-password.component';
+import { FavouritesComponent } from './components/favourites/favourites.component';
 
 
 @NgModule({
@@ -18,7 +19,8 @@ import { ResetPasswordComponent } from './components/reset-password/reset-passwo
     UserProfileComponent,
     UserLoginComponent,
     ForgotPasswordComponent,
-    ResetPasswordComponent
+    ResetPasswordComponent,
+    FavouritesComponent
   ],
   imports: [
     CommonModule,

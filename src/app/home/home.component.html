@@ -1,7 +1,5 @@
 <app-spinner *ngIf="isLoading"></app-spinner>
 
-<app-server-error *ngIf="isError" [statusCode]="errorStatusCode"></app-server-error>
-
 <div class="container mt-1" *ngIf="!isLoading && !isError">
     <div class="card text-bg-dark">
         <img src="https://i.imgur.com/ny8EXnN.png" class="card-img" alt="product-collage">

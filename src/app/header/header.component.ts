@@ -1,6 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { SharedDataService } from '../shared/services/shared-data.service';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { EMPTY, Subject, catchError, takeUntil } from 'rxjs';
 
 @Component({
@@ -13,15 +13,20 @@ export class HeaderComponent implements OnInit, OnDestroy {
   isLoggedIn = false;
   userName?: string;
   isLoading!: boolean;
-  errorStatusCode: any;
-  currentPage = 'home';
+  currentPage = '';
   private destroy$ = new Subject<void>();
 
-  constructor(private sharedData: SharedDataService, private route$: Router) {
+  constructor(private sharedData: SharedDataService, private router: Router) {
   }
   ngOnInit(): void {
-    console.log(this.currentPage);
-    
+    const currentRoute = window.location.href;
+    if (currentRoute.includes('amazon')) {
+      this.currentPage = 'amazon';
+    } else if (currentRoute.includes('meesho')) {
+      this.currentPage = 'meesho';
+    } else if (!currentRoute.includes('error') || !currentRoute.includes('user')) {
+      this.currentPage = 'home';
+    }
     this.sharedData.getUserObs().pipe(
       takeUntil(this.destroy$),
     ).subscribe({
@@ -33,8 +38,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
         }
       },
       error: (error) => {
-        this.errorStatusCode = error.status;
-        this.route$.navigate(['/error', this.errorStatusCode]);
+        this.router.navigate(['/error', error.status]);
       }
     });
   }
