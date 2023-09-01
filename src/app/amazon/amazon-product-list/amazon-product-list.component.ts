@@ -1,16 +1,9 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { AmazonService } from '../amazon.service';
-import { Product } from "../../shared/models/product";
-import { ActivatedRoute } from '@angular/router';
-import { EMPTY, Subject, Subscription, catchError, distinctUntilChanged, map, switchMap, takeUntil, timeInterval } from 'rxjs';
-
-interface DesignFilter {
-  Design: string;
-}
-
-interface ColorFilter {
-  Color: string;
-}
+import { ActivatedRoute, Router } from '@angular/router';
+import { Subject, map, switchMap, takeUntil, timeInterval } from 'rxjs';
+import { ProductSubset } from 'src/app/shared/models/product-subset';
+import { ColorFilter, DesignFilter } from 'src/app/shared/models/filters';
 
 @Component({
   selector: 'app-amazon-product-list',
@@ -18,7 +11,7 @@ interface ColorFilter {
   styleUrls: ['./amazon-product-list.component.css']
 })
 export class AmazonProductListComponent implements OnInit, OnDestroy {
-  products: Product[] = [];
+  products: ProductSubset[] = [];
   currentPage!: number;
   pages: { page: number }[] = []
   timetaken!: number;
@@ -26,17 +19,15 @@ export class AmazonProductListComponent implements OnInit, OnDestroy {
   offerPercent!: number;
   isError !: boolean;
   MRP!: number;
-  errorStatusCode!: number;
 
   designFilter: DesignFilter[] = []
   colorFilter: ColorFilter[] = []
-  queryParamsSubscription!: Subscription;
+
   private destroy$: Subject<void> = new Subject<void>();
 
-  constructor(private amazonService: AmazonService, private route: ActivatedRoute) { }
+  constructor(private amazonService: AmazonService, private route$: ActivatedRoute, private router: Router) { }
 
   ngOnInit(): void {
-    this.errorStatusCode = this.amazonService.DEFAULT_ERROR_STATUS_CODE;
     this.loadProducts();
   }
 
@@ -46,31 +37,31 @@ export class AmazonProductListComponent implements OnInit, OnDestroy {
     this.colorFilter = [...filters.color];
     this.loadProducts();
   }
-  
+
   loadProducts() {
     this.isLoading = true;
     this.isError = false;
-    this.queryParamsSubscription = this.route.queryParams.pipe(
+    this.route$.queryParams.pipe(
       takeUntil(this.destroy$),
       map((params) => parseInt(params['page']) || 1),
-      distinctUntilChanged(),
       switchMap((page) => {
         this.currentPage = page
         return this.amazonService.getProducts(page - 1, this.designFilter, this.colorFilter).pipe(
-          timeInterval(),
-          catchError((error) => {
-            this.errorStatusCode = error.status;
-            this.isError = true;
-            return EMPTY;
-          })
+          timeInterval()
         )
       })
-    ).subscribe((res) => {
-      this.isError = false;
-      this.products = res.value.products;
-      this.pages = res.value.pages;
-      this.timetaken = res.interval;
-      this.isLoading = false;
+    ).subscribe({
+      next: (res) => {
+        this.products = res.value.products;
+        this.pages = res.value.pages;
+        this.timetaken = res.interval;
+        this.isLoading = false;
+      },
+      error: (error) => {
+        this.isError = true;
+        this.isLoading = false;
+        this.router.navigate(['error/' + error.status]);
+      }
     });
   }
 

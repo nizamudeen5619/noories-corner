@@ -1,7 +1,5 @@
 <app-spinner *ngIf="isLoading"></app-spinner>
 
-<app-server-error *ngIf="isError" [statusCode]="errorStatusCode"></app-server-error>
-
 <div *ngIf="!isLoading && !isError">
     <app-filter-panel (filterDataEvent)="applyFilters($event)"></app-filter-panel>
 

@@ -1,7 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
-import { Observable, Subscription, catchError, concatMap, finalize, of, tap, throwError } from 'rxjs';
+import { Observable, Subject,  catchError, concatMap, of, take, takeUntil, tap, throwError } from 'rxjs';
 
 import { Product } from 'src/app/shared/models/product';
 
@@ -25,23 +25,25 @@ export class AmazonProductDetailsComponent implements OnInit, OnDestroy {
   timetaken!: number;
   isLoading !: boolean;
   isError !: boolean;
-  errorStatusCode = 0;
-  routeSubscription!: Subscription;
-  sharedServiceSubscription!: Subscription;
   displayStyle = 'none';
+
+  private destroy$: Subject<void> = new Subject<void>();
 
   constructor(
     private route$: ActivatedRoute,
     private amazonService: AmazonService,
     private sharedService: SharedDataService,
     private favService: FavouritesService,
-    private sanitizer: DomSanitizer
+    private sanitizer: DomSanitizer,
+    private router: Router
   ) { }
 
   ngOnInit(): void {
     this.isLoading = true;
     this.isError = false;
-    this.routeSubscription = this.route$.params.pipe(
+    this.route$.params.pipe(
+      takeUntil(this.destroy$),
+      take(1),
       concatMap(({ id }) => {
         this.productID = id;
         return this.amazonService.getProductDetails(id).pipe(
@@ -56,9 +58,7 @@ export class AmazonProductDetailsComponent implements OnInit, OnDestroy {
         this.offerPercent = Math.ceil((this.product.Price / this.sharedService.DEFAULT_MRP) * 100);
       }),
       concatMap(() =>
-        this.sharedService.getAuthTokenObs().pipe(
-          catchError((error) => this.handleError(error)),
-        )
+        this.sharedService.getAuthTokenObs()
       ),
       tap((token) => {
         this.isLoggedIn = !!token;
@@ -71,43 +71,47 @@ export class AmazonProductDetailsComponent implements OnInit, OnDestroy {
         } else {
           return of({ checkFavourite: false });
         }
-      }),
-      tap(({ checkFavourite }) => {
+      })
+    ).subscribe({
+      next: ({ checkFavourite }) => {
         this.isFavourite = checkFavourite;
         this.buttonText = checkFavourite ? "Remove from Favourites" : "Add to Favourites";
-      })
-    ).subscribe(() => {
-      this.isLoading = false;
-    }
-    );
+      },
+      error: (error) => this.handleError(error),
+      complete: () => this.isLoading = false
+    });
   }
 
   addRemoveFavourites() {
     if (this.isLoggedIn) {
       if (!this.isFavourite) {
         this.isLoading = true;
-        this.sharedServiceSubscription = this.favService.favouritesAdd(this.productID).pipe(
-          catchError(error => this.handleError(error)),
-          finalize(() => this.isLoading = false),
-          tap(({ addedToFavourites }) => {
+        this.favService.favouritesAdd(this.productID).pipe(
+          takeUntil(this.destroy$),
+        ).subscribe({
+          next: ({ addedToFavourites }) => {
             if (addedToFavourites) {
               this.isFavourite = true;
               this.buttonText = "Remove from Favourites";
             }
-          })
-        ).subscribe();
+          },
+          error: (error) => this.handleError(error),
+          complete: () => this.isLoading = false
+        });
       } else {
         this.isLoading = true;
-        this.sharedServiceSubscription = this.favService.favouritesDelete(this.productID).pipe(
-          catchError(error => this.handleError(error)),
-          finalize(() => this.isLoading = false),
-          tap(({ removedFromFavourites }) => {
+        this.favService.favouritesDelete(this.productID).pipe(
+          takeUntil(this.destroy$),
+        ).subscribe({
+          next: ({ removedFromFavourites }) => {
             if (removedFromFavourites) {
               this.isFavourite = false;
               this.buttonText = "Add to Favourites";
             }
-          })
-        ).subscribe();
+          },
+          error: (error) => this.handleError(error),
+          complete: () => this.isLoading = false
+        });
       }
     }
     else {
@@ -117,12 +121,12 @@ export class AmazonProductDetailsComponent implements OnInit, OnDestroy {
 
   handleError(error: any): Observable<never> {
     this.isError = true;
-    this.errorStatusCode = error.status;
-    this.isLoading = false;
+    this.router.navigate(['error/' + error.status]);
     return throwError(() => error);
   }
 
   ngOnDestroy(): void {
-    this.routeSubscription.unsubscribe();
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 }

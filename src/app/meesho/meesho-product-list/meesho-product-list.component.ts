@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { MeeshoService } from '../meesho.service';
 import { Product } from 'src/app/shared/models/product';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription, map, distinctUntilChanged, switchMap, timeInterval, catchError, EMPTY, Subject, takeUntil } from 'rxjs';
 import { DesignFilter, ColorFilter } from 'src/app/shared/models/filters';
 
@@ -19,16 +19,14 @@ export class MeeshoProductListComponent implements OnInit {
   offerPercent!: number;
   isError !: boolean;
   MRP!: number;
-  errorStatusCode!: number;
   designFilter: DesignFilter[] = [];
   colorFilter: ColorFilter[] = [];
-  queryParamsSubscription!: Subscription;
+
   private destroy$: Subject<void> = new Subject<void>();
 
-  constructor(private meeshoService: MeeshoService, private route: ActivatedRoute) { }
+  constructor(private meeshoService: MeeshoService, private route$: ActivatedRoute, private router: Router) { }
 
   ngOnInit(): void {
-    this.errorStatusCode = this.meeshoService.DEFAULT_ERROR_STATUS_CODE;
     this.loadProducts();
   }
   applyFilters(filters: { design: DesignFilter[]; color: ColorFilter[]; }) {
@@ -40,28 +38,27 @@ export class MeeshoProductListComponent implements OnInit {
   loadProducts() {
     this.isLoading = true;
     this.isError = false;
-    this.route.queryParams.pipe(
+    this.route$.queryParams.pipe(
       takeUntil(this.destroy$),
       map((params) => parseInt(params['page']) || 1),
       distinctUntilChanged(),
       switchMap((page) => {
         this.currentPage = page
         return this.meeshoService.getProducts(page - 1, this.designFilter, this.colorFilter).pipe(
-          timeInterval(),
-          catchError((error) => {
-            this.errorStatusCode = error.status;
-            this.isError = true;
-            this.isLoading=false
-            return EMPTY;
-          })
-        )
+          timeInterval())
       })
-    ).subscribe((res) => {
-      this.isError = false;
-      this.products = res.value.products;
-      this.pages = res.value.pages;
-      this.timetaken = res.interval;
-      this.isLoading = false;
+    ).subscribe({
+      next: (res) => {
+        this.isLoading = false;
+        this.products = res.value.products;
+        this.pages = res.value.pages;
+        this.timetaken = res.interval;
+      },
+      error: (error) => {
+        this.isLoading = false;
+        this.isError = true;
+        this.router.navigate(['error/' + error.status]);
+      }
     });
   }
 

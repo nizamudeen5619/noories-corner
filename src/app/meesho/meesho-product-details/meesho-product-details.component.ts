@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { SafeHtml, DomSanitizer } from '@angular/platform-browser';
 import { ActivatedRoute, Router } from '@angular/router';
-import { concatMap, catchError, tap, of, finalize, Observable, throwError, takeUntil, Subject } from 'rxjs';
+import { concatMap, catchError, tap, of, Observable, throwError, takeUntil, Subject } from 'rxjs';
 
 import { Product } from 'src/app/shared/models/product';
 
@@ -25,7 +25,6 @@ export class MeeshoProductDetailsComponent {
   timetaken!: number;
   isLoading !: boolean;
   isError !: boolean;
-  errorStatusCode = 0;
   displayStyle = 'none';
   private destroy$: Subject<void> = new Subject<void>();
 
@@ -34,7 +33,8 @@ export class MeeshoProductDetailsComponent {
     private meeshoService: MeeshoService,
     private sharedService: SharedDataService,
     private favService: FavouritesService,
-    private sanitizer: DomSanitizer
+    private sanitizer: DomSanitizer,
+    private router: Router
   ) { }
 
   ngOnInit(): void {
@@ -56,9 +56,7 @@ export class MeeshoProductDetailsComponent {
         this.offerPercent = Math.ceil((this.product.Price / this.sharedService.DEFAULT_MRP) * 100);
       }),
       concatMap(() =>
-        this.sharedService.getAuthTokenObs().pipe(
-          catchError((error) => this.handleError(error)),
-        )
+        this.sharedService.getAuthTokenObs()
       ),
       tap((token) => {
         this.isLoggedIn = !!token;
@@ -71,12 +69,15 @@ export class MeeshoProductDetailsComponent {
         } else {
           return of({ checkFavourite: false });
         }
-      }),
-      tap(({ checkFavourite }) => {
+      })
+    ).subscribe({
+      next: ({ checkFavourite }) => {
         this.isFavourite = checkFavourite;
         this.buttonText = checkFavourite ? "Remove from Favourites" : "Add to Favourites";
-      })
-    ).subscribe(() => this.isLoading = false)
+      },
+      error: (error) => this.handleError(error),
+      complete: () => this.isLoading = false
+    })
   }
 
   addRemoveFavourites() {
@@ -84,8 +85,7 @@ export class MeeshoProductDetailsComponent {
       if (!this.isFavourite) {
         this.isLoading = true;
         this.favService.favouritesAdd(this.productID).pipe(
-          takeUntil(this.destroy$),
-          finalize(() => this.isLoading = false)
+          takeUntil(this.destroy$)
         ).subscribe({
           next: ({ addedToFavourites }) => {
             if (addedToFavourites) {
@@ -93,13 +93,13 @@ export class MeeshoProductDetailsComponent {
               this.buttonText = "Remove from Favourites";
             }
           },
-          error: (error => this.handleError(error))
+          error: error => this.handleError(error),
+          complete: () => this.isLoading = false
         });
       } else {
         this.isLoading = true;
         this.favService.favouritesDelete(this.productID).pipe(
-          takeUntil(this.destroy$),
-          finalize(() => this.isLoading = false)
+          takeUntil(this.destroy$)
         ).subscribe({
           next: ({ removedFromFavourites }) => {
             if (removedFromFavourites) {
@@ -107,7 +107,8 @@ export class MeeshoProductDetailsComponent {
               this.buttonText = "Add to Favourites";
             }
           },
-          error: (error => this.handleError(error))
+          error: error => this.handleError(error),
+          complete: () => this.isLoading = false
         });
       }
     }
@@ -118,8 +119,7 @@ export class MeeshoProductDetailsComponent {
 
   handleError(error: any): Observable<never> {
     this.isError = true;
-    this.errorStatusCode = error.status;
-    this.isLoading = false;
+    this.router.navigate(['error/' + error.status]);
     return throwError(() => error);
   }
 

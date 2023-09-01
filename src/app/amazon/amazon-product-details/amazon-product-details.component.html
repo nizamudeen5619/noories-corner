@@ -1,9 +1,8 @@
 <app-spinner *ngIf="isLoading"></app-spinner>
 
-<app-server-error *ngIf="isError" [statusCode]="errorStatusCode"></app-server-error>
-
 <app-product-detail-card *ngIf="!isLoading && !isError" [product]="product" [platform]="'amazon'"
     [buttonText]="buttonText" [offerPercent]="offerPercent" [productDescription]="productDescription"
     [isFavourite]="isFavourite" (addRemoveFavEvent)="addRemoveFavourites()"
     class="container mt-5 mb-5"></app-product-detail-card>
+
 <app-modal [displayStyle]="displayStyle"></app-modal>

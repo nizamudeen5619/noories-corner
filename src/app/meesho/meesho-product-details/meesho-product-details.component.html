@@ -1,7 +1,5 @@
 <app-spinner *ngIf="isLoading"></app-spinner>
 
-<app-server-error *ngIf="isError" [statusCode]="errorStatusCode"></app-server-error>
-
 <app-product-detail-card *ngIf="!isLoading && !isError" [product]="product" [platform]="'meesho'"
     [buttonText]="buttonText" [offerPercent]="offerPercent" [productDescription]="productDescription"
     [isFavourite]="isFavourite" (addRemoveFavEvent)="addRemoveFavourites()"
