@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { SharedDataService } from '../../../shared/services/shared-data.service';
 import { FormGroup, Validators, FormBuilder } from '@angular/forms';
 import { EMPTY, Subject, catchError, finalize, takeUntil, tap } from 'rxjs';
+
 @Component({
   selector: 'app-user-login',
   templateUrl: './user-login.component.html',
@@ -24,7 +25,6 @@ export class UserLoginComponent implements OnInit {
     password: false
   }
   private destroy$ = new Subject<void>();
-
 
   constructor(
     private userService: UserService,
@@ -72,7 +72,7 @@ export class UserLoginComponent implements OnInit {
             this.sharedData.setAuthTokenObs(token);
             this.sharedData.setUserObs(username);
 
-            this.router.navigate(['user/profile']);
+            this.router.navigate(['']);
           }
         },
         error: (error) => {

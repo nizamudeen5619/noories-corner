@@ -25,6 +25,10 @@ export class ErrorMessageService {
         errorHeading = "Error: Page Not Found";
         errorInfo = "The page you are looking for could not be found. Please check the URL and try again.";
         break;
+      case 409:
+        errorHeading = "Error: Conflict";
+        errorInfo = "The request could not be completed due to a conflict with the current state of the resource. Please resolve the conflict and try again.";
+        break;
       case 500:
         errorHeading = "Error: Internal Server Error";
         errorInfo = "We're sorry, but there was an internal server error. Please try again later.";

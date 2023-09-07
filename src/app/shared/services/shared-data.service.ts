@@ -12,15 +12,14 @@ export class SharedDataService {
 
   private userName$ = new BehaviorSubject<string | null>('');
   private authToken$ = new BehaviorSubject<string | null>('');
+  authTokenDeleted$ = new BehaviorSubject<void | null>(null);
   public readonly DEFAULT_MRP = 1499;
 
   baseUrl = "http://localhost:3000/api/v1/users";
   topProducAmazontUrl = "http://localhost:3000/api/v1/amazontop";
   topProductMeeshoUrl = "http://localhost:3000/api/v1/meeshotop";
 
-  constructor(private http: HttpClient, private cookieService: CookieService) {
-    this.setUserAndToken()
-  }
+  constructor(private http: HttpClient, private cookieService: CookieService) { }
 
   setUserAndToken() {
     const user = this.cookieService.get('user');
@@ -39,7 +38,8 @@ export class SharedDataService {
   setUserObs(user: string | null) {
     if (user) {
       this.cookieService.set('user', user);
-    } else {
+    } 
+    else {
       this.cookieService.delete('user');
     }
     this.userName$.next(user || '');
@@ -62,10 +62,12 @@ export class SharedDataService {
   }
 
   removeData() {
-    this.cookieService.delete('user');
-    this.cookieService.delete('token');
+    if (this.cookieService.check('token')) {
+      this.cookieService.deleteAll('/');
+    }
     this.userName$.next(null);
     this.authToken$.next(null);
+    this.authTokenDeleted$.next(null);
   }
 
   getTopProductsAmazon(): Observable<any> {

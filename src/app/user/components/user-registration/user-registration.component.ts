@@ -1,10 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { EMPTY, Subject, Subscription, catchError, finalize, switchMap, takeUntil, tap } from 'rxjs';
+import { Subject, Subscription, finalize, takeUntil } from 'rxjs';
 import { SharedDataService } from '../../../shared/services/shared-data.service';
 import { UserService } from '../../services/user.service';
-
 
 @Component({
   selector: 'app-user-registration',
@@ -98,7 +97,7 @@ export class UserRegistrationComponent implements OnInit {
     this.isLoading = true;
 
     if (this.userForm.valid) {
-      const user: any = {
+      let user: any = {
         name: this.userForm.get('name')?.value,
         age: this.userForm.get('age')?.value,
         email: this.userForm.get('email')?.value,
@@ -107,11 +106,11 @@ export class UserRegistrationComponent implements OnInit {
       if (!this.isLoggedIn) {
         user['password'] = this.userForm.get('password')?.value;
       }
-
+      
       const userServiceMethod = this.isLoggedIn
         ? this.userService.userUpdate(user)
         : this.userService.userRegister(user);
-
+      
       userServiceMethod
         .pipe(
           takeUntil(this.destroy$),
@@ -121,9 +120,14 @@ export class UserRegistrationComponent implements OnInit {
         ).subscribe({
           next: (res) => {
             if (res) {
-              this.sharedData.setUserObs(res.user);
-              this.sharedData.setAuthTokenObs(res.token);
-              this.router.navigate(['/profile']);
+              if (this.isLoggedIn) {
+                this.sharedData.setUserObs(res.userName);
+              }
+              else {
+                this.sharedData.setUserObs(res.user);
+                this.sharedData.setAuthTokenObs(res.token);
+              }
+              this.router.navigate(['/user/profile']);
             }
           },
           error: (error) => {

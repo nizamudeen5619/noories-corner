@@ -16,7 +16,16 @@
           [ngClass]="currentPage=='meesho'?'active':'text-light'">Meesho</a>
       </div>
       <div class="navbar-nav ms-auto" *ngIf="isLoggedIn">
-        <a class="nav-item nav-link text-light" routerLink="/user/profile">{{userName}}</a>
+        <div class="dropdown dropdown-center me-md-3">
+          <button class="btn btn-secondary dropdown-toggle" type="button" id="userDropdown" data-bs-toggle="dropdown"
+            aria-haspopup="true" aria-expanded="false">
+            {{ userName }}
+          </button>
+          <ul class="dropdown-menu" aria-labelledby="userDropdown">
+            <li><a class="dropdown-item" routerLink="/user/profile">View Profile</a></li>
+            <li><button class="dropdown-item" (click)="logout()" type="button">Logout</button></li>
+          </ul>
+        </div>
       </div>
       <div class="navbar-nav ms-auto" *ngIf="!isLoggedIn">
         <a class="nav-item nav-link text-light" routerLink="user/login">

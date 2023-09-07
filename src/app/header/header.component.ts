@@ -1,7 +1,8 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { SharedDataService } from '../shared/services/shared-data.service';
-import { ActivatedRoute, Router } from '@angular/router';
-import { EMPTY, Subject, catchError, takeUntil } from 'rxjs';
+import { Observable, Subject, take, takeUntil } from 'rxjs';
+import { UserService } from '../user/services/user.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-header',
@@ -10,14 +11,13 @@ import { EMPTY, Subject, catchError, takeUntil } from 'rxjs';
 })
 export class HeaderComponent implements OnInit, OnDestroy {
 
-  isLoggedIn = false;
+  isLoggedIn!: boolean;
   userName?: string;
-  isLoading!: boolean;
   currentPage = '';
   private destroy$ = new Subject<void>();
+  errorStatusCode!: number;
 
-  constructor(private sharedData: SharedDataService, private router: Router) {
-  }
+  constructor(private sharedData: SharedDataService, private userService: UserService, private router: Router) { }
   ngOnInit(): void {
     const currentRoute = window.location.href;
     if (currentRoute.includes('amazon')) {
@@ -27,21 +27,36 @@ export class HeaderComponent implements OnInit, OnDestroy {
     } else if (!currentRoute.includes('error') || !currentRoute.includes('user')) {
       this.currentPage = 'home';
     }
-    this.sharedData.getUserObs().pipe(
-      takeUntil(this.destroy$),
-    ).subscribe({
-      next: (username) => {
-        if (username) {
-          this.isLoggedIn = true;
-          this.userName = username;
-          this.isLoading = false;
-        }
-      },
-      error: (error) => {
-        this.router.navigate(['/error', error.status]);
-      }
-    });
+    this.getUserName()
   }
+  logout() {
+    this.userService.userLogout()
+      .subscribe({
+        next: () => {
+          this.sharedData.removeData();
+          this.router.navigateByUrl('');
+          this.getUserName()
+        },
+        error: (error) => {
+          this.errorStatusCode = error.status;
+          this.router.navigate(['/error', this.errorStatusCode]);
+        }
+      });
+  }
+
+  getUserName() {
+    this.sharedData.getUserObs()
+      .subscribe((userName) => {
+        if (userName) {
+          this.userName = userName;
+          this.isLoggedIn = true;
+        }
+        else {
+          this.isLoggedIn = false;
+        }
+      })
+  }
+
   ngOnDestroy() {
     // Unsubscribe from all subscriptions when the component is destroyed
     this.destroy$.next();
