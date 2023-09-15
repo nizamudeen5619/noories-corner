@@ -1,10 +1,5 @@
 import { Injectable } from '@angular/core';
-import {
-  HttpRequest,
-  HttpHandler,
-  HttpEvent,
-  HttpInterceptor
-} from '@angular/common/http';
+import { HttpRequest, HttpHandler, HttpEvent, HttpInterceptor } from '@angular/common/http';
 import { Observable, switchMap, take } from 'rxjs';
 import { SharedDataService } from '../../shared/services/shared-data.service';
 import { Router } from '@angular/router';
@@ -42,7 +37,8 @@ export class AuthInterceptor implements HttpInterceptor {
               });
             }
             else {
-              this.router.navigate(['login'])
+              this.sharedData.removeData()
+              this.router.navigate(['/user/login'])
             }
           }
         }

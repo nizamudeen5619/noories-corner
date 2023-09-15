@@ -1,7 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
-import { Observable, Subject,  catchError, concatMap, of, take, takeUntil, tap, throwError } from 'rxjs';
+import { Observable, Subject, catchError, concatMap, finalize, of, take, takeUntil, tap, throwError } from 'rxjs';
 
 import { Product } from 'src/app/shared/models/product';
 
@@ -43,7 +43,6 @@ export class AmazonProductDetailsComponent implements OnInit, OnDestroy {
     this.isError = false;
     this.route$.params.pipe(
       takeUntil(this.destroy$),
-      take(1),
       concatMap(({ id }) => {
         this.productID = id;
         return this.amazonService.getProductDetails(id).pipe(
@@ -76,9 +75,12 @@ export class AmazonProductDetailsComponent implements OnInit, OnDestroy {
       next: ({ checkFavourite }) => {
         this.isFavourite = checkFavourite;
         this.buttonText = checkFavourite ? "Remove from Favourites" : "Add to Favourites";
+        this.isLoading = false;
       },
-      error: (error) => this.handleError(error),
-      complete: () => this.isLoading = false
+      error: (error) => {
+        this.isLoading = false
+        this.handleError(error)
+      }
     });
   }
 

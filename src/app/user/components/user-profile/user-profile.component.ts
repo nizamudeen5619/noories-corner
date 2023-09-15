@@ -95,8 +95,6 @@ export class UserProfileComponent implements OnInit, OnDestroy {
       takeUntil(this.destroy$)
     ).subscribe({
       next: () => {
-        this.currentProcess = 'photo';
-        this.displayStyle = 'block';
         this.getAvatar();
       },
       error: (error) => {

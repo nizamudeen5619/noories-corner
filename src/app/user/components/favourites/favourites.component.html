@@ -1,0 +1,9 @@
+<app-spinner *ngIf="isLoading"></app-spinner>
+
+<div *ngIf="!isLoading && !isError">
+
+    <div class="row row-cols-1 row-cols-md-3 row-cols-lg-3 row-cols-sm-2 g-4 mt-1">
+        <app-product-card class="col" *ngFor="let product of favouriteProducts" [product]="product"></app-product-card>
+    </div>
+
+</div>

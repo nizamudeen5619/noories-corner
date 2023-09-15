@@ -6,7 +6,7 @@ import { UserProfileComponent } from './components/user-profile/user-profile.com
 import { UserRegistrationComponent } from './components/user-registration/user-registration.component';
 import { ForgotPasswordComponent } from './components/forgot-password/forgot-password.component';
 import { ResetPasswordComponent } from './components/reset-password/reset-password.component';
-
+import { FavouritesComponent } from './components/favourites/favourites.component';
 
 const routes: Routes = [
   {
@@ -14,6 +14,7 @@ const routes: Routes = [
       { path: 'login', component: UserLoginComponent },
       { path: 'register', component: UserRegistrationComponent },
       { path: 'profile', component: UserProfileComponent, canActivate: [AuthGuard] },
+      { path: 'favourites', component: FavouritesComponent, canActivate: [AuthGuard] },
       { path: 'edit-profile', component: UserRegistrationComponent, canActivate: [AuthGuard] },
       { path: 'forgot-password', component: ForgotPasswordComponent },
       { path: 'reset-password/:token', component: ResetPasswordComponent }
