@@ -19,11 +19,11 @@ export class SharedDataService {
   topProducAmazontUrl = "http://localhost:3000/api/v1/amazontop";
   topProductMeeshoUrl = "http://localhost:3000/api/v1/meeshotop";
 
-  constructor(private http: HttpClient, private cookieService: CookieService) { }
+  constructor(private http: HttpClient) { }
 
   setUserAndToken() {
-    const user = this.cookieService.get('user');
-    const token = this.cookieService.get('token');
+    const user = localStorage.getItem('user');
+    const token = localStorage.getItem('token');
     if (user && token) {
       this.userName$.next(user);
       this.authToken$.next(token);
@@ -37,10 +37,10 @@ export class SharedDataService {
 
   setUserObs(user: string | null) {
     if (user) {
-      this.cookieService.set('user', user);
-    } 
+      localStorage.setItem('user', user);
+    }
     else {
-      this.cookieService.delete('user');
+      localStorage.removeItem('user');
     }
     this.userName$.next(user || '');
   }
@@ -55,15 +55,15 @@ export class SharedDataService {
     if (decodedToken && decodedToken.exp) {
       const expirationDate = new Date(decodedToken.exp * 1000); // Convert the expiration timestamp to milliseconds.
 
-      this.cookieService.set('token', token);
-      this.cookieService.set('tokenExpiration', expirationDate.toISOString());
+      localStorage.setItem('token', token);
+      localStorage.setItem('tokenExpiration', expirationDate.toISOString());
       this.authToken$.next(token);
     }
   }
 
   removeData() {
-    if (this.cookieService.check('token')) {
-      this.cookieService.deleteAll('/');
+    if (localStorage.getItem('token')) {
+      localStorage.clear();
     }
     this.userName$.next(null);
     this.authToken$.next(null);
