@@ -4,7 +4,6 @@ import { BehaviorSubject, Observable } from 'rxjs';
 import jwt_decode, { JwtPayload } from 'jwt-decode';
 
 import { environment } from '../../../../environments/environment';
-import { ConfigService } from './config.service';
 
 @Injectable({
   providedIn: 'root'
@@ -19,10 +18,7 @@ export class SharedDataService {
   private topProducAmazontUrl = environment.apiUrl + "amazontop";
   private topProductMeeshoUrl = environment.apiUrl + "meeshotop";
 
-  // private topProducAmazontUrl = this.config.apiUrl + "amazontop";
-  // private topProductMeeshoUrl = this.config.apiUrl + "meeshotop";
-
-  constructor(private http: HttpClient, private config:ConfigService) { }
+  constructor(private http: HttpClient) { }
 
   setUserAndToken() {
     const user = localStorage.getItem('user');

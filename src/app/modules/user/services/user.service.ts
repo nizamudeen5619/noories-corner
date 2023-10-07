@@ -4,7 +4,6 @@ import { EMPTY, Observable } from 'rxjs';
 
 import { SharedDataService } from '../../shared/services/shared-data.service';
 import { environment } from "../../../../environments/environment";
-import { ConfigService } from '../../shared/services/config.service';
 
 @Injectable({
   providedIn: 'root'
@@ -12,9 +11,8 @@ import { ConfigService } from '../../shared/services/config.service';
 export class UserService {
 
   private baseUrl = environment.apiUrl + "users";
-  //  private baseUrl = this.config.apiUrl + "users";
 
-  constructor(private http: HttpClient, private sharedData: SharedDataService, private config: ConfigService) { }
+  constructor(private http: HttpClient, private sharedData: SharedDataService) { }
 
   userRegister(user: { name: string; age: number; email: string; password: string; }): Observable<any> {
     return this.http.post<any>(`${this.baseUrl}/register`, user);

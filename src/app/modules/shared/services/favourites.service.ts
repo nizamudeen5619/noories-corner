@@ -3,7 +3,6 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 
 import { environment } from '../../../../environments/environment';
-import { ConfigService } from './config.service';
 
 @Injectable({
   providedIn: 'root'
@@ -11,9 +10,8 @@ import { ConfigService } from './config.service';
 export class FavouritesService {
 
   private baseUrl = environment.apiUrl + "users";
-//  private baseUrl = this.config.apiUrl + "users";
 
-  constructor(private http: HttpClient, private config: ConfigService) { }
+  constructor(private http: HttpClient) { }
 
   favouriteCheck(productID: string): Observable<any> {
     return this.http.get<any>(`${this.baseUrl}/favourites/${productID}`);

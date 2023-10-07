@@ -3,7 +3,6 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 
 import { environment } from '../../../environments/environment';
-import { ConfigService } from '../shared/services/config.service';
 
 import { Product } from '../shared/models/product';
 
@@ -13,9 +12,8 @@ import { Product } from '../shared/models/product';
 export class AmazonService {
 
   private API_BASE_URL = environment.apiUrl + "amazon";
-  //  private API_BASE_URL = this.config.apiUrl + "amazon";
 
-  constructor(private http: HttpClient, private config: ConfigService) { }
+  constructor(private http: HttpClient) { }
 
   getProducts(page: number, designFilterArray: { Design: string }[], colorFilterArray: { Color: string }[]): Observable<any> {
     let queryParams = new HttpParams().append("page", page);

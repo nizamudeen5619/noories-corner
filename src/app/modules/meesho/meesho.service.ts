@@ -4,7 +4,6 @@ import { Observable } from 'rxjs';
 
 import { Product } from '../shared/models/product';
 import { environment } from 'src/environments/environment';
-import { ConfigService } from '../shared/services/config.service';
 
 @Injectable({
   providedIn: 'root'
@@ -12,9 +11,8 @@ import { ConfigService } from '../shared/services/config.service';
 export class MeeshoService {
 
   private API_BASE_URL = environment.apiUrl + "meesho";
-//  private API_BASE_URL = this.config.apiUrl + "meesho";
 
-  constructor(private http: HttpClient, private config: ConfigService) { }
+  constructor(private http: HttpClient) { }
 
   getProducts(page: number, designFilterArray: { Design: string }[], colorFilterArray: { Color: string }[]): Observable<any> {
     let queryParams = new HttpParams().append("page", page);
