@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Subject, Subscription, finalize, takeUntil } from 'rxjs';
+
 import { SharedDataService } from '../../../shared/services/shared-data.service';
 import { UserService } from '../../services/user.service';
 
@@ -11,6 +12,8 @@ import { UserService } from '../../services/user.service';
   styleUrls: ['./user-registration.component.css']
 })
 export class UserRegistrationComponent implements OnInit {
+
+  private destroy$ = new Subject<void>();
 
   userForm!: FormGroup;
   user: any
@@ -34,8 +37,6 @@ export class UserRegistrationComponent implements OnInit {
   showPassword = false;
   emailExistsError = false;
   errorEmail = '';
-  private destroy$ = new Subject<void>();
-
 
   constructor(
     private formBuilder: FormBuilder,
@@ -43,6 +44,7 @@ export class UserRegistrationComponent implements OnInit {
     private router: Router,
     private sharedData: SharedDataService
   ) { }
+  
   ngOnInit() {
     if (this.userService.isLoggedIn()) {
       this.isLoading = true;
@@ -188,4 +190,5 @@ export class UserRegistrationComponent implements OnInit {
     this.destroy$.next();
     this.destroy$.complete();
   }
+  
 }

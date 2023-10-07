@@ -1,7 +1,8 @@
 import { Component, OnDestroy } from '@angular/core';
-import { UserService } from '../../services/user.service';
 import { Subject, finalize, takeUntil } from 'rxjs';
 import { Router } from '@angular/router';
+
+import { UserService } from '../../services/user.service';
 
 @Component({
   selector: 'app-forgot-password',
@@ -9,6 +10,9 @@ import { Router } from '@angular/router';
   styleUrls: ['./forgot-password.component.css']
 })
 export class ForgotPasswordComponent implements OnDestroy {
+
+  private destroy$ = new Subject<void>();
+
   email: string = '';
   isLoading!: boolean;
   isError = false;
@@ -16,8 +20,6 @@ export class ForgotPasswordComponent implements OnDestroy {
   errorMessage!: string;
   emailError = false;
   displayStyle = '';
-  private destroy$ = new Subject<void>();
-
 
   constructor(
     private userService: UserService,
@@ -52,6 +54,7 @@ export class ForgotPasswordComponent implements OnDestroy {
         }
       });
   }
+
   closeModal() {
     this.displayStyle = "none";
     this.router.navigate(['']);

@@ -7,6 +7,7 @@ import { Router } from '@angular/router';
   styleUrls: ['./modal.component.css']
 })
 export class ModalComponent {
+
   @Input() displayStyle!: string;
 
   constructor(private router: Router) { }
@@ -19,6 +20,5 @@ export class ModalComponent {
     this.displayStyle = "none";
     this.router.navigateByUrl('/user/login')
   }
-
 
 }

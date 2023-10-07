@@ -1,7 +1,7 @@
 import { Component, EventEmitter, OnDestroy, OnInit, Output } from '@angular/core';
+
 import { designFilterOptions, colorFilterOptions } from "../../data/filter.data";
 import { DesignFilter, ColorFilter, Filters } from '../../models/filters';
-
 
 @Component({
   selector: 'app-filter-panel',
@@ -9,7 +9,9 @@ import { DesignFilter, ColorFilter, Filters } from '../../models/filters';
   styleUrls: ['./filter-panel.component.css']
 })
 export class FilterPanelComponent implements OnInit , OnDestroy{
+
   @Output() filterDataEvent = new EventEmitter<{ design: DesignFilter[], color: ColorFilter[] }>();
+  
   filterButtonText: string = "Filter";
   filterButtonFlag: boolean = true;
   closeFilterButtonFlag: boolean = false;
@@ -69,4 +71,5 @@ export class FilterPanelComponent implements OnInit , OnDestroy{
     sessionStorage.removeItem("designFilters");
     sessionStorage.removeItem("colorFilters");
   }
+
 }

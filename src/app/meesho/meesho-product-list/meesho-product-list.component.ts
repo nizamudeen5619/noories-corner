@@ -1,9 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import { MeeshoService } from '../meesho.service';
-import { Product } from 'src/app/shared/models/product';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Subscription, map, distinctUntilChanged, switchMap, timeInterval, catchError, EMPTY, Subject, takeUntil } from 'rxjs';
-import { DesignFilter, ColorFilter } from 'src/app/shared/models/filters';
+import { map, distinctUntilChanged, switchMap, timeInterval, Subject, takeUntil } from 'rxjs';
+
+import { MeeshoService } from '../meesho.service';
+
+import { DesignFilter, ColorFilter } from '../../shared/models/filters';
+import { Product } from '../../shared/models/product';
 
 @Component({
   selector: 'app-meesho-product-list',
@@ -11,6 +13,9 @@ import { DesignFilter, ColorFilter } from 'src/app/shared/models/filters';
   styleUrls: ['./meesho-product-list.component.css']
 })
 export class MeeshoProductListComponent implements OnInit {
+
+  private destroy$: Subject<void> = new Subject<void>();
+
   products: Product[] = [];
   currentPage!: number;
   pages: { page: number }[] = [];
@@ -22,19 +27,19 @@ export class MeeshoProductListComponent implements OnInit {
   designFilter: DesignFilter[] = [];
   colorFilter: ColorFilter[] = [];
 
-  private destroy$: Subject<void> = new Subject<void>();
-
   constructor(private meeshoService: MeeshoService, private route$: ActivatedRoute, private router: Router) { }
 
   ngOnInit(): void {
     this.loadProducts();
   }
+
   applyFilters(filters: { design: DesignFilter[]; color: ColorFilter[]; }) {
     sessionStorage.setItem('filters', JSON.stringify(filters));
     this.designFilter = [...filters.design];
     this.colorFilter = [...filters.color];
     this.loadProducts();
   }
+
   loadProducts() {
     this.isLoading = true;
     this.isError = false;
@@ -66,4 +71,5 @@ export class MeeshoProductListComponent implements OnInit {
     this.destroy$.next();
     this.destroy$.complete();
   }
+  
 }

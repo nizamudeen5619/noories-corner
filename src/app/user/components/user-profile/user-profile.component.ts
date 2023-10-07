@@ -1,19 +1,20 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { UserService } from '../../services/user.service';
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser'
 import { Router } from '@angular/router';
+import { EMPTY, Subject, catchError, finalize, takeUntil } from 'rxjs';
+
 import { SharedDataService } from '../../../shared/services/shared-data.service';
-import { EMPTY, Subject, Subscription, catchError, finalize, takeUntil, tap } from 'rxjs';
+import { UserService } from '../../services/user.service';
 
 @Component({
   selector: 'app-user-profile',
   templateUrl: './user-profile.component.html',
   styleUrls: ['./user-profile.component.css']
 })
-
 export class UserProfileComponent implements OnInit, OnDestroy {
 
-  constructor(private userService: UserService, private sanitizer: DomSanitizer, private route: Router, private sharedData: SharedDataService) { }
+  private destroy$ = new Subject<void>();
+
   user: any;
   filesToUpload!: File;
   imageUrl!: SafeUrl;
@@ -28,14 +29,17 @@ export class UserProfileComponent implements OnInit, OnDestroy {
   currentProcess = '';
   confirmPassword = '';
   goTohomeButton = false;
-
-  private destroy$ = new Subject<void>();
-
   isLoading!: boolean;
   passwordError = true;
   isError!: boolean;
   errorStatusCode: any;
 
+  constructor(
+    private userService: UserService,
+    private sanitizer: DomSanitizer,
+    private route: Router,
+    private sharedData: SharedDataService
+  ) { }
 
   ngOnInit(): void {
     if (this.userService.isLoggedIn()) {
@@ -224,4 +228,5 @@ export class UserProfileComponent implements OnInit, OnDestroy {
     this.destroy$.next();
     this.destroy$.complete();
   }
+
 }

@@ -1,8 +1,10 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { Product } from '../shared/models/product';
 import { EMPTY, Subject, catchError, finalize, map, switchMap, takeUntil } from 'rxjs';
-import { SharedDataService } from '../shared/services/shared-data.service';
 import { Router } from '@angular/router';
+
+import { SharedDataService } from '../shared/services/shared-data.service';
+
+import { Product } from '../shared/models/product';
 
 @Component({
   selector: 'app-home',
@@ -10,14 +12,17 @@ import { Router } from '@angular/router';
   styleUrls: ['./home.component.css']
 })
 export class HomeComponent implements OnInit, OnDestroy {
+
+  private destroy$ = new Subject<void>();
+
   isLoading!: boolean;
   isError!: boolean;
   topSelling: Product[] = [];
   topRated: Product[] = [];
   errorStatusCode: any;
-  private destroy$ = new Subject<void>();
 
   constructor(private sharedData: SharedDataService, private router: Router) { }
+
   ngOnInit(): void {
     this.isLoading = true;
     this.isError = false;
@@ -41,8 +46,10 @@ export class HomeComponent implements OnInit, OnDestroy {
       })
     ).subscribe()
   }
+
   ngOnDestroy(): void {
     this.destroy$.next();
     this.destroy$.complete()
   }
+
 }

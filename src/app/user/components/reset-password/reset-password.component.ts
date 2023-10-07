@@ -1,8 +1,9 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { UserService } from '../../services/user.service';
-import { Subject, finalize, takeUntil} from 'rxjs';
+import { Subject, finalize, takeUntil } from 'rxjs';
 import { AbstractControl, FormBuilder, FormGroup, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
+
+import { UserService } from '../../services/user.service';
 
 @Component({
   selector: 'app-reset-password',
@@ -11,6 +12,8 @@ import { AbstractControl, FormBuilder, FormGroup, ValidationErrors, ValidatorFn,
 })
 export class ResetPasswordComponent implements OnInit, OnDestroy {
 
+  private destroy$ = new Subject<void>();
+
   token: string = '';
   isError!: boolean;
   errorStatusCode!: string;
@@ -18,7 +21,6 @@ export class ResetPasswordComponent implements OnInit, OnDestroy {
   isLoading!: boolean;
   passwordExpiredError = false;
   displayStyle = '';
-  private destroy$ = new Subject<void>();
   resetForm: FormGroup;
 
   constructor(
@@ -32,7 +34,6 @@ export class ResetPasswordComponent implements OnInit, OnDestroy {
       confirmPassword: ['', Validators.required]
     }, { validators: this.passwordMatchValidator() }); // Add the custom validator to the form group
   }
-
 
   ngOnInit() {
     this.route.params.subscribe(params => {
@@ -53,6 +54,7 @@ export class ResetPasswordComponent implements OnInit, OnDestroy {
       return regex.test(value) ? null : { invalidPassword: true };
     };
   }
+
   passwordMatchValidator(): ValidatorFn {
     return (control: AbstractControl): ValidationErrors | null => {
       const newPassword = control.get('newPassword')?.value;

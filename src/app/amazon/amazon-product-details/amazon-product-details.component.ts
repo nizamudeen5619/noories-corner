@@ -1,13 +1,13 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
-import { Observable, Subject, catchError, concatMap, finalize, of, take, takeUntil, tap, throwError } from 'rxjs';
-
-import { Product } from 'src/app/shared/models/product';
+import { Observable, Subject, catchError, concatMap, of, takeUntil, tap, throwError } from 'rxjs';
 
 import { AmazonService } from '../amazon.service';
 import { SharedDataService } from '../../shared/services/shared-data.service';
 import { FavouritesService } from "../../shared/services/favourites.service";
+
+import { Product } from '../../shared/models/product';
 
 @Component({
   selector: 'app-amazon-product-details',
@@ -15,6 +15,9 @@ import { FavouritesService } from "../../shared/services/favourites.service";
   styleUrls: ['./amazon-product-details.component.css']
 })
 export class AmazonProductDetailsComponent implements OnInit, OnDestroy {
+
+  private destroy$: Subject<void> = new Subject<void>();
+
   product!: Product;
   isLoggedIn!: boolean;
   isFavourite !: boolean;
@@ -26,8 +29,6 @@ export class AmazonProductDetailsComponent implements OnInit, OnDestroy {
   isLoading !: boolean;
   isError !: boolean;
   displayStyle = 'none';
-
-  private destroy$: Subject<void> = new Subject<void>();
 
   constructor(
     private route$: ActivatedRoute,
@@ -85,9 +86,7 @@ export class AmazonProductDetailsComponent implements OnInit, OnDestroy {
     });
   }
 
-  addRemoveFavourites() {
-    console.log(this.isLoggedIn);
-    
+  addRemoveFavourites() {    
     if (this.isLoggedIn) {
       if (!this.isFavourite) {
         this.isLoading = true;
@@ -134,4 +133,5 @@ export class AmazonProductDetailsComponent implements OnInit, OnDestroy {
     this.destroy$.next();
     this.destroy$.complete();
   }
+  
 }

@@ -1,8 +1,9 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { Subject, takeUntil, timeInterval } from 'rxjs';
-import { ProductSubset } from 'src/app/shared/models/product-subset';
-import { FavouritesService } from 'src/app/shared/services/favourites.service';
+
+import { ProductSubset } from '../../../shared/models/product-subset';
+import { FavouritesService } from '../../../shared/services/favourites.service';
 
 @Component({
   selector: 'app-favourites',
@@ -10,6 +11,9 @@ import { FavouritesService } from 'src/app/shared/services/favourites.service';
   styleUrls: ['./favourites.component.css']
 })
 export class FavouritesComponent {
+
+  private destroy$: Subject<void> = new Subject<void>();
+
   favouriteProducts: ProductSubset[] = [];
   currentPage!: number;
   pages: { page: number }[] = []
@@ -19,8 +23,6 @@ export class FavouritesComponent {
   isError !: boolean;
   MRP!: number;
   errorStatusCode!: number;
-
-  private destroy$: Subject<void> = new Subject<void>();
 
   constructor(private favourite: FavouritesService, private router: Router) { }
 
@@ -36,8 +38,6 @@ export class FavouritesComponent {
       timeInterval()
     ).subscribe({
       next: (res) => {
-        console.log(res);
-        
         this.favouriteProducts = res.value.favouriteProducts;
         this.timetaken = res.interval;
         this.isLoading = false;

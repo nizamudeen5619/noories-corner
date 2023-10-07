@@ -1,7 +1,9 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { AmazonService } from '../amazon.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subject, map, switchMap, takeUntil, timeInterval } from 'rxjs';
+
+import { AmazonService } from '../amazon.service';
+
 import { ProductSubset } from 'src/app/shared/models/product-subset';
 import { ColorFilter, DesignFilter } from 'src/app/shared/models/filters';
 
@@ -11,6 +13,9 @@ import { ColorFilter, DesignFilter } from 'src/app/shared/models/filters';
   styleUrls: ['./amazon-product-list.component.css']
 })
 export class AmazonProductListComponent implements OnInit, OnDestroy {
+
+  private destroy$: Subject<void> = new Subject<void>();
+
   products: ProductSubset[] = [];
   currentPage!: number;
   pages: { page: number }[] = []
@@ -19,11 +24,8 @@ export class AmazonProductListComponent implements OnInit, OnDestroy {
   offerPercent!: number;
   isError !: boolean;
   MRP!: number;
-
   designFilter: DesignFilter[] = []
   colorFilter: ColorFilter[] = []
-
-  private destroy$: Subject<void> = new Subject<void>();
 
   constructor(private amazonService: AmazonService, private route$: ActivatedRoute, private router: Router) { }
 
@@ -69,4 +71,5 @@ export class AmazonProductListComponent implements OnInit, OnDestroy {
     this.destroy$.next();
     this.destroy$.complete();
   }
+  
 }

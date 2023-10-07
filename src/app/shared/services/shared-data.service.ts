@@ -2,24 +2,27 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 import jwt_decode, { JwtPayload } from 'jwt-decode';
-import { CookieService } from 'ngx-cookie-service';
+
+import { environment } from '../../../environments/environment';
+import { ConfigService } from './config.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class SharedDataService {
 
-
   private userName$ = new BehaviorSubject<string | null>('');
   private authToken$ = new BehaviorSubject<string | null>('');
-  authTokenDeleted$ = new BehaviorSubject<void | null>(null);
+  
   public readonly DEFAULT_MRP = 1499;
 
-  baseUrl = "http://localhost:3000/api/v1/users";
-  topProducAmazontUrl = "http://localhost:3000/api/v1/amazontop";
-  topProductMeeshoUrl = "http://localhost:3000/api/v1/meeshotop";
+  private topProducAmazontUrl = environment.apiUrl + "amazontop";
+  private topProductMeeshoUrl = environment.apiUrl + "meeshotop";
 
-  constructor(private http: HttpClient) { }
+  // private topProducAmazontUrl = this.config.apiUrl + "amazontop";
+  // private topProductMeeshoUrl = this.config.apiUrl + "meeshotop";
+
+  constructor(private http: HttpClient, private config:ConfigService) { }
 
   setUserAndToken() {
     const user = localStorage.getItem('user');
@@ -67,7 +70,6 @@ export class SharedDataService {
     }
     this.userName$.next(null);
     this.authToken$.next(null);
-    this.authTokenDeleted$.next(null);
   }
 
   getTopProductsAmazon(): Observable<any> {

@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+
 import { AmazonProductListComponent } from './amazon-product-list/amazon-product-list.component';
 import { AmazonProductDetailsComponent } from './amazon-product-details/amazon-product-details.component';
 

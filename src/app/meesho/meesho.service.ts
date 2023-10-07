@@ -1,19 +1,20 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
+
 import { Product } from '../shared/models/product';
 import { environment } from 'src/environments/environment';
-
+import { ConfigService } from '../shared/services/config.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class MeeshoService {
-  public readonly API_BASE_URL = environment.apiUrl + "meesho";
-  public readonly DEFAULT_ERROR_STATUS_CODE = 500;
 
-  constructor(private http: HttpClient) { }
+  private API_BASE_URL = environment.apiUrl + "meesho";
+//  private API_BASE_URL = this.config.apiUrl + "meesho";
 
+  constructor(private http: HttpClient, private config: ConfigService) { }
 
   getProducts(page: number, designFilterArray: { Design: string }[], colorFilterArray: { Color: string }[]): Observable<any> {
     let queryParams = new HttpParams().append("page", page);
@@ -23,6 +24,7 @@ export class MeeshoService {
     queryParams = queryParams.append('color', colorFilter);
     return this.http.get<Product[]>(`${this.API_BASE_URL}`, { params: queryParams });
   }
+
   getProductDetails(id: string) {
     return this.http.get<Product>(`${this.API_BASE_URL}/${id}`);
   }

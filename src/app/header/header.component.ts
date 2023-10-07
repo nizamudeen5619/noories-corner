@@ -1,8 +1,9 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { SharedDataService } from '../shared/services/shared-data.service';
-import { Observable, Subject, take, takeUntil } from 'rxjs';
-import { UserService } from '../user/services/user.service';
+import { Subject } from 'rxjs';
 import { Router } from '@angular/router';
+
+import { SharedDataService } from '../shared/services/shared-data.service';
+import { UserService } from '../user/services/user.service';
 
 @Component({
   selector: 'app-header',
@@ -11,13 +12,15 @@ import { Router } from '@angular/router';
 })
 export class HeaderComponent implements OnInit, OnDestroy {
 
+  private destroy$ = new Subject<void>();
+
   isLoggedIn!: boolean;
   userName?: string;
   currentPage = '';
-  private destroy$ = new Subject<void>();
   errorStatusCode!: number;
 
   constructor(private sharedData: SharedDataService, private userService: UserService, private router: Router) { }
+
   ngOnInit(): void {
     const currentRoute = window.location.href;
     if (currentRoute.includes('amazon')) {
@@ -29,6 +32,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
     }
     this.getUserName()
   }
+
   logout() {
     this.userService.userLogout()
       .subscribe({
