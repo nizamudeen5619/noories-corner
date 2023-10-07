@@ -3,11 +3,11 @@ import { SafeHtml, DomSanitizer } from '@angular/platform-browser';
 import { ActivatedRoute, Router } from '@angular/router';
 import { concatMap, catchError, tap, of, Observable, throwError, takeUntil, Subject } from 'rxjs';
 
-import { SharedDataService } from 'src/app/shared/services/shared-data.service';
-import { FavouritesService } from 'src/app/shared/services/favourites.service';
+import { SharedDataService } from '../../shared/services/shared-data.service';
+import { FavouritesService } from '../../shared/services/favourites.service';
 import { MeeshoService } from '../meesho.service';
 
-import { Product } from 'src/app/shared/models/product';
+import { Product } from '../../shared/models/product';
 
 @Component({
   selector: 'app-meesho-product-details',

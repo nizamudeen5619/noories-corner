@@ -4,6 +4,7 @@ import { Injectable } from '@angular/core';
   providedIn: 'root',
 })
 export class ConfigService {
+
   private _apiUrl: string;
   private _apiPassword: string;
 
@@ -19,4 +20,5 @@ export class ConfigService {
   get apiPassword(): string {
     return this._apiPassword;
   }
+  
 }

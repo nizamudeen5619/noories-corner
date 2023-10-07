@@ -2,9 +2,9 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { EMPTY, Subject, catchError, finalize, map, switchMap, takeUntil } from 'rxjs';
 import { Router } from '@angular/router';
 
-import { SharedDataService } from '../shared/services/shared-data.service';
+import { SharedDataService } from '../../modules/shared/services/shared-data.service';
 
-import { Product } from '../shared/models/product';
+import { Product } from '../../modules/shared/models/product';
 
 @Component({
   selector: 'app-home',

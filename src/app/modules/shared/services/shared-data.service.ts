@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 import jwt_decode, { JwtPayload } from 'jwt-decode';
 
-import { environment } from '../../../environments/environment';
+import { environment } from '../../../../environments/environment';
 import { ConfigService } from './config.service';
 
 @Injectable({

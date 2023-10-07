@@ -2,8 +2,8 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Subject } from 'rxjs';
 import { Router } from '@angular/router';
 
-import { SharedDataService } from '../shared/services/shared-data.service';
-import { UserService } from '../user/services/user.service';
+import { SharedDataService } from '../../modules/shared/services/shared-data.service';
+import { UserService } from '../../modules/user/services/user.service';
 
 @Component({
   selector: 'app-header',

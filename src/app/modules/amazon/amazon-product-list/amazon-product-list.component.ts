@@ -4,8 +4,8 @@ import { Subject, map, switchMap, takeUntil, timeInterval } from 'rxjs';
 
 import { AmazonService } from '../amazon.service';
 
-import { ProductSubset } from 'src/app/shared/models/product-subset';
-import { ColorFilter, DesignFilter } from 'src/app/shared/models/filters';
+import { ProductSubset } from '../../shared/models/product-subset';
+import { ColorFilter, DesignFilter } from '../../shared/models/filters';
 
 @Component({
   selector: 'app-amazon-product-list',
@@ -71,5 +71,5 @@ export class AmazonProductListComponent implements OnInit, OnDestroy {
     this.destroy$.next();
     this.destroy$.complete();
   }
-  
+
 }

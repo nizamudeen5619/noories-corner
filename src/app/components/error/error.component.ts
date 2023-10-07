@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Location } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
 
-import { ErrorMessageService } from '../shared/services/error-message.service';
+import { ErrorMessageService } from '../../modules/shared/services/error-message.service';
 
 @Component({
   selector: 'app-error',
@@ -10,7 +10,7 @@ import { ErrorMessageService } from '../shared/services/error-message.service';
   styleUrls: ['./error.component.css']
 })
 export class ErrorComponent implements OnInit {
-  
+
   errorHeading!: string;
   errorInfo!: string;
   errorCode!: number;

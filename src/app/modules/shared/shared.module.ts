@@ -13,7 +13,6 @@ import { StarRatingComponent } from './components/star-rating/star-rating.compon
 import { AlertComponent } from './components/alert/alert.component';
 import { ModalComponent } from './components/modal/modal.component';
 
-
 @NgModule({
   imports: [
     CommonModule,

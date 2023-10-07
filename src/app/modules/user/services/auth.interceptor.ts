@@ -5,7 +5,7 @@ import { Router } from '@angular/router';
 
 import { SharedDataService } from '../../shared/services/shared-data.service';
 
-import { environment } from "src/environments/environment";
+import { environment } from "../../../../environments/environment";
 
 @Injectable()
 export class AuthInterceptor implements HttpInterceptor {

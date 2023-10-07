@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { EMPTY, Observable } from 'rxjs';
 
 import { SharedDataService } from '../../shared/services/shared-data.service';
-import { environment } from "../../../environments/environment";
+import { environment } from "../../../../environments/environment";
 import { ConfigService } from '../../shared/services/config.service';
 
 @Injectable({
