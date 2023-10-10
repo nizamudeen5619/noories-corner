@@ -59,7 +59,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
   getUserName() {
     this.sharedData.getUserObs()
-      .subscribe((userName) => {
+      .subscribe((userName) => {        
         if (userName) {
           this.userName = userName;
           this.isLoggedIn = true;

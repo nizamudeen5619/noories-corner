@@ -35,6 +35,8 @@ export class SharedDataService {
   }
 
   setUserObs(user: string | null) {
+    console.log(user);
+    
     if (user) {
       localStorage.setItem('user', user);
     }

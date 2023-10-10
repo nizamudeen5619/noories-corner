@@ -80,11 +80,13 @@ export class UserProfileComponent implements OnInit, OnDestroy {
           this.imageUrl = 'https://i.imgur.com/MQ7EiFx.png';
         }
       },
-      complete: () => {
+      complete: () => {        
         this.isLoading = false;
         if (this.imageUrl === '') {
           this.imageText = 'Change Avatar:';
         }
+        console.log(this.isLoading);
+
       }
     });
   }

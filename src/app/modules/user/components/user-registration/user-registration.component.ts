@@ -45,7 +45,7 @@ export class UserRegistrationComponent implements OnInit {
     private sharedData: SharedDataService
   ) { }
   
-  ngOnInit() {
+  ngOnInit() {    
     if (this.userService.isLoggedIn()) {
       this.isLoading = true;
       this.isLoggedIn = true;
@@ -56,13 +56,16 @@ export class UserRegistrationComponent implements OnInit {
           if (user) {
             this.user = user;
           }
-          this.setupForm()
+          this.setupForm();
         },
         error: (error) => {
           this.isError = true;
           this.errorStatusCode = error.status;
         }
       });
+    }
+    else{
+      this.setupForm();
     }
   }
 
@@ -88,7 +91,7 @@ export class UserRegistrationComponent implements OnInit {
           /^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&-+=()])(?=\S+$).{8,20}$/
         ),
       ]);
-      this.userForm.get('password')?.updateValueAndValidity();
+      this.userForm.get('password')?.updateValueAndValidity();      
     }
 
     this.isLoading = false;
@@ -122,11 +125,13 @@ export class UserRegistrationComponent implements OnInit {
         ).subscribe({
           next: (res) => {
             if (res) {
+              console.log(res);
+              
               if (this.isLoggedIn) {
                 this.sharedData.setUserObs(res.userName);
               }
               else {
-                this.sharedData.setUserObs(res.user);
+                this.sharedData.setUserObs(res.username);
                 this.sharedData.setAuthTokenObs(res.token);
               }
               this.router.navigate(['/user/profile']);

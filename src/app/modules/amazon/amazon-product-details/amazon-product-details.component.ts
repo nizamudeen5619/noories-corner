@@ -77,7 +77,6 @@ export class AmazonProductDetailsComponent implements OnInit, OnDestroy {
         this.isFavourite = checkFavourite;
         this.buttonText = checkFavourite ? "Remove from Favourites" : "Add to Favourites";
         this.isLoading = false;
-        console.log(this.isFavourite,this.isLoggedIn);
       },
       error: (error) => {
         this.isLoading = false
