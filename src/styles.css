@@ -1,2 +1,28 @@
-/* You can add global styles to this file, and also import other style files */
-@import url('https://fonts.googleapis.com/css2?family=Alkatra&display=swap');
+/* styles.css or component-specific CSS */
+body, html {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+  }
+  
+  app-root {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+  }
+  
+  .container-md {
+    flex: 1;
+    /* Add your container styles here */
+    padding: 20px;
+    /* You can adjust the padding and other styles as needed */
+  }
+  
+  .app-footer {
+    background-color: #333;
+    color: white;
+    padding: 10px;
+    position: sticky;
+    bottom: 0;
+  }
+  

@@ -29,9 +29,11 @@
         </div>
       </div>
       <div class="navbar-nav ms-auto" *ngIf="!isLoggedIn">
-        <a class="nav-item nav-link text-light" routerLink="user/login">
+        <a class="nav-item nav-link" (click)="currentPage='login'"
+          [ngClass]="currentPage=='login'?'active':'text-light'" routerLink="user/login">
           Login</a>
-        <a class="nav-item nav-link text-light" routerLink="user/register">
+        <a class="nav-item nav-link" (click)="currentPage='signup'"
+          [ngClass]="currentPage=='signup'?'active':'text-light'" routerLink="user/signup">
           Sign Up</a>
       </div>
     </div>

@@ -23,12 +23,21 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     const currentRoute = window.location.href;
-    if (currentRoute.includes('amazon')) {
-      this.currentPage = 'amazon';
-    } else if (currentRoute.includes('meesho')) {
-      this.currentPage = 'meesho';
-    } else if (!currentRoute.includes('error') || !currentRoute.includes('user')) {
-      this.currentPage = 'home';
+    switch (true) {
+      case currentRoute.includes('amazon'):
+        this.currentPage = 'amazon';
+        break;
+      case currentRoute.includes('meesho'):
+        this.currentPage = 'meesho';
+        break;
+      case currentRoute.includes('login'):
+        this.currentPage = 'login';
+        break;
+      case currentRoute.includes('signup'):
+        this.currentPage = 'signup';
+        break;
+      default:
+        this.currentPage = 'home';
     }
     this.getUserName()
   }

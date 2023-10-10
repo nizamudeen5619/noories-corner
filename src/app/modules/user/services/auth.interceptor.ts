@@ -49,7 +49,7 @@ export class AuthInterceptor implements HttpInterceptor {
 
   isUnauthenticatedEndpoint(url: string): boolean {
     // Define the list of endpoints that do not require authentication
-    const unauthenticatedEndpoints = ['users/register', 'users/login'];
+    const unauthenticatedEndpoints = ['users/signup', 'users/login'];
 
     // Check if the URL includes any of the unauthenticated endpoints
     return unauthenticatedEndpoints.some(endpoint => url.includes(endpoint));

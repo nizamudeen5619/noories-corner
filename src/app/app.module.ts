@@ -17,6 +17,7 @@ import { ErrorComponent } from './components/error/error.component';
 
 import { AuthInterceptor } from './modules/user/services/auth.interceptor';
 import { ErrorInterceptor } from './modules/shared/services/error.interceptor';
+import { FooterComponent } from './components/footer/footer.component';
 
 @NgModule({
   declarations: [
@@ -24,7 +25,8 @@ import { ErrorInterceptor } from './modules/shared/services/error.interceptor';
     HeaderComponent,
     HomeComponent,
     NotFoundComponent,
-    ErrorComponent
+    ErrorComponent,
+    FooterComponent
   ],
   imports: [
     BrowserModule,

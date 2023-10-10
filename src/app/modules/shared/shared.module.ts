@@ -12,6 +12,7 @@ import { ProductDetailCardComponent } from './components/product-detail-card/pro
 import { StarRatingComponent } from './components/star-rating/star-rating.component';
 import { AlertComponent } from './components/alert/alert.component';
 import { ModalComponent } from './components/modal/modal.component';
+import { SpinnerSmComponent } from './components/spinner-sm/spinner-sm.component';
 
 @NgModule({
   imports: [
@@ -24,6 +25,7 @@ import { ModalComponent } from './components/modal/modal.component';
     ProductCardComponent, 
     FilterPanelComponent,
     SpinnerComponent,
+    SpinnerSmComponent,
     PaginationComponent,
     ProductDetailCardComponent,
     AlertComponent,
@@ -38,7 +40,8 @@ import { ModalComponent } from './components/modal/modal.component';
     ProductDetailCardComponent,
     StarRatingComponent,
     AlertComponent,
-    ModalComponent
+    ModalComponent,
+    SpinnerSmComponent
   ]
 })
 export class SharedModule { }
