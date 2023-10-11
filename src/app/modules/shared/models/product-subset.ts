@@ -4,4 +4,5 @@ export interface ProductSubset {
     Image1: string;
     Rating: number;
     Price: number;
+    Platform?: string;
 }

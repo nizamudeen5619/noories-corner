@@ -76,10 +76,13 @@ export class MeeshoProductDetailsComponent {
       next: ({ checkFavourite }) => {
         this.isFavourite = checkFavourite;
         this.buttonText = checkFavourite ? "Remove from Favourites" : "Add to Favourites";
+        this.isLoading = false;
       },
-      error: (error) => this.handleError(error),
-      complete: () => this.isLoading = false
-    })
+      error: (error) => {
+        this.isLoading = false
+        this.handleError(error)
+      }
+    });
   }
 
   addRemoveFavourites() {

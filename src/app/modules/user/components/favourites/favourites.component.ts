@@ -38,7 +38,7 @@ export class FavouritesComponent {
       timeInterval()
     ).subscribe({
       next: (res) => {
-        this.favouriteProducts = res.value.favouriteProducts;
+        this.favouriteProducts = res.value.favouriteProducts;        
         this.timetaken = res.interval;
         this.isLoading = false;
       },

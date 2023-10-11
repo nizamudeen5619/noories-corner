@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { AuthGuard } from './services/auth.guard';
 
 import { UserLoginComponent } from './components/user-login/user-login.component';
 import { UserProfileComponent } from './components/user-profile/user-profile.component';
@@ -9,11 +8,14 @@ import { ForgotPasswordComponent } from './components/forgot-password/forgot-pas
 import { ResetPasswordComponent } from './components/reset-password/reset-password.component';
 import { FavouritesComponent } from './components/favourites/favourites.component';
 
+import { AuthGuard } from './services/auth.guard';
+import { NonAuthGuard } from './services/non-auth.guard';
+
 const routes: Routes = [
   {
     path: 'user', children: [
-      { path: 'login', component: UserLoginComponent },
-      { path: 'signup', component: UserRegistrationComponent },
+      { path: 'login', component: UserLoginComponent, canActivate: [NonAuthGuard] },
+      { path: 'signup', component: UserRegistrationComponent, canActivate: [NonAuthGuard] },
       { path: 'profile', component: UserProfileComponent, canActivate: [AuthGuard] },
       { path: 'favourites', component: FavouritesComponent, canActivate: [AuthGuard] },
       { path: 'edit-profile', component: UserRegistrationComponent, canActivate: [AuthGuard] },
