@@ -1,3 +1,7 @@
+.carousel-indicators{
+  bottom: -12px;
+}
+
 .carousel-image-container {
   flex: 1;
   padding: 0 5px;
