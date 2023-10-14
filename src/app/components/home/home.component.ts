@@ -1,4 +1,4 @@
-import { Component, HostListener, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { EMPTY, Subject, catchError, finalize, map, switchMap, takeUntil } from 'rxjs';
 import { Router } from '@angular/router';
 
@@ -20,7 +20,10 @@ export class HomeComponent implements OnInit, OnDestroy {
   topSelling: Product[] = [];
   topRated: Product[] = [];
   errorStatusCode: any;
-  itemsPerSlide!: number ;
+  itemsPerSlide!: number;
+  activeTopSell: number = 1;
+  activeTopRat: number = 1;
+
 
   constructor(private sharedData: SharedDataService, private router: Router) { }
 
@@ -30,7 +33,7 @@ export class HomeComponent implements OnInit, OnDestroy {
     } else {
       this.itemsPerSlide = 3;
     }
-    
+
     this.isLoading = true;
     this.isError = false;
     this.sharedData.getTopProductsAmazon().pipe(
@@ -52,6 +55,17 @@ export class HomeComponent implements OnInit, OnDestroy {
         this.isLoading = false;
       })
     ).subscribe()
+  }
+
+  updateActiveSlide($event: any, name: string) {
+    if (name === 'topRated') {
+      const activeSlideIndex = $event.to;
+      this.activeTopRat = activeSlideIndex + 1;
+    }
+    else {
+      const activeSlideIndex = $event.to;
+      this.activeTopSell = activeSlideIndex + 1;
+    }    
   }
 
   ngOnDestroy(): void {

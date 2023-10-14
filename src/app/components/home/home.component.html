@@ -3,19 +3,21 @@
         <img src="https://i.imgur.com/ny8EXnN.png" class="card-img" alt="product-collage">
     </div>
 
-    <div id="topSellingCarousel" class="carousel slide mt-2" data-bs-ride="carousel">
+    <div id="topSellingCarousel" class="carousel slide mt-2" data-bs-ride="carousel"
+        (slide.bs.carousel)="updateActiveSlide($event,'topSell')">
         <div class="centered-container">
             <h1 class="underlined-heading">Top Selling</h1>
         </div>
         <app-spinner-sm *ngIf="isLoading"></app-spinner-sm>
         <div *ngIf="!isLoading">
             <div class="carousel-indicators">
-                <button type="button" data-bs-target="#topSellingCarousel" data-bs-slide-to="0" class="active bg-dark"
-                    aria-current="true" aria-label="Slide 1"></button>
+                <button type="button" data-bs-target="#topSellingCarousel" data-bs-slide-to="0" class="bg-dark"
+                    [ngClass]="activeTopSell===1?'active':''" aria-current="true" aria-label="Slide 1"></button>
                 <button type="button" data-bs-target="#topSellingCarousel" data-bs-slide-to="1" class="bg-dark"
-                    aria-label="Slide 2"></button>
+                    [ngClass]="activeTopSell===2?'active':''" aria-label="Slide 2"></button>
                 <button type="button" *ngIf="itemsPerSlide===2" data-bs-target="#topSellingCarousel"
-                    data-bs-slide-to="2" class="bg-dark" aria-label="Slide 3"></button>
+                    [ngClass]="activeTopSell===3?'active':''" data-bs-slide-to="2" class="bg-dark"
+                    aria-label="Slide 3"></button>
             </div>
             <div class="carousel-inner pt-3">
                 <div class="carousel-item active" data-bs-interval="5000">
@@ -70,19 +72,20 @@
         </div>
     </div>
 
-    <div id="topRatedCarousel" class="carousel slide mt-2" data-bs-ride="carousel">
+    <div id="topRatedCarousel" class="carousel slide mt-2" data-bs-ride="carousel"
+        (slide.bs.carousel)="updateActiveSlide($event,'topRated')">
         <div class="centered-container">
             <h1 class="underlined-heading">Top Rated</h1>
         </div>
         <app-spinner-sm *ngIf="isLoading"></app-spinner-sm>
         <div *ngIf="!isLoading">
             <div class="carousel-indicators">
-                <button type="button" data-bs-target="#topRatedCarousel" data-bs-slide-to="0" class="active bg-dark"
-                    aria-current="true" aria-label="Slide 1"></button>
+                <button type="button" data-bs-target="#topRatedCarousel" data-bs-slide-to="0" class="bg-dark"
+                    [ngClass]="activeTopRat===1?'active':''" aria-current="true" aria-label="Slide 1"></button>
                 <button type="button" data-bs-target="#topRatedCarousel" data-bs-slide-to="1" class="bg-dark"
-                    aria-label="Slide 2"></button>
+                    [ngClass]="activeTopRat===2?'active':''" aria-label="Slide 2"></button>
                 <button type="button" *ngIf="itemsPerSlide===2" data-bs-target="#topRatedCarousel" data-bs-slide-to="2"
-                    class="bg-dark" aria-label="Slide 3"></button>
+                    [ngClass]="activeTopRat===3?'active':''" class="bg-dark" aria-label="Slide 3"></button>
             </div>
             <div class="carousel-inner pt-3">
                 <div class="carousel-item active" data-bs-interval="5000">
