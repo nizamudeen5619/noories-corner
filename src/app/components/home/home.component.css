@@ -81,10 +81,7 @@
   position: absolute;
   top: 10px;
   left: 10px;
-  background-color: black;
-  /* Customize badge color */
-  color: white;
-  /* Customize text color */
+  background-color: white;
   padding: 5px 10px;
   border-radius: 5px;
   font-size: 12px;
@@ -94,15 +91,11 @@
   position: absolute;
   top: 10px;
   left: 10px;
-  background-color: rgb(206, 59, 150);
-  /* Customize badge color */
-  color: white;
-  /* Customize text color */
+  background-color: white;
   padding: 5px 10px;
   border-radius: 5px;
   font-size: 12px;
 }
-
 
 .image-container img {
   max-width: 100%;

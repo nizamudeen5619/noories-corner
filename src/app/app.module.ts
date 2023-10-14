@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule } from '@angular/forms';
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
+import { CarouselModule } from "ngx-bootstrap/carousel";
 
 import { AppRoutingModule } from './app-routing.module';
 import { SharedModule } from './modules/shared/shared.module';
@@ -31,10 +32,11 @@ import { FooterComponent } from './components/footer/footer.component';
   imports: [
     BrowserModule,
     HttpClientModule,
+    FormsModule,
+    CarouselModule,
     AmazonModule,
     MeeshoModule,
     UserModule,
-    FormsModule,
     SharedModule,
     AppRoutingModule,
   ],

@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, HostListener, OnDestroy, OnInit } from '@angular/core';
 import { EMPTY, Subject, catchError, finalize, map, switchMap, takeUntil } from 'rxjs';
 import { Router } from '@angular/router';
 
@@ -20,10 +20,17 @@ export class HomeComponent implements OnInit, OnDestroy {
   topSelling: Product[] = [];
   topRated: Product[] = [];
   errorStatusCode: any;
+  itemsPerSlide!: number ;
 
   constructor(private sharedData: SharedDataService, private router: Router) { }
 
   ngOnInit(): void {
+    if (window.innerWidth < 992) {
+      this.itemsPerSlide = 2;
+    } else {
+      this.itemsPerSlide = 3;
+    }
+    
     this.isLoading = true;
     this.isError = false;
     this.sharedData.getTopProductsAmazon().pipe(

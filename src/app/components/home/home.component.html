@@ -14,26 +14,54 @@
                     aria-current="true" aria-label="Slide 1"></button>
                 <button type="button" data-bs-target="#topSellingCarousel" data-bs-slide-to="1" class="bg-dark"
                     aria-label="Slide 2"></button>
+                <button type="button" *ngIf="itemsPerSlide===2" data-bs-target="#topSellingCarousel"
+                    data-bs-slide-to="2" class="bg-dark" aria-label="Slide 3"></button>
             </div>
             <div class="carousel-inner pt-3">
                 <div class="carousel-item active" data-bs-interval="5000">
                     <div class="d-flex">
-                        <div *ngFor="let product of topSelling.slice(0, 3)" class="carousel-image-container">
+                        <div *ngFor="let product of topSelling.slice(0, itemsPerSlide)"
+                            class="carousel-image-container">
                             <div class="image-container">
                                 <img [src]="product.Image1" class="carousel-image p-2 h-100" alt="Product Image"
                                     [routerLink]="['/'+product.Platform+'/product/'+product._id]">
-                                <span class="badge" [ngClass]="product.Platform">{{product.Platform}}</span>
+                                <span class="badge" [ngClass]="product.Platform">
+                                    <img style="height: 10px;"
+                                        [src]="product.Platform==='amazon'?'https://imgur.com/BklOZWu.png':'https://i.imgur.com/zvAZrdM.png'"
+                                        [alt]="product.Platform">
+                                </span>
                             </div>
                         </div>
                     </div>
                 </div>
                 <div class="carousel-item" data-bs-interval="5000">
                     <div class="d-flex">
-                        <div *ngFor="let product of topSelling.slice(3, 6)" class="carousel-image-container">
+                        <div *ngFor="let product of topSelling.slice(itemsPerSlide, itemsPerSlide*2)"
+                            class="carousel-image-container">
                             <div class="image-container">
                                 <img [src]="product.Image1" class="carousel-image p-2 h-100" alt="Product Image"
                                     [routerLink]="['/'+product.Platform+'/product/'+product._id]">
-                                <span class="badge" [ngClass]="product.Platform">{{product.Platform}}</span>
+                                <span class="badge" [ngClass]="product.Platform">
+                                    <img style="height: 10px;"
+                                        [src]="product.Platform==='amazon'?'https://imgur.com/BklOZWu.png':'https://i.imgur.com/zvAZrdM.png'"
+                                        [alt]="product.Platform">
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="carousel-item" *ngIf="itemsPerSlide===2" data-bs-interval="5000">
+                    <div class="d-flex">
+                        <div *ngFor="let product of topSelling.slice(itemsPerSlide*2, itemsPerSlide*3)"
+                            class="carousel-image-container">
+                            <div class="image-container">
+                                <img [src]="product.Image1" class="carousel-image p-2 h-100" alt="Product Image"
+                                    [routerLink]="['/'+product.Platform+'/product/'+product._id]">
+                                <span class="badge" [ngClass]="product.Platform">
+                                    <img style="height: 10px;"
+                                        [src]="product.Platform==='amazon'?'https://imgur.com/BklOZWu.png':'https://i.imgur.com/zvAZrdM.png'"
+                                        [alt]="product.Platform">
+                                </span>
                             </div>
                         </div>
                     </div>
@@ -53,26 +81,53 @@
                     aria-current="true" aria-label="Slide 1"></button>
                 <button type="button" data-bs-target="#topRatedCarousel" data-bs-slide-to="1" class="bg-dark"
                     aria-label="Slide 2"></button>
+                <button type="button" *ngIf="itemsPerSlide===2" data-bs-target="#topRatedCarousel" data-bs-slide-to="2"
+                    class="bg-dark" aria-label="Slide 3"></button>
             </div>
             <div class="carousel-inner pt-3">
                 <div class="carousel-item active" data-bs-interval="5000">
                     <div class="d-flex">
-                        <div *ngFor="let product of topRated.slice(0, 3)" class="carousel-image-container">
+                        <div *ngFor="let product of topRated.slice(0, itemsPerSlide)" class="carousel-image-container">
                             <div class="image-container">
                                 <img [src]="product.Image1" class="carousel-image p-2 h-100" alt="Product Image"
                                     [routerLink]="['/'+product.Platform+'/product/'+product._id]">
-                                <span class="badge" [ngClass]="product.Platform">{{product.Platform}}</span>
+                                <span class="badge" [ngClass]="product.Platform">
+                                    <img style="height: 10px;"
+                                        [src]="product.Platform==='amazon'?'https://imgur.com/BklOZWu.png':'https://i.imgur.com/zvAZrdM.png'"
+                                        [alt]="product.Platform">
+                                </span>
                             </div>
                         </div>
                     </div>
                 </div>
                 <div class="carousel-item" data-bs-interval="5000">
                     <div class="d-flex">
-                        <div *ngFor="let product of topRated.slice(3, 6)" class="carousel-image-container">
+                        <div *ngFor="let product of topRated.slice(itemsPerSlide, itemsPerSlide*2)"
+                            class="carousel-image-container">
                             <div class="image-container">
                                 <img [src]="product.Image1" class="carousel-image p-2 h-100" alt="Product Image"
                                     [routerLink]="['/'+product.Platform+'/product/'+product._id]">
-                                <span class="badge" [ngClass]="product.Platform">{{product.Platform}}</span>
+                                <span class="badge" [ngClass]="product.Platform">
+                                    <img style="height: 10px;"
+                                        [src]="product.Platform==='amazon'?'https://imgur.com/BklOZWu.png':'https://i.imgur.com/zvAZrdM.png'"
+                                        [alt]="product.Platform">
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="carousel-item" *ngIf="itemsPerSlide===2" data-bs-interval="5000">
+                    <div class="d-flex">
+                        <div *ngFor="let product of topRated.slice(itemsPerSlide*2, itemsPerSlide*3)"
+                            class="carousel-image-container">
+                            <div class="image-container">
+                                <img [src]="product.Image1" class="carousel-image p-2 h-100" alt="Product Image"
+                                    [routerLink]="['/'+product.Platform+'/product/'+product._id]">
+                                <span class="badge" [ngClass]="product.Platform">
+                                    <img style="height: 10px;"
+                                        [src]="product.Platform==='amazon'?'https://imgur.com/BklOZWu.png':'https://i.imgur.com/zvAZrdM.png'"
+                                        [alt]="product.Platform">
+                                </span>
                             </div>
                         </div>
                     </div>
