@@ -1,22 +1,20 @@
 import { Injectable } from '@angular/core';
-import { CanActivateFn, Router, RouterStateSnapshot } from '@angular/router';
+import { CanActivateFn, Router } from '@angular/router';
+import { UserService } from './user.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class NonAuthGuard {
 
-  constructor(private route$: Router, private state: RouterStateSnapshot) { }
+  constructor(private route$: Router, private userService: UserService) { }
 
   canActivate: CanActivateFn = () => {
-    const url = this.state.url;
-    const loginRoute = url.includes('login');
-    const signupRoute = url.includes('signup');
-    if (!loginRoute && !signupRoute) {
-      return true;
+    if (!this.userService.isLoggedIn()) {
+      this.route$.navigate([''])
+      return false;
     }
-    this.route$.navigate([''])
-    return false;
+    return true;
   }
 
 }
