@@ -1,7 +1,5 @@
-.navbar-nav .nav-link.active {
-    color: #ffd700;
-}
-
-.navbar-nav .nav-link.active i {
+.navbar-nav .nav-link.active,
+.navbar-nav .nav-link.active i,
+.text-gold {
     color: #ffd700;
 }

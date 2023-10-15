@@ -19,8 +19,8 @@ const routes: Routes = [
       { path: 'profile', component: UserProfileComponent, canActivate: [AuthGuard] },
       { path: 'favourites', component: FavouritesComponent, canActivate: [AuthGuard] },
       { path: 'edit-profile', component: UserRegistrationComponent, canActivate: [AuthGuard] },
-      { path: 'forgot-password', component: ForgotPasswordComponent },
-      { path: 'reset-password/:token', component: ResetPasswordComponent }
+      { path: 'forgot-password', component: ForgotPasswordComponent, canActivate: [NonAuthGuard] },
+      { path: 'reset-password/:token', component: ResetPasswordComponent, canActivate: [NonAuthGuard] }
     ]
   }
 ]

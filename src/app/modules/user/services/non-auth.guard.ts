@@ -10,7 +10,8 @@ export class NonAuthGuard {
   constructor(private route$: Router, private userService: UserService) { }
 
   canActivate: CanActivateFn = () => {
-    if (!this.userService.isLoggedIn()) {
+    
+    if (this.userService.isLoggedIn()) {
       this.route$.navigate([''])
       return false;
     }
