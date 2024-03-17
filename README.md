@@ -14,13 +14,55 @@ Run `ng generate component component-name` to generate a new component. You can 
 
 Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
 
-## Running unit tests
+## Live Demo
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+Check out the live demo [here](https://noories-corner.vercel.app/).
 
-## Running end-to-end tests
+## Amazon Module
 
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
+The Amazon module is designed to showcase products available on Amazon within the NooriesCorner application. It provides the following functionalities:
+
+- **Product Display:**
+  - Users can view a curated list of products available on Amazon.
+  - Product details include images, descriptions, and pricing.
+
+- **Add to Favorites:**
+  - Users can add their preferred products to their favorites list for quick access.
+  - Favorited products will be stored and can be managed within the application.
+
+This module enhances the user experience by seamlessly integrating Amazon product information and allowing users to create a personalized list of favorite items.
+
+## Meesho Module
+
+The Meesho module is designed to showcase products available on Meesho within the NooriesCorner application. It provides the following functionalities:
+
+- **Product Display:**
+  - Users can view a curated list of products available on Meesho.
+  - Product details include images, descriptions, and pricing.
+
+- **Add to Favorites:**
+  - Users can add their preferred products to their favorites list for quick access.
+  - Favorited products will be stored and can be managed within the application.
+
+This module enhances the user experience by seamlessly integrating Meesho product information and allowing users to create a personalized list of favorite items.
+
+## User Module
+
+The User module plays a pivotal role in managing user-related functionalities within the NooriesCorner application. It provides the following key features:
+
+- **User Authentication:**
+  - Users can register and log in securely to access personalized features.
+  - Authentication ensures a secure and personalized experience for each user.
+
+- **Profile Management:**
+  - Users can create and manage their profiles, including personal information and preferences.
+  - Profile updates reflect across the application to tailor the user experience.
+
+- **Favourites Management:**
+  - Users can add products from the Amazon and Meesho modules to their favorites list.
+  - The favorites list provides quick access to preferred products for a streamlined shopping experience.
+
+The User module ensures a seamless and personalized experience for users, facilitating registration, authentication, and efficient management of profile-related information.
 
 ## Further help
 
