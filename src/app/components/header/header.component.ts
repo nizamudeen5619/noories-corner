@@ -1,6 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Subject } from 'rxjs';
-import { Router } from '@angular/router';
+import { NavigationEnd, Router } from '@angular/router';
 
 import { SharedDataService } from '../../modules/shared/services/shared-data.service';
 import { UserService } from '../../modules/user/services/user.service';
@@ -16,29 +16,11 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
   isLoggedIn!: boolean;
   userName?: string;
-  currentPage = '';
   errorStatusCode!: number;
 
   constructor(private sharedData: SharedDataService, private userService: UserService, private router: Router) { }
 
   ngOnInit(): void {
-    const currentRoute = window.location.href;
-    switch (true) {
-      case currentRoute.includes('amazon'):
-        this.currentPage = 'amazon';
-        break;
-      case currentRoute.includes('meesho'):
-        this.currentPage = 'meesho';
-        break;
-      case currentRoute.includes('login'):
-        this.currentPage = 'login';
-        break;
-      case currentRoute.includes('signup'):
-        this.currentPage = 'signup';
-        break;
-      default:
-        this.currentPage = 'home';
-    }
     this.getUserName()
   }
 
@@ -59,7 +41,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
   getUserName() {
     this.sharedData.getUserObs()
-      .subscribe((userName) => {        
+      .subscribe((userName) => {
         if (userName) {
           this.userName = userName;
           this.isLoggedIn = true;

@@ -11,7 +11,8 @@ const routes: Routes = [
   { path: "user", loadChildren: () => import("./modules/user/user.module").then(module => module.UserModule) },
   { path: "amazon", loadChildren: () => import("./modules/amazon/amazon.module").then(module => module.AmazonModule) },
   { path: "meesho", loadChildren: () => import("./modules/meesho/meesho.module").then(module => module.MeeshoModule) },
-  { path: "**", component: NotFoundComponent }
+  { path: 'not-found', component: NotFoundComponent },
+  { path: "**", redirectTo: '/not-found' }
 ];
 
 @NgModule({

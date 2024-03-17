@@ -8,17 +8,17 @@
     </button>
     <div class="collapse navbar-collapse" id="navbarCollapse">
       <div class="navbar-nav">
-        <a routerLink="/" class="nav-item nav-link" (click)="currentPage='home'"
-          [ngClass]="currentPage=='home'?'active':'text-light'">Home</a>
-        <a routerLink="/amazon/products" class="nav-item nav-link" (click)="currentPage='amazon'"
-          [ngClass]="currentPage=='amazon'?'active':'text-light'">Amazon</a>
-        <a routerLink="/meesho/products" class="nav-item nav-link" (click)="currentPage='meesho'"
-          [ngClass]="currentPage=='meesho'?'active':'text-light'">Meesho</a>
+        <a #homeLink [ngClass]="{'text-light': !homeLink.classList.contains('active')}" routerLink="/"
+          class="nav-item nav-link" routerLinkActive="active" [routerLinkActiveOptions]="{exact:true}">Home</a>
+        <a #amazonLink [ngClass]="{'text-light': !amazonLink.classList.contains('active')}"
+          routerLink="/amazon/products" class="nav-item nav-link" routerLinkActive="active">Amazon</a>
+        <a #meeshoLink [ngClass]="{'text-light': !meeshoLink.classList.contains('active')}"
+          routerLink="/meesho/products" class="nav-item nav-link" routerLinkActive="active">Meesho</a>
       </div>
       <div class="navbar-nav ms-auto" *ngIf="isLoggedIn">
         <div class="dropdown dropdown-center me-md-5">
-          <button class="btn btn-outline-light dropdown-toggle text-gold" type="button" id="userDropdown" data-bs-toggle="dropdown"
-            aria-haspopup="true" aria-expanded="false">
+          <button class="btn btn-outline-light dropdown-toggle text-gold" type="button" id="userDropdown"
+            data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
             {{ userName }}
           </button>
           <ul class="dropdown-menu" aria-labelledby="userDropdown">
@@ -29,11 +29,11 @@
         </div>
       </div>
       <div class="navbar-nav ms-auto" *ngIf="!isLoggedIn">
-        <a class="nav-item nav-link" (click)="currentPage='login'"
-          [ngClass]="currentPage=='login'?'active':'text-light'" routerLink="user/login">
+        <a #loginLink class="nav-item nav-link" [ngClass]="{'text-light': !loginLink.classList.contains('active')}"
+          routerLinkActive="active" routerLink="user/login">
           Login</a>
-        <a class="nav-item nav-link" (click)="currentPage='signup'"
-          [ngClass]="currentPage=='signup'?'active':'text-light'" routerLink="user/signup">
+        <a #signUpLink class="nav-item nav-link" [ngClass]="{'text-light': !signUpLink.classList.contains('active')}"
+          routerLinkActive="active" routerLink="user/signup">
           Sign Up</a>
       </div>
     </div>

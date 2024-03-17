@@ -85,8 +85,6 @@ export class UserProfileComponent implements OnInit, OnDestroy {
         if (this.imageUrl === '') {
           this.imageText = 'Change Avatar:';
         }
-        console.log(this.isLoading);
-
       }
     });
   }
